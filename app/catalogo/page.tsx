@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getAllModelos, formatPriceArs } from "@/lib/modelos";
+import { Section } from "@/app/components/system/Section";
+import {
+  Kicker,
+  Heading,
+  Body,
+} from "@/app/components/system/Typography";
+import { CardLink } from "@/app/components/system/Card";
 import { ImagePlaceholder } from "@/app/components/ImagePlaceholder";
+import { FadeInOnView } from "@/app/components/system/Motion";
 
 export const metadata: Metadata = {
   title: "Catálogo",
@@ -19,50 +26,69 @@ export default function CatalogoPage() {
   const modelos = getAllModelos();
 
   return (
-    <section className="py-24 lg:py-40">
-      <header className="mb-24 max-w-2xl lg:mb-32">
-        <p className="tech-label mb-8">Catálogo</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
-          Piezas pensadas para tu espacio.
-        </h1>
-        <p className="mt-10 text-cement">
-          Cada modelo se adapta. Medidas, telas, configuración — todo se
-          decide en la conversación inicial.
-        </p>
-      </header>
+    <>
+      {/* Header — subhero reducido */}
+      <Section tone="hero" minHeightOverride="min-h-[40vh]" ariaLabel="Catálogo">
+        <div className="max-w-3xl">
+          <Kicker className="mb-5">Catálogo</Kicker>
+          <Heading level="h1" tone="hero">
+            Tres caminos.
+            <br />
+            <span className="text-oxblood">Una pausa.</span>
+          </Heading>
+          <Body tone="editorial" className="mt-10 max-w-2xl">
+            Cada modelo se adapta. Medidas, telas, configuración — todo se
+            decide en la conversación inicial.
+          </Body>
+        </div>
+      </Section>
 
-      <ul className="grid gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
-        {modelos.map((m) => (
-          <li key={m.frontmatter.slug}>
-            <Link
-              href={`/catalogo/${m.frontmatter.slug}`}
-              className="group block"
-            >
-              <ImagePlaceholder
-                aspect="4/5"
-                label={`Foto pendiente · ${m.frontmatter.name}`}
-              />
-              <div className="mt-6">
-                <p className="tech-label">{tierLabel[m.frontmatter.tier]}</p>
-                <h2 className="mt-3 font-display text-2xl text-ink transition-colors group-hover:text-oxblood">
-                  {m.frontmatter.name}
-                </h2>
-                <p className="mt-3 text-sm text-cement">
-                  {m.frontmatter.tagline}
-                </p>
-                <p className="mt-5 text-sm text-stone">
-                  {m.frontmatter.dimensions.width_cm} ×{" "}
-                  {m.frontmatter.dimensions.depth_cm} ×{" "}
-                  {m.frontmatter.dimensions.height_cm} cm
-                </p>
-                <p className="tech-label mt-4">
-                  Desde {formatPriceArs(m.frontmatter.price_from_ars)}
-                </p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
+      {/* Grid */}
+      <Section tone="standard" ariaLabel="Modelos del catálogo">
+        <ul className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 lg:gap-16">
+          {modelos.map((m, idx) => (
+            <li key={m.frontmatter.slug}>
+              <FadeInOnView delay={idx * 0.08}>
+                <CardLink
+                  href={`/catalogo/${m.frontmatter.slug}`}
+                  ariaLabel={`Ver detalle de ${m.frontmatter.name}`}
+                >
+                  <div className="overflow-hidden rounded-sm">
+                    <ImagePlaceholder
+                      aspect="4/5"
+                      label={`Foto pendiente · ${m.frontmatter.name}`}
+                      className="transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                  </div>
+                  <div className="mt-6">
+                    <p className="text-xs uppercase tracking-[0.25em] text-stone">
+                      {tierLabel[m.frontmatter.tier]}
+                    </p>
+                    <Heading
+                      level="h2"
+                      tone="card"
+                      className="mt-3 transition-colors group-hover:text-oxblood"
+                    >
+                      {m.frontmatter.name}
+                    </Heading>
+                    <p className="mt-3 text-base text-cement">
+                      {m.frontmatter.tagline}
+                    </p>
+                    <p className="mt-5 text-sm text-stone">
+                      {m.frontmatter.dimensions.width_cm} ×{" "}
+                      {m.frontmatter.dimensions.depth_cm} ×{" "}
+                      {m.frontmatter.dimensions.height_cm} cm
+                    </p>
+                    <p className="mt-4 text-xs uppercase tracking-[0.2em] text-stone">
+                      Desde {formatPriceArs(m.frontmatter.price_from_ars)}
+                    </p>
+                  </div>
+                </CardLink>
+              </FadeInOnView>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </>
   );
 }

@@ -8,6 +8,11 @@ import {
   formatPriceArs,
 } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
+import { Section } from "@/app/components/system/Section";
+import {
+  Kicker,
+  Heading,
+} from "@/app/components/system/Typography";
 import { ImagePlaceholder } from "@/app/components/ImagePlaceholder";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 
@@ -41,21 +46,44 @@ const tierLabel: Record<string, string> = {
 
 const mdxComponents = {
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="mt-10 font-display text-2xl text-ink" {...props} />
+    <h3 className="mt-12 font-display text-2xl md:text-3xl text-ink" {...props} />
   ),
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="mt-4 text-cement" {...props} />
+    <p
+      className="mt-5 text-base md:text-lg leading-[1.7] text-cement"
+      {...props}
+    />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="mt-4 list-disc space-y-2 pl-5 text-cement" {...props} />
+    <ul
+      className="mt-5 list-disc space-y-2 pl-5 text-base md:text-lg leading-[1.7] text-cement"
+      {...props}
+    />
   ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-8 border-l-2 border-oxblood pl-5 italic text-stone"
+      className="mt-10 border-l-2 border-oxblood pl-6 font-display italic text-xl text-stone"
       {...props}
     />
   ),
 };
+
+interface FichaItemProps {
+  label: string;
+  value: string;
+  last?: boolean;
+}
+
+function FichaItem({ label, value, last = false }: FichaItemProps) {
+  return (
+    <div
+      className={`grid grid-cols-[max-content_1fr] items-baseline gap-x-6 py-4 ${last ? "" : "border-b border-ink/10"}`}
+    >
+      <dt className="text-xs uppercase tracking-[0.2em] text-stone">{label}</dt>
+      <dd className="font-display text-lg text-ink">{value}</dd>
+    </div>
+  );
+}
 
 export default async function ModeloPage({ params }: PageProps) {
   const { slug } = await params;
@@ -64,159 +92,147 @@ export default async function ModeloPage({ params }: PageProps) {
 
   const { frontmatter, body } = modelo;
   const inquiryMessage = getModelInquiryMessage(frontmatter.name);
+  const dim = frontmatter.dimensions;
 
   return (
     <article>
-      <div className="pt-12 lg:pt-16">
-        <Link
-          href="/catalogo"
-          className="tech-label hover:text-oxblood"
-        >
-          ← Volver al catálogo
-        </Link>
-      </div>
-
-      <header className="pb-20 pt-16 lg:pb-24 lg:pt-20">
-        <p className="tech-label mb-6">{tierLabel[frontmatter.tier]}</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
-          {frontmatter.name}
-        </h1>
-        <p className="mt-10 max-w-xl text-lg text-cement">
-          {frontmatter.tagline}
-        </p>
-      </header>
-
-      {/* Galería — sin bordes, espacio puro */}
-      <section className="pb-24 lg:pb-32">
-        <div className="grid gap-6 sm:grid-cols-2 lg:gap-8">
-          <div className="sm:col-span-2">
+      {/* Galería + ficha sticky */}
+      <Section
+        tone="hero"
+        minHeightOverride="min-h-[60vh]"
+        ariaLabel={`Modelo ${frontmatter.name}`}
+      >
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+          {/* Galería */}
+          <div className="lg:col-span-7">
+            <Link
+              href="/catalogo"
+              className="mb-10 inline-block text-xs uppercase tracking-[0.25em] text-stone transition-colors hover:text-oxblood"
+            >
+              ← Volver al catálogo
+            </Link>
             <ImagePlaceholder
-              aspect="16/9"
+              aspect="4/5"
               label={`Foto pendiente · ${frontmatter.name}`}
             />
-          </div>
-          {frontmatter.images.slice(1).map((img, idx) => (
-            <ImagePlaceholder
-              key={img}
-              aspect="4/5"
-              label={`Foto pendiente · detalle ${idx + 1}`}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Body + ficha técnica */}
-      <section className="pb-32 lg:pb-48">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
-          <div className="lg:col-span-7">
-            <div className="prose-pausa">
-              <MDXRemote source={body} components={mdxComponents} />
+            <div className="mt-6 grid grid-cols-2 gap-6">
+              {frontmatter.images.slice(1).map((img, idx) => (
+                <ImagePlaceholder
+                  key={img}
+                  aspect="5/4"
+                  label={`Detalle ${idx + 1}`}
+                />
+              ))}
+              {/* Si hay solo 1 imagen extra, completar con placeholder vacío */}
+              {frontmatter.images.length === 2 && (
+                <ImagePlaceholder aspect="5/4" label="Detalle 2" />
+              )}
             </div>
           </div>
-          <aside className="lg:col-span-5">
-            <div className="border border-stone/20 p-8">
-              <p className="tech-label mb-6">Ficha técnica</p>
 
-              <dl className="space-y-5 text-sm">
-                <div>
-                  <dt className="tech-label !text-stone">Medidas</dt>
-                  <dd className="mt-1 text-cement">
-                    {frontmatter.dimensions.width_cm} cm de ancho ·{" "}
-                    {frontmatter.dimensions.depth_cm} cm de profundidad ·{" "}
-                    {frontmatter.dimensions.height_cm} cm de alto
-                    {frontmatter.dimensions.seat_height_cm
-                      ? ` · asiento ${frontmatter.dimensions.seat_height_cm} cm`
-                      : ""}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="tech-label !text-stone">Tapizado</dt>
-                  <dd className="mt-1 text-cement">
-                    {frontmatter.materials.upholstery}
-                  </dd>
-                </div>
-                {frontmatter.materials.filling_seat && (
-                  <div>
-                    <dt className="tech-label !text-stone">Relleno asiento</dt>
-                    <dd className="mt-1 text-cement">
-                      {frontmatter.materials.filling_seat}
-                    </dd>
-                  </div>
+          {/* Ficha — sticky en desktop */}
+          <aside className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              <Kicker className="mb-5">{tierLabel[frontmatter.tier]}</Kicker>
+              <Heading level="h1" tone="section">
+                {frontmatter.name}
+              </Heading>
+              <p className="mt-6 font-display text-xl italic text-stone">
+                {frontmatter.tagline}
+              </p>
+
+              <dl className="mt-12 border-t border-ink/10">
+                <FichaItem
+                  label="Dimensiones"
+                  value={`${dim.width_cm} × ${dim.depth_cm} × ${dim.height_cm} cm`}
+                />
+                {dim.seat_height_cm && (
+                  <FichaItem
+                    label="Altura asiento"
+                    value={`${dim.seat_height_cm} cm`}
+                  />
                 )}
-                {frontmatter.materials.filling_back && (
-                  <div>
-                    <dt className="tech-label !text-stone">Relleno respaldo</dt>
-                    <dd className="mt-1 text-cement">
-                      {frontmatter.materials.filling_back}
-                    </dd>
-                  </div>
-                )}
-                <div>
-                  <dt className="tech-label !text-stone">Estructura</dt>
-                  <dd className="mt-1 text-cement">
-                    {frontmatter.materials.structure}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="tech-label !text-stone">Tiempo</dt>
-                  <dd className="mt-1 text-cement">
-                    {frontmatter.delivery_days} días corridos
-                  </dd>
-                </div>
-                {frontmatter.upholstery_options && (
-                  <div>
-                    <dt className="tech-label !text-stone">Telas disponibles</dt>
-                    <dd className="mt-2 flex flex-wrap gap-2">
-                      {frontmatter.upholstery_options.map((opt) => (
-                        <span
-                          key={opt}
-                          className="border border-stone/30 px-2 py-1 text-xs text-cement"
-                        >
-                          {opt}
-                        </span>
-                      ))}
-                    </dd>
-                  </div>
-                )}
-                {frontmatter.config_options && (
-                  <div>
-                    <dt className="tech-label !text-stone">Configuraciones</dt>
-                    <dd className="mt-2 flex flex-wrap gap-2">
-                      {frontmatter.config_options.map((opt) => (
-                        <span
-                          key={opt}
-                          className="border border-stone/30 px-2 py-1 text-xs text-cement"
-                        >
-                          {opt}
-                        </span>
-                      ))}
-                    </dd>
-                  </div>
-                )}
-                <div className="border-t border-stone/15 pt-5">
-                  <dt className="tech-label !text-stone">Precio desde</dt>
-                  <dd className="mt-1 font-display text-2xl text-ink">
-                    {formatPriceArs(frontmatter.price_from_ars)}
-                  </dd>
-                  <p className="mt-2 text-xs text-stone">
-                    Precio base sin personalizaciones. Cotización fina en la
-                    conversación.
-                  </p>
-                </div>
+                <FichaItem
+                  label="Tapizado"
+                  value={frontmatter.materials.upholstery}
+                />
+                <FichaItem
+                  label="Estructura"
+                  value={frontmatter.materials.structure}
+                />
+                <FichaItem
+                  label="Plazo"
+                  value={`${frontmatter.delivery_days} días`}
+                />
+                <FichaItem
+                  label="Desde"
+                  value={formatPriceArs(frontmatter.price_from_ars)}
+                  last
+                />
               </dl>
 
-              <div className="mt-8">
+              <div className="mt-12">
                 <CtaWhatsApp
                   message={inquiryMessage}
                   label="Empezá la conversación"
-                  variant="solid"
+                  variant="oxblood"
                   className="w-full"
                 />
+                <p className="mt-4 text-xs text-stone">
+                  Precio base sin personalizaciones. Cotización fina en la
+                  conversación.
+                </p>
               </div>
             </div>
           </aside>
         </div>
-      </section>
+      </Section>
+
+      {/* Descripción */}
+      <Section tone="standard" ariaLabel="Descripción del modelo">
+        <div className="mx-auto max-w-3xl">
+          <Kicker className="mb-6">Sobre la pieza</Kicker>
+          <div className="text-base md:text-lg leading-[1.75] text-cement">
+            <MDXRemote source={body} components={mdxComponents} />
+          </div>
+
+          {/* Opciones extra (telas / configuraciones) */}
+          {(frontmatter.upholstery_options || frontmatter.config_options) && (
+            <div className="mt-16 space-y-12 border-t border-ink/10 pt-12">
+              {frontmatter.upholstery_options && (
+                <div>
+                  <Kicker className="mb-5">Telas disponibles</Kicker>
+                  <ul className="flex flex-wrap gap-3">
+                    {frontmatter.upholstery_options.map((opt) => (
+                      <li
+                        key={opt}
+                        className="border border-ink/15 px-3 py-2 text-sm text-cement"
+                      >
+                        {opt}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {frontmatter.config_options && (
+                <div>
+                  <Kicker className="mb-5">Configuraciones</Kicker>
+                  <ul className="flex flex-wrap gap-3">
+                    {frontmatter.config_options.map((opt) => (
+                      <li
+                        key={opt}
+                        className="border border-ink/15 px-3 py-2 text-sm text-cement"
+                      >
+                        {opt}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Section>
     </article>
   );
 }

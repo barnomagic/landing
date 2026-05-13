@@ -56,8 +56,9 @@ export function ContactForm() {
   };
 
   const inputClass =
-    "w-full border border-stone/30 bg-offwhite px-4 py-3 text-ink placeholder:text-stone focus:border-oxblood focus:outline-none";
-  const labelClass = "tech-label !text-stone mb-2 block";
+    "w-full border border-ink/20 bg-offwhite px-4 py-3 text-base text-ink placeholder:text-stone transition-colors focus:border-oxblood focus:outline-none";
+  const labelClass =
+    "mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-stone";
 
   if (status === "ok") {
     return (
@@ -65,11 +66,13 @@ export function ContactForm() {
         role="status"
         className="border border-oxblood/40 bg-offwhite p-8"
       >
-        <p className="tech-label mb-2 !text-oxblood">Mensaje enviado</p>
-        <h3 className="font-display text-2xl text-ink">
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.25em] text-oxblood">
+          Mensaje enviado
+        </p>
+        <h3 className="font-display text-2xl md:text-3xl text-ink">
           Gracias por escribir.
         </h3>
-        <p className="mt-3 text-cement">
+        <p className="mt-4 text-base leading-[1.7] text-cement">
           Te respondemos dentro de 4 horas hábiles. Si querés agilizar, podés
           continuar la conversación por WhatsApp.
         </p>
@@ -175,7 +178,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex items-center justify-center gap-2 bg-oxblood px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-offwhite transition-all hover:bg-ink disabled:cursor-wait disabled:opacity-60"
+        className="inline-flex cursor-pointer items-center justify-center gap-2 bg-oxblood px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-offwhite transition-colors duration-200 hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oxblood disabled:cursor-wait disabled:opacity-60"
       >
         {status === "sending" ? "Enviando…" : "Enviar mensaje"}
       </button>

@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Section } from "@/app/components/system/Section";
+import {
+  Kicker,
+  Heading,
+  Body,
+} from "@/app/components/system/Typography";
+import { ButtonLink } from "@/app/components/system/Buttons";
+import { TierCard } from "@/app/components/system/Card";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
+import { FadeInOnView } from "@/app/components/system/Motion";
 
 export const metadata: Metadata = {
   title: "Pedí a medida",
@@ -35,77 +43,69 @@ const tiers = [
 export default function PediAMedidaPage() {
   return (
     <>
-      {/* Hero — único border-b */}
-      <section className="border-b border-stone/15 py-24 lg:py-40">
+      {/* Subhero */}
+      <Section tone="hero" minHeightOverride="min-h-[50vh]" ariaLabel="A medida">
         <div className="max-w-4xl">
-          <p className="tech-label mb-8">A medida</p>
-          <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
+          <Kicker className="mb-5">A medida</Kicker>
+          <Heading level="h1" tone="hero">
             Vos lo soñás.
             <br />
             <span className="text-oxblood">Nosotros lo hacemos.</span>
-          </h1>
-          <p className="mt-12 max-w-2xl text-lg text-cement">
-            La promesa se sostiene en tres caminos claros. Cada uno tiene precio
-            y plazo distintos. Te decimos cuál te conviene desde el primer
-            mensaje — no prometemos &ldquo;todo a medida&rdquo; sin condiciones.
-          </p>
+          </Heading>
+          <Body tone="editorial" className="mt-10 max-w-2xl">
+            La promesa se sostiene en tres caminos claros. Cada uno tiene
+            precio y plazo distintos. Te decimos cuál te conviene desde el
+            primer mensaje — no prometemos &ldquo;todo a medida&rdquo; sin
+            condiciones.
+          </Body>
         </div>
-      </section>
+      </Section>
 
-      {/* Tres tiers — cards con más aire interno */}
-      <section className="py-28 lg:py-40">
-        <ol className="grid gap-10 lg:grid-cols-3 lg:gap-12">
+      {/* Tres tiers — pulmón */}
+      <Section tone="pulmon" ariaLabel="Tres caminos">
+        <ul className="grid grid-cols-1 gap-12 md:grid-cols-3 lg:gap-16">
           {tiers.map((tier, idx) => (
-            <li
-              key={tier.name}
-              className="flex flex-col border border-stone/20 p-10"
-            >
-              <span className="tech-label">Camino {idx + 1}</span>
-              <h2 className="mt-6 font-display text-3xl text-ink">
-                {tier.name}
-              </h2>
-              <p className="mt-3 text-sm italic text-stone">{tier.tagline}</p>
-              <p className="mt-8 text-cement">{tier.desc}</p>
-              <div className="mt-10 space-y-4 border-t border-stone/15 pt-6 text-sm text-cement">
-                <p>
-                  <span className="tech-label !text-stone">Para quién · </span>
-                  {tier.fit}
-                </p>
-                <p>
-                  <span className="tech-label !text-stone">Plazo · </span>
-                  {tier.deliver}
-                </p>
-              </div>
+            <li key={tier.name}>
+              <FadeInOnView delay={idx * 0.1}>
+                <TierCard
+                  index={idx + 1}
+                  name={tier.name}
+                  tagline={tier.tagline}
+                  description={tier.desc}
+                  fitLabel="Para quién"
+                  fit={tier.fit}
+                  deliverLabel="Plazo"
+                  deliver={tier.deliver}
+                />
+              </FadeInOnView>
             </li>
           ))}
-        </ol>
-      </section>
+        </ul>
+      </Section>
 
-      {/* CTA pulmón — único H2 grande de la página */}
-      <section className="pb-32 pt-16 lg:pb-56 lg:pt-24">
+      {/* CTA cierre */}
+      <Section tone="cta" className="border-t border-ink/10" ariaLabel="Empezar conversación">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-4xl text-ink sm:text-5xl">
-            Primer paso: una conversación.
-          </h2>
-          <p className="mt-8 text-cement">
-            Te respondemos dentro de 4 horas hábiles. Primero hablamos, después
-            cotizamos fino.
-          </p>
+          <Kicker className="mb-6">Primer paso</Kicker>
+          <Heading level="h2" tone="section">
+            Una conversación.
+          </Heading>
+          <Body tone="lead" className="mt-8 mx-auto max-w-lg">
+            Te respondemos dentro de 4 horas hábiles. Primero hablamos,
+            después cotizamos fino.
+          </Body>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <CtaWhatsApp
               message="Hola, quería consultar por un pedido a medida. ¿Me explican cómo arrancamos?"
               label="Hablemos por WhatsApp"
-              variant="solid"
+              variant="oxblood"
             />
-            <Link
-              href="/contacto"
-              className="inline-flex items-center justify-center gap-2 border border-ink px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-ink transition-all hover:bg-ink hover:text-offwhite"
-            >
+            <ButtonLink href="/contacto" variant="outline">
               Form por mail
-            </Link>
+            </ButtonLink>
           </div>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

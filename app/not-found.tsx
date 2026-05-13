@@ -1,31 +1,31 @@
-import Link from "next/link";
+import { Section } from "@/app/components/system/Section";
+import {
+  Kicker,
+  Heading,
+  Body,
+} from "@/app/components/system/Typography";
+import { ButtonLink } from "@/app/components/system/Buttons";
 
 export default function NotFound() {
   return (
-    <section className="py-40 lg:py-56">
+    <Section tone="hero" ariaLabel="Página no encontrada">
       <div className="mx-auto max-w-2xl text-center">
-        <p className="tech-label mb-4">404</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl">
+        <Kicker className="mb-5">404</Kicker>
+        <Heading level="h1" tone="hero">
           Esa pausa no existe.
-        </h1>
-        <p className="mt-8 text-cement">
+        </Heading>
+        <Body tone="editorial" className="mt-10 mx-auto max-w-lg">
           La página que buscás no está. Volvé al inicio o abrí el catálogo.
-        </p>
+        </Body>
         <div className="mt-12 flex flex-wrap justify-center gap-4">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center gap-2 bg-oxblood px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-offwhite transition-all hover:bg-ink"
-          >
+          <ButtonLink href="/" variant="oxblood">
             Volver al inicio
-          </Link>
-          <Link
-            href="/catalogo"
-            className="inline-flex items-center justify-center gap-2 border border-ink px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-ink transition-all hover:bg-ink hover:text-offwhite"
-          >
+          </ButtonLink>
+          <ButtonLink href="/catalogo" variant="outline">
             Ver catálogo
-          </Link>
+          </ButtonLink>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

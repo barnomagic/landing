@@ -1,45 +1,66 @@
 import Link from "next/link";
+import { Container } from "@/app/components/system/Container";
+import { Kicker } from "@/app/components/system/Typography";
 
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-stone/15 bg-offwhite">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 sm:grid-cols-3 lg:px-12">
-        <div>
-          <p className="font-display text-2xl lowercase text-ink">
-            pausa <span className="text-base text-stone">studio</span>
-          </p>
-          <p className="mt-4 max-w-xs text-sm text-cement">
-            Sofás y sillones a medida. Diseñados y fabricados en Buenos Aires.
-          </p>
+    <footer className="border-t border-ink/10 bg-offwhite">
+      <Container className="py-16 md:py-20">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
+          {/* Wordmark + bajada */}
+          <div className="lg:col-span-4">
+            <p className="font-display text-2xl lowercase text-ink">
+              pausa <span className="text-base text-stone">studio</span>
+            </p>
+            <p className="mt-5 max-w-xs text-sm leading-[1.7] text-cement">
+              Sofás y sillones a medida. Diseñados y fabricados en Buenos Aires.
+            </p>
+          </div>
+
+          {/* Navegación */}
+          <div className="lg:col-span-3">
+            <Kicker className="mb-5">Navegación</Kicker>
+            <ul className="space-y-3 text-sm text-cement">
+              <li><Link href="/catalogo" className="transition-colors hover:text-oxblood">Catálogo</Link></li>
+              <li><Link href="/pedi-a-medida" className="transition-colors hover:text-oxblood">Pedí a medida</Link></li>
+              <li><Link href="/nosotros" className="transition-colors hover:text-oxblood">Nosotros</Link></li>
+              <li><Link href="/contacto" className="transition-colors hover:text-oxblood">Contacto</Link></li>
+            </ul>
+          </div>
+
+          {/* Contacto */}
+          <div className="lg:col-span-3">
+            <Kicker className="mb-5">Contacto</Kicker>
+            <ul className="space-y-3 text-sm text-cement">
+              <li>
+                <a
+                  href="mailto:hola@pausastudio.rest"
+                  className="transition-colors hover:text-oxblood"
+                >
+                  hola@pausastudio.rest
+                </a>
+              </li>
+              <li>Buenos Aires, Argentina</li>
+              <li>Lun a vie · 10–18 h</li>
+            </ul>
+          </div>
+
+          {/* Estudio / redes */}
+          <div className="lg:col-span-2">
+            <Kicker className="mb-5">Estudio</Kicker>
+            <ul className="space-y-3 text-sm text-cement">
+              <li className="text-stone">Instagram · próximamente</li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <p className="tech-label mb-4">Navegación</p>
-          <ul className="space-y-2 text-sm text-cement">
-            <li><Link href="/catalogo" className="hover:text-oxblood">Catálogo</Link></li>
-            <li><Link href="/pedi-a-medida" className="hover:text-oxblood">Pedí a medida</Link></li>
-            <li><Link href="/nosotros" className="hover:text-oxblood">Nosotros</Link></li>
-            <li><Link href="/contacto" className="hover:text-oxblood">Contacto</Link></li>
-          </ul>
-        </div>
-        <div>
-          <p className="tech-label mb-4">Contacto</p>
-          <ul className="space-y-2 text-sm text-cement">
-            <li>
-              <a href="mailto:hola@pausastudio.rest" className="hover:text-oxblood">
-                hola@pausastudio.rest
-              </a>
-            </li>
-            <li>Buenos Aires, Argentina</li>
-            <li>Lun a vie · 10–18 h</li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-stone/15">
-        <div className="mx-auto max-w-7xl px-6 py-5 text-xs text-stone lg:px-12">
+
+        {/* Bottom row */}
+        <div className="mt-16 flex flex-col gap-2 border-t border-ink/10 pt-6 text-xs text-stone sm:flex-row sm:items-center sm:justify-between">
           <span>© {year} Pausa studio</span>
+          <span>v0.3</span>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

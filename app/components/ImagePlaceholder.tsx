@@ -1,14 +1,17 @@
+type Aspect = "4/5" | "16/9" | "1/1" | "3/4" | "5/4";
+
 interface ImagePlaceholderProps {
-  aspect?: "4/5" | "16/9" | "1/1" | "3/4";
+  aspect?: Aspect;
   label?: string;
   className?: string;
 }
 
-const aspectClass: Record<NonNullable<ImagePlaceholderProps["aspect"]>, string> = {
+const aspectClass: Record<Aspect, string> = {
   "4/5": "aspect-[4/5]",
   "16/9": "aspect-[16/9]",
   "1/1": "aspect-square",
   "3/4": "aspect-[3/4]",
+  "5/4": "aspect-[5/4]",
 };
 
 export function ImagePlaceholder({
@@ -20,9 +23,11 @@ export function ImagePlaceholder({
     <div
       role="img"
       aria-label={label}
-      className={`flex w-full items-center justify-center bg-cement text-offwhite ${aspectClass[aspect]} ${className}`}
+      className={`flex w-full items-center justify-center overflow-hidden rounded-sm bg-cement text-offwhite/70 ${aspectClass[aspect]} ${className}`}
     >
-      <span className="tech-label !text-offwhite/70">{label}</span>
+      <span className="text-xs font-medium uppercase tracking-[0.2em]">
+        {label}
+      </span>
     </div>
   );
 }

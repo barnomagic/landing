@@ -20,7 +20,7 @@ export function WhatsAppButton() {
     : "WhatsApp próximamente";
 
   const sharedClass =
-    "group fixed bottom-5 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-oxblood text-offwhite shadow-md transition-all sm:bottom-7 sm:right-7 sm:h-14 sm:w-14";
+    "group fixed bottom-5 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-oxblood text-offwhite shadow-md transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oxblood sm:bottom-7 sm:right-7 sm:h-14 sm:w-14";
 
   if (!active) {
     return (
@@ -45,7 +45,7 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={`${sharedClass} hover:scale-105`}
+      className={`${sharedClass} cursor-pointer hover:scale-105`}
     >
       <WhatsAppIcon />
     </a>

@@ -1,147 +1,180 @@
 import Link from "next/link";
 import { getAllModelos, formatPriceArs } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
+import { Section } from "@/app/components/system/Section";
+import {
+  Kicker,
+  Heading,
+  Body,
+} from "@/app/components/system/Typography";
+import { ButtonLink } from "@/app/components/system/Buttons";
+import { CardLink, PilarCard } from "@/app/components/system/Card";
 import { ImagePlaceholder } from "@/app/components/ImagePlaceholder";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
+import {
+  FadeIn,
+  FadeInOnView,
+  ImageReveal,
+} from "@/app/components/system/Motion";
 
 export default function HomePage() {
   const modelos = getAllModelos().slice(0, 3);
 
   return (
     <>
-      {/* Hero — único border-b del documento, marca el corte arquitectónico */}
-      <section className="border-b border-stone/15 py-24 lg:py-40">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col justify-center lg:col-span-7">
-            <p className="tech-label mb-8">Pausa studio · Buenos Aires</p>
-            <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
-              Tu pausa. <span className="text-oxblood">A medida.</span>
-            </h1>
-            <p className="mt-10 max-w-md text-lg text-cement">
+      {/* HERO — grid asimétrico 2 cols, imagen dominante */}
+      <Section tone="hero" ariaLabel="Inicio">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+          <FadeIn className="flex flex-col justify-center lg:col-span-6">
+            <Kicker className="mb-5">Pausa studio · Buenos Aires</Kicker>
+            <Heading level="h1" tone="hero">
+              Tu pausa.
+              <br />
+              <span className="text-oxblood">A medida.</span>
+            </Heading>
+            <Body
+              tone="editorial"
+              className="mt-10 max-w-md"
+            >
               Sofás a medida, pensados para tu espacio.
-            </p>
+            </Body>
             <div className="mt-12 flex flex-wrap gap-4">
               <CtaWhatsApp
                 message="Hola, quería empezar una conversación sobre un sillón a medida."
                 label="Empezá la conversación"
-                variant="solid"
+                variant="oxblood"
               />
-              <Link
-                href="/catalogo"
-                className="inline-flex items-center justify-center gap-2 border border-ink px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-ink transition-all hover:bg-ink hover:text-offwhite"
-              >
-                Ver catálogo
-              </Link>
+              <ButtonLink href="/catalogo" variant="outline">
+                Ver catálogo →
+              </ButtonLink>
             </div>
-          </div>
-          <div className="lg:col-span-5">
-            <ImagePlaceholder aspect="4/5" label="Foto pendiente · Hero" />
-          </div>
-        </div>
-      </section>
+          </FadeIn>
 
-      {/* Modelos destacados — aire generoso sin bordes */}
-      <section className="py-28 lg:py-40">
-        <div className="mb-20 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <ImageReveal className="lg:col-span-6">
+            <ImagePlaceholder
+              aspect="4/5"
+              label="Foto pendiente · Hero"
+            />
+          </ImageReveal>
+        </div>
+      </Section>
+
+      {/* CATÁLOGO DESTACADO — header + grid 3 */}
+      <Section tone="standard" ariaLabel="Catálogo destacado">
+        <div className="mb-16 flex flex-col items-start gap-4 md:mb-20 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="tech-label mb-6">Catálogo</p>
-            <h2 className="font-display text-4xl text-ink sm:text-5xl">
+            <Kicker className="mb-5">Catálogo</Kicker>
+            <Heading level="h2" tone="section">
               Tres piezas para empezar.
-            </h2>
+            </Heading>
           </div>
           <Link
             href="/catalogo"
-            className="text-sm uppercase tracking-[0.12em] text-cement hover:text-oxblood"
+            className="text-sm uppercase tracking-[0.18em] text-cement transition-colors hover:text-oxblood"
           >
             Ver todos →
           </Link>
         </div>
 
-        <ul className="grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
-          {modelos.map((m) => (
+        <ul className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:gap-12">
+          {modelos.map((m, idx) => (
             <li key={m.frontmatter.slug}>
-              <Link
-                href={`/catalogo/${m.frontmatter.slug}`}
-                className="group block"
-              >
-                <ImagePlaceholder
-                  aspect="4/5"
-                  label={`Foto pendiente · ${m.frontmatter.name}`}
-                />
-                <div className="mt-6">
-                  <h3 className="font-display text-2xl text-ink transition-colors group-hover:text-oxblood">
-                    {m.frontmatter.name}
-                  </h3>
-                  <p className="mt-3 text-sm text-cement">
-                    {m.frontmatter.tagline}
-                  </p>
-                  <p className="tech-label mt-4">
-                    Desde {formatPriceArs(m.frontmatter.price_from_ars)}
-                  </p>
-                </div>
-              </Link>
+              <FadeInOnView delay={idx * 0.08}>
+                <CardLink
+                  href={`/catalogo/${m.frontmatter.slug}`}
+                  ariaLabel={`Ver detalle de ${m.frontmatter.name}`}
+                >
+                  <div className="overflow-hidden rounded-sm">
+                    <ImagePlaceholder
+                      aspect="4/5"
+                      label={`Foto pendiente · ${m.frontmatter.name}`}
+                      className="transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                  </div>
+                  <div className="mt-6">
+                    <Heading
+                      level="h3"
+                      tone="card"
+                      className="transition-colors group-hover:text-oxblood"
+                    >
+                      {m.frontmatter.name}
+                    </Heading>
+                    <p className="mt-3 text-base text-cement">
+                      {m.frontmatter.tagline}
+                    </p>
+                    <p className="mt-5 text-xs uppercase tracking-[0.2em] text-stone">
+                      Desde {formatPriceArs(m.frontmatter.price_from_ars)}
+                    </p>
+                  </div>
+                </CardLink>
+              </FadeInOnView>
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
 
-      {/* Por qué Pausa — pull quote dominante con asimetría */}
-      <section className="py-28 lg:py-48">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
-          <div className="lg:col-span-5">
-            <p className="tech-label mb-8">Por qué Pausa</p>
-            <h2 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
-              Diseñamos
-              <br />
-              <span className="text-oxblood">pausas.</span>
-            </h2>
-          </div>
-          <ul className="grid gap-12 sm:gap-16 lg:col-span-7 lg:pt-32">
-            <li className="border-t border-stone/20 pt-6">
-              <p className="tech-label mb-4">A tu medida</p>
-              <p className="max-w-md text-cement">
+      {/* POR QUÉ PAUSA — pulmón, manifest closer */}
+      <Section tone="pulmon" ariaLabel="Por qué Pausa">
+        <FadeInOnView className="text-center">
+          <Kicker className="mb-8">Por qué Pausa</Kicker>
+          <Heading
+            level="h2"
+            tone="manifesto-closer"
+            className="mx-auto max-w-5xl"
+          >
+            Diseñamos <span className="text-oxblood">pausas.</span>
+          </Heading>
+        </FadeInOnView>
+
+        <ul className="mt-20 grid grid-cols-1 gap-10 md:mt-28 md:grid-cols-3 lg:gap-16">
+          <li>
+            <FadeInOnView delay={0}>
+              <PilarCard label="A tu medida">
                 Tu altura, tu ambiente, tu vida. Nuestro compromiso.
-              </p>
-            </li>
-            <li className="border-t border-stone/20 pt-6">
-              <p className="tech-label mb-4">Detalle obsesivo</p>
-              <p className="max-w-md text-cement">
+              </PilarCard>
+            </FadeInOnView>
+          </li>
+          <li>
+            <FadeInOnView delay={0.1}>
+              <PilarCard label="Detalle obsesivo">
                 Lo que no se ve, se siente. Costuras donde corresponden,
                 densidades pensadas.
-              </p>
-            </li>
-            <li className="border-t border-stone/20 pt-6">
-              <p className="tech-label mb-4">Tres caminos claros</p>
-              <p className="max-w-md text-cement">
+              </PilarCard>
+            </FadeInOnView>
+          </li>
+          <li>
+            <FadeInOnView delay={0.2}>
+              <PilarCard label="Tres caminos claros">
                 Modelo base, modelo adaptado o diseño bespoke.
-              </p>
-            </li>
-          </ul>
-        </div>
-      </section>
+              </PilarCard>
+            </FadeInOnView>
+          </li>
+        </ul>
+      </Section>
 
-      {/* CTA quieter — sin H2 competidor, espacio respirable */}
-      <section className="pb-32 pt-16 lg:pb-56 lg:pt-24">
-        <div className="mx-auto max-w-xl text-center">
-          <p className="tech-label mb-6">Primer paso</p>
-          <p className="text-lg text-cement">
-            Una conversación. Te respondemos dentro de 4 horas hábiles.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
+      {/* CIERRE / CTA */}
+      <Section tone="cta" className="border-t border-ink/10" ariaLabel="Empezar conversación">
+        <div className="mx-auto max-w-2xl text-center">
+          <Kicker className="mb-6">Primer paso</Kicker>
+          <Heading level="h2" tone="section">
+            Una conversación.
+          </Heading>
+          <Body tone="lead" className="mt-8 mx-auto max-w-lg">
+            Te respondemos dentro de 4 horas hábiles. Primero hablamos,
+            después cotizamos fino.
+          </Body>
+          <div className="mt-12 flex flex-wrap justify-center gap-4">
             <CtaWhatsApp
               message={getModelInquiryMessage("alguno del catálogo")}
               label="Hablemos por WhatsApp"
-              variant="solid"
+              variant="oxblood"
             />
-            <Link
-              href="/contacto"
-              className="inline-flex items-center justify-center gap-2 border border-ink px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-ink transition-all hover:bg-ink hover:text-offwhite"
-            >
+            <ButtonLink href="/contacto" variant="outline">
               Escribinos un mail
-            </Link>
+            </ButtonLink>
           </div>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

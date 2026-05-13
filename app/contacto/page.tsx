@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import { Section } from "@/app/components/system/Section";
+import {
+  Kicker,
+  Heading,
+  Body,
+} from "@/app/components/system/Typography";
 import { ContactForm } from "./ContactForm";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 
@@ -10,72 +16,88 @@ export const metadata: Metadata = {
 
 export default function ContactoPage() {
   return (
-    <section className="py-24 lg:py-40">
-      <header className="mb-24 max-w-2xl lg:mb-32">
-        <p className="tech-label mb-8">Contacto</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
-          Primero conversamos. <br />
-          <span className="text-oxblood">Después cotizamos fino.</span>
-        </h1>
-        <p className="mt-10 text-cement">
-          Respondemos dentro de 4 horas hábiles. Si querés agilizar, WhatsApp
-          es el canal más rápido.
-        </p>
-      </header>
-
-      <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
-        <div className="lg:col-span-7">
-          <ContactForm />
+    <>
+      {/* Subhero */}
+      <Section tone="hero" minHeightOverride="min-h-[40vh]" ariaLabel="Contacto">
+        <div className="max-w-3xl">
+          <Kicker className="mb-5">Contacto</Kicker>
+          <Heading level="h1" tone="hero">
+            Hablemos.
+          </Heading>
+          <Body tone="editorial" className="mt-10 max-w-2xl">
+            Respondemos dentro de 4 horas hábiles. Si querés agilizar,
+            WhatsApp es el canal más rápido.
+          </Body>
         </div>
+      </Section>
 
-        <aside className="lg:col-span-5">
-          <div className="border-t border-stone/15 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
-            <div className="space-y-8">
-              <div>
-                <p className="tech-label mb-3">WhatsApp</p>
-                <p className="text-cement">
+      {/* Form + info */}
+      <Section tone="standard" ariaLabel="Formulario e información">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* Form */}
+          <div>
+            <Kicker className="mb-8">Escribinos</Kicker>
+            <ContactForm />
+          </div>
+
+          {/* Info */}
+          <aside className="lg:border-l lg:border-ink/10 lg:pl-12">
+            <Kicker className="mb-8">Canales</Kicker>
+
+            <div className="space-y-8 divide-y divide-ink/10">
+              <div className="pt-0">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone">
+                  WhatsApp
+                </p>
+                <p className="mt-3 text-base text-cement">
                   El canal más rápido. Te respondemos dentro de horas hábiles.
                 </p>
                 <div className="mt-5">
                   <CtaWhatsApp
                     message="Hola, quería empezar una conversación."
                     label="Abrir WhatsApp"
-                    variant="solid"
+                    variant="oxblood"
                   />
                 </div>
               </div>
 
-              <div className="border-t border-stone/15 pt-8">
-                <p className="tech-label mb-3">Email</p>
+              <div className="pt-8">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone">
+                  Email
+                </p>
                 <a
                   href="mailto:hola@pausastudio.rest"
-                  className="text-cement hover:text-oxblood"
+                  className="mt-3 inline-block text-base text-cement transition-colors hover:text-oxblood"
                 >
                   hola@pausastudio.rest
                 </a>
               </div>
 
-              <div className="border-t border-stone/15 pt-8">
-                <p className="tech-label mb-3">Estudio</p>
-                <p className="text-cement">
+              <div className="pt-8">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone">
+                  Estudio
+                </p>
+                <p className="mt-3 text-base text-cement">
                   Buenos Aires, Argentina.
                   <br />
                   Visitas con cita previa.
                 </p>
               </div>
 
-              <div className="border-t border-stone/15 pt-8">
-                <p className="tech-label mb-3">Horarios</p>
-                <p className="text-cement">
+              <div className="pt-8">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone">
+                  Horarios
+                </p>
+                <p className="mt-3 text-base text-cement">
                   Lunes a viernes · 10–18 h
                   <br />
                   Sábados con cita
                 </p>
               </div>
             </div>
-          </div>
-        </aside>
-      </div>
-    </section>
+          </aside>
+        </div>
+      </Section>
+    </>
   );
 }

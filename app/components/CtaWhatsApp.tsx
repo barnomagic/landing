@@ -1,19 +1,12 @@
 import { getWhatsappLink, isWhatsappConfigured } from "@/lib/whatsapp";
+import { Button, ButtonLink } from "@/app/components/system/Buttons";
 
 interface CtaWhatsAppProps {
   message: string;
   label?: string;
-  variant?: "solid" | "outline";
+  variant?: "oxblood" | "outline";
   className?: string;
 }
-
-const baseClass =
-  "inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] transition-all";
-
-const variantClass: Record<NonNullable<CtaWhatsAppProps["variant"]>, string> = {
-  solid: "bg-oxblood text-offwhite hover:bg-ink",
-  outline: "border border-ink text-ink hover:bg-ink hover:text-offwhite",
-};
 
 export function CtaWhatsApp({
   message,
@@ -22,29 +15,29 @@ export function CtaWhatsApp({
   className = "",
 }: CtaWhatsAppProps) {
   const active = isWhatsappConfigured();
-  const composed = `${baseClass} ${variantClass[variant]} ${className}`;
 
   if (!active) {
     return (
-      <button
+      <Button
         type="button"
+        variant={variant}
         disabled
         title="WhatsApp se activa antes del lanzamiento"
-        className={`${composed} cursor-not-allowed opacity-60`}
+        className={className}
       >
         {label}
-      </button>
+      </Button>
     );
   }
 
   return (
-    <a
+    <ButtonLink
+      variant={variant}
       href={getWhatsappLink(message)}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={composed}
+      external
+      className={className}
     >
       {label}
-    </a>
+    </ButtonLink>
   );
 }

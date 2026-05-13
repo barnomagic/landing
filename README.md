@@ -35,7 +35,6 @@ lib/
 public/
   og-default.png        → OG image global
 docs/
-  BRAND_BOOK_v0.1.md    → Histórico
   BRAND_BOOK_v0.2.md    → Documento maestro de marca (vigente)
 ```
 

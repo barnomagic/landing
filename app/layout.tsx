@@ -53,7 +53,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-offwhite text-ink antialiased">
         <Navbar />
-        <main className="mx-auto max-w-7xl px-6 lg:px-12">{children}</main>
+        <main>{children}</main>
         <Footer />
         <WhatsAppButton />
         <Analytics />

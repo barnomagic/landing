@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Paleta brand book v0.1 */
+  /* Paleta brand book v0.2 */
   --color-offwhite:  #F5F2EC;
   --color-ink:       #1A1A1A;
   --color-stone:     #8C8579;
@@ -11,16 +11,10 @@
   /* Tipografía */
   --font-display: var(--font-fraunces);
   --font-sans:    var(--font-inter);
-
-  /* Spacing rítmico */
-  --spacing-section: clamp(4rem, 3rem + 5vw, 8rem);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Preflight de Tailwind v4 ya provee box-sizing + reset.
+   Solo agregamos behaviors propios. */
 
 html {
   scroll-behavior: smooth;
@@ -34,6 +28,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, .font-display {
@@ -42,35 +37,29 @@ h1, h2, h3, .font-display {
   letter-spacing: -0.01em;
 }
 
-h1 { letter-spacing: -0.025em; line-height: 1.05; }
-
-/* Labels técnicos: small caps, tracking abierto */
-.tech-label {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #8C8579;
-}
-
-/* Selección: oxblood sobre off-white */
 ::selection {
   background-color: #5A1F1F;
   color: #F5F2EC;
 }
 
-/* Focus visible accesible */
 :focus-visible {
   outline: 2px solid #5A1F1F;
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* Reduced motion */
+a {
+  cursor: pointer;
+}
+
+/* Reduced motion — disable transitions/animations */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
