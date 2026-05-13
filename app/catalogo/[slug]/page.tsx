@@ -32,17 +32,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const modelo = getModeloBySlug(slug);
   if (!modelo) return {};
+  const { name, tagline, category } = modelo.frontmatter;
+  const typeLabel = category ? category.toLowerCase() : "pieza";
   return {
-    title: modelo.frontmatter.name,
-    description: modelo.frontmatter.tagline,
+    title: name,
+    description: `${name} · ${typeLabel} a medida. ${tagline}`,
   };
 }
-
-const tierLabel: Record<string, string> = {
-  base: "Modelo base",
-  adaptado: "Modelo adaptado",
-  bespoke: "Diseño bespoke",
-};
 
 const mdxComponents = {
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -133,7 +129,9 @@ export default async function ModeloPage({ params }: PageProps) {
           {/* Ficha — sticky en desktop */}
           <aside className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
-              <Kicker className="mb-5">{tierLabel[frontmatter.tier]}</Kicker>
+              {frontmatter.category ? (
+                <Kicker className="mb-5">{frontmatter.category}</Kicker>
+              ) : null}
               <Heading level="h1" tone="section">
                 {frontmatter.name}
               </Heading>

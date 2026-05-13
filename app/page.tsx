@@ -90,6 +90,11 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="mt-6">
+                    {m.frontmatter.category ? (
+                      <p className="text-xs uppercase tracking-[0.25em] text-stone mb-3">
+                        {m.frontmatter.category}
+                      </p>
+                    ) : null}
                     <Heading
                       level="h3"
                       tone="card"
@@ -142,8 +147,9 @@ export default function HomePage() {
           </li>
           <li>
             <FadeInOnView delay={0.2}>
-              <PilarCard label="Tres caminos claros">
-                Modelo base, modelo adaptado o diseño bespoke.
+              <PilarCard label="Modelo o bespoke">
+                Empezás por un modelo de la selección o por una pieza
+                diseñada desde cero.
               </PilarCard>
             </FadeInOnView>
           </li>
@@ -155,12 +161,8 @@ export default function HomePage() {
         <div className="mx-auto max-w-2xl text-center">
           <Kicker className="mb-6">Primer paso</Kicker>
           <Heading level="h2" tone="section">
-            Una conversación.
+            Hablemos. Tu sofá viene después.
           </Heading>
-          <Body tone="lead" className="mt-8 mx-auto max-w-lg">
-            Te respondemos dentro de 4 horas hábiles. Primero hablamos,
-            después cotizamos fino.
-          </Body>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <CtaWhatsApp
               message={getModelInquiryMessage("alguno del catálogo")}

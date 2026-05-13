@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 const contactSchema = z.object({
   nombre: z.string().trim().min(2, "Nombre demasiado corto").max(120),
   email: z.string().trim().email("Email inválido"),
-  tipo: z.enum(["modelo-base", "modelo-adaptado", "bespoke", "otro"]),
+  tipo: z.enum(["catalogo-customizable", "bespoke", "otro"]),
   mensaje: z.string().trim().min(10, "Mensaje demasiado corto").max(2000),
   // Honeypot: si viene completo, lo tratamos como spam y respondemos 200 sin enviar.
   website: z.string().optional(),
@@ -16,8 +16,7 @@ const contactSchema = z.object({
 export type ContactPayload = z.infer<typeof contactSchema>;
 
 const tipoLabels: Record<ContactPayload["tipo"], string> = {
-  "modelo-base": "Modelo base",
-  "modelo-adaptado": "Modelo adaptado",
+  "catalogo-customizable": "Catálogo customizable",
   "bespoke": "Diseño bespoke",
   "otro": "Otro / consulta general",
 };

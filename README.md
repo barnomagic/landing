@@ -35,7 +35,7 @@ lib/
 public/
   og-default.png        → OG image global
 docs/
-  BRAND_BOOK_v0.2.md    → Documento maestro de marca (vigente)
+  BRAND_BOOK_v0.3.md    → Documento maestro de marca (vigente)
 ```
 
 ## Sistema de diseño (v0.3)
@@ -95,7 +95,7 @@ Usar `<Kicker>`, `<Heading level tone>` y `<Body tone>` en vez de tipear classes
 - **NO** agregar UI libraries (Radix, MUI, Headless UI) ni nuevas dependencias sin justificación — el sistema se sostiene con Tailwind puro + Motion.
 - **NO** crear escalas tipográficas paralelas — extender `Heading` / `Body` con un tone nuevo si hace falta.
 
-Para el contexto completo de marca ver `docs/BRAND_BOOK_v0.2.md`.
+Para el contexto completo de marca ver `docs/BRAND_BOOK_v0.3.md`.
 
 ## Variables de entorno
 
@@ -123,7 +123,7 @@ Para que los mails salgan como `hola@pausastudio.rest` y no `via resend.dev`:
 
 - [ ] **Reemplazar `NEXT_PUBLIC_WHATSAPP_NUMBER`** por el número real (chip dedicado) en `.env.local` y en Vercel.
 - [ ] **Verificar dominio en Resend** y confirmar que llegan los mails.
-- [ ] **Generar imágenes IA del catálogo** (ver `docs/BRAND_BOOK_v0.2.md` §6) y reemplazar los placeholders.
+- [ ] **Generar imágenes IA del catálogo** (ver `docs/BRAND_BOOK_v0.3.md` §6) y reemplazar los placeholders.
 - [ ] Probar el form de contacto en producción.
 
 ## Desarrollo
@@ -153,6 +153,7 @@ npm run lint
 slug: nombre-del-modelo
 name: Nombre del modelo
 tagline: Una línea sensorial corta.
+category: Sofá | Sillón | Daybed | Almohadón | Pie de cama | Otro
 tier: base | adaptado | bespoke
 order: 4
 hero_image: /modelos/<slug>/01.jpg
@@ -208,7 +209,7 @@ El endpoint está en [`app/api/contact/route.ts`](app/api/contact/route.ts) — 
 
 ## Próximas fases (Fase 3)
 
-- [ ] Generar imágenes IA de los 3 modelos del catálogo siguiendo prompts de `docs/BRAND_BOOK_v0.2.md` §6.
+- [ ] Generar imágenes IA de los 3 modelos del catálogo siguiendo prompts de `docs/BRAND_BOOK_v0.3.md` §6.
 - [ ] Reemplazar placeholders en `public/modelos/<slug>/`.
 - [ ] Escribir copy final de cada modelo (las descripciones actuales son placeholder).
 - [ ] Generar los primeros 9 posts de Instagram (60% detalle, 30% pieza completa, 10% caption-card) siguiendo §5.2 del brand book.

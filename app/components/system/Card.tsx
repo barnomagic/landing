@@ -68,8 +68,8 @@ interface TierProps {
   description: string;
   fitLabel: string;
   fit: string;
-  deliverLabel: string;
-  deliver: string;
+  deliverLabel?: string;
+  deliver?: string;
 }
 
 export function TierCard({
@@ -102,12 +102,14 @@ export function TierCard({
           </span>
           <span className="text-cement">{fit}</span>
         </div>
-        <div>
-          <span className="text-xs uppercase tracking-[0.2em] text-stone">
-            {deliverLabel} ·{" "}
-          </span>
-          <span className="text-cement">{deliver}</span>
-        </div>
+        {deliverLabel && deliver ? (
+          <div>
+            <span className="text-xs uppercase tracking-[0.2em] text-stone">
+              {deliverLabel} ·{" "}
+            </span>
+            <span className="text-cement">{deliver}</span>
+          </div>
+        ) : null}
       </div>
     </div>
   );

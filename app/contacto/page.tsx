@@ -10,8 +10,7 @@ import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 
 export const metadata: Metadata = {
   title: "Contacto",
-  description:
-    "Escribinos por mail o WhatsApp. Respondemos dentro de 4 horas hábiles.",
+  description: "Contacto · Pausa studio. Sofás y sillones a medida.",
 };
 
 export default function ContactoPage() {
@@ -25,8 +24,8 @@ export default function ContactoPage() {
             Hablemos.
           </Heading>
           <Body tone="editorial" className="mt-10 max-w-2xl">
-            Respondemos dentro de 4 horas hábiles. Si querés agilizar,
-            WhatsApp es el canal más rápido.
+            Escribinos por mail o WhatsApp. WhatsApp suele ser el canal
+            más ágil para una primera conversación.
           </Body>
         </div>
       </Section>
@@ -50,7 +49,7 @@ export default function ContactoPage() {
                   WhatsApp
                 </p>
                 <p className="mt-3 text-base text-cement">
-                  El canal más rápido. Te respondemos dentro de horas hábiles.
+                  El canal más ágil para una primera conversación.
                 </p>
                 <div className="mt-5">
                   <CtaWhatsApp

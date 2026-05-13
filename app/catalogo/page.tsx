@@ -13,13 +13,7 @@ import { FadeInOnView } from "@/app/components/system/Motion";
 export const metadata: Metadata = {
   title: "Catálogo",
   description:
-    "Sofás y sillones a medida. Catálogo de modelos diseñados desde Pausa studio.",
-};
-
-const tierLabel: Record<string, string> = {
-  base: "Modelo base",
-  adaptado: "Modelo adaptado",
-  bespoke: "Diseño bespoke",
+    "Sofás, sillones y piezas a medida. Catálogo curado desde Pausa studio.",
 };
 
 export default function CatalogoPage() {
@@ -32,9 +26,9 @@ export default function CatalogoPage() {
         <div className="max-w-3xl">
           <Kicker className="mb-5">Catálogo</Kicker>
           <Heading level="h1" tone="hero">
-            Tres caminos.
+            Piezas con punto
             <br />
-            <span className="text-oxblood">Una pausa.</span>
+            <span className="text-oxblood">de partida.</span>
           </Heading>
           <Body tone="editorial" className="mt-10 max-w-2xl">
             Cada modelo se adapta. Medidas, telas, configuración — todo se
@@ -61,9 +55,11 @@ export default function CatalogoPage() {
                     />
                   </div>
                   <div className="mt-6">
-                    <p className="text-xs uppercase tracking-[0.25em] text-stone">
-                      {tierLabel[m.frontmatter.tier]}
-                    </p>
+                    {m.frontmatter.category ? (
+                      <p className="text-xs uppercase tracking-[0.25em] text-stone">
+                        {m.frontmatter.category}
+                      </p>
+                    ) : null}
                     <Heading
                       level="h2"
                       tone="card"

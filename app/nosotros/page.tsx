@@ -21,6 +21,8 @@ export const metadata: Metadata = {
     "Pausa studio. Diseñamos pausas. Atención obsesiva al detalle, una pieza a la vez.",
 };
 
+// Manifiesto v0.3 §1 — texto exacto del brand book.
+
 export default function NosotrosPage() {
   return (
     <>
@@ -40,8 +42,8 @@ export default function NosotrosPage() {
               Pausa <span className="text-oxblood">= tu momento.</span>
             </Heading>
             <Body tone="editorial" className="mt-10 max-w-md">
-              No vendemos sillones. Vendemos el objeto que sostiene un momento
-              que vale la pena.
+              No vendemos sofás. Vendemos el sostén de momentos que valen
+              la pena.
             </Body>
           </FadeIn>
         </div>
@@ -62,22 +64,28 @@ export default function NosotrosPage() {
           <div className="space-y-8 md:space-y-10 text-left md:text-center">
             <FadeInOnView delay={0.05}>
               <Body tone="editorial">
+                No vendemos sofás. Vendemos el sostén de momentos que valen
+                la pena.
+              </Body>
+            </FadeInOnView>
+            <FadeInOnView delay={0.1}>
+              <Body tone="editorial">
                 La pausa es ese intervalo deliberado: la película del domingo,
                 la charla larga de sobremesa, la última copa de la noche, el
                 libro de tres horas, la siesta que no pide permiso. Es donde
                 te encontrás con vos mismo.
               </Body>
             </FadeInOnView>
-            <FadeInOnView delay={0.1}>
+            <FadeInOnView delay={0.15}>
               <Body tone="editorial">
-                Diseñamos sillones pensados para tu espacio. Tu altura, tu
+                Diseñamos piezas pensadas para tu espacio. Tu altura, tu
                 ambiente, tu vida — no las de un catálogo.
               </Body>
             </FadeInOnView>
-            <FadeInOnView delay={0.15}>
+            <FadeInOnView delay={0.2}>
               <Body tone="editorial">
-                Combinamos dos cosas raras en la categoría: atención obsesiva
-                al detalle y una manera particular de entender cómo se habita
+                Cada pieza se sostiene en dos pilares: atención obsesiva al
+                detalle y una manera particular de entender cómo se habita
                 un espacio personal.
               </Body>
             </FadeInOnView>
@@ -111,24 +119,21 @@ export default function NosotrosPage() {
           <li>
             <FadeInOnView delay={0.08}>
               <StepCard number="02" label="Propuesta">
-                Te volvemos con un camino — base, adaptado o bespoke — con
-                precio y plazo claros.
+                Volvemos con una primera propuesta diseñada para tu espacio.
               </StepCard>
             </FadeInOnView>
           </li>
           <li>
             <FadeInOnView delay={0.16}>
               <StepCard number="03" label="Construcción">
-                Tapizado, espumado, costura. Las uniones críticas no se
-                tercerizan.
+                Tapizado, espumado, costura. La lupa en cada detalle.
               </StepCard>
             </FadeInOnView>
           </li>
           <li>
             <FadeInOnView delay={0.24}>
               <StepCard number="04" label="Entrega">
-                Coordinada en CABA y primer cordón. Sin costo adicional dentro
-                del rango pactado.
+                Coordinamos cada entrega persona a persona.
               </StepCard>
             </FadeInOnView>
           </li>

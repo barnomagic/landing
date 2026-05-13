@@ -6,6 +6,14 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "modelos");
 
 export type ModeloTier = "base" | "adaptado" | "bespoke";
 
+export type ModeloCategory =
+  | "Sofá"
+  | "Sillón"
+  | "Daybed"
+  | "Almohadón"
+  | "Pie de cama"
+  | "Otro";
+
 export interface ModeloDimensions {
   width_cm: number;
   depth_cm: number;
@@ -24,6 +32,7 @@ export interface ModeloFrontmatter {
   slug: string;
   name: string;
   tagline: string;
+  category?: ModeloCategory;
   tier: ModeloTier;
   order: number;
   hero_image: string;

@@ -8,7 +8,7 @@ import { z } from "zod";
 const formSchema = z.object({
   nombre: z.string().trim().min(2, "Ingresá tu nombre"),
   email: z.string().trim().email("Email inválido"),
-  tipo: z.enum(["modelo-base", "modelo-adaptado", "bespoke", "otro"]),
+  tipo: z.enum(["catalogo-customizable", "bespoke", "otro"]),
   mensaje: z.string().trim().min(10, "Contanos un poco más"),
   website: z.string().optional(),
 });
@@ -73,8 +73,8 @@ export function ContactForm() {
           Gracias por escribir.
         </h3>
         <p className="mt-4 text-base leading-[1.7] text-cement">
-          Te respondemos dentro de 4 horas hábiles. Si querés agilizar, podés
-          continuar la conversación por WhatsApp.
+          Recibimos tu mensaje. Si querés agilizar, podés continuar la
+          conversación por WhatsApp.
         </p>
       </div>
     );
@@ -142,8 +142,7 @@ export function ContactForm() {
           aria-invalid={!!errors.tipo}
           {...register("tipo")}
         >
-          <option value="modelo-base">Modelo base del catálogo</option>
-          <option value="modelo-adaptado">Modelo adaptado a mi espacio</option>
+          <option value="catalogo-customizable">Catálogo customizable</option>
           <option value="bespoke">Diseño bespoke desde cero</option>
           <option value="otro">Otro / consulta general</option>
         </select>
