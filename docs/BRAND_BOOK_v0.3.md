@@ -21,7 +21,7 @@ No vendemos sofás. Vendemos el sostén de momentos que valen la pena.
 
 La pausa es ese intervalo deliberado: la película del domingo, la charla larga de sobremesa, la última copa de la noche, el libro de tres horas, la siesta que no pide permiso. Es donde te encontrás con vos mismo.
 
-Diseñamos piezas pensadas para tu espacio. Tu altura, tu ambiente, tu vida — no las de un catálogo.
+Diseñamos piezas pensadas para tu espacio. Tu altura, tu ambiente, tu vida — medidas que sirven para vos.
 
 Cada pieza se sostiene en dos pilares: atención obsesiva al detalle y una manera particular de entender cómo se habita un espacio personal.
 

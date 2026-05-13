@@ -79,7 +79,7 @@ export default function NosotrosPage() {
             <FadeInOnView delay={0.15}>
               <Body tone="editorial">
                 Diseñamos piezas pensadas para tu espacio. Tu altura, tu
-                ambiente, tu vida — no las de un catálogo.
+                ambiente, tu vida — medidas que sirven para vos.
               </Body>
             </FadeInOnView>
             <FadeInOnView delay={0.2}>
@@ -120,6 +120,7 @@ export default function NosotrosPage() {
             <FadeInOnView delay={0.08}>
               <StepCard number="02" label="Propuesta">
                 Volvemos con una primera propuesta diseñada para tu espacio.
+                La ajustamos hasta que sea tuya.
               </StepCard>
             </FadeInOnView>
           </li>

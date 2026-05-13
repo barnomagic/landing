@@ -63,7 +63,7 @@ export default function HomePage() {
           <div>
             <Kicker className="mb-5">Catálogo</Kicker>
             <Heading level="h2" tone="section">
-              Tres piezas para empezar.
+              Una primera mirada.
             </Heading>
           </div>
           <Link
