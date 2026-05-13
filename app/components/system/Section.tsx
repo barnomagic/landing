@@ -4,10 +4,11 @@ import { Container } from "./Container";
 export type SectionTone = "hero" | "standard" | "pulmon" | "cta" | "compact";
 
 const tones: Record<SectionTone, string> = {
-  // Hero: contenido alineado al top con padding generoso.
-  // items-center empujaba el H1 al medio del viewport (~y=400 en 900h),
-  // dejando off-white arriba — la primera impresión era "página vacía".
-  hero:     "min-h-[75vh] flex items-start pt-28 pb-20 lg:pt-40 lg:pb-32",
+  // Hero: contenido alineado al top con padding moderado.
+  // El navbar sticky ya marca el corte visual (border-b ink/10) — el pt
+  // solo debe dar respiración, no replicar un py-section completo.
+  // 48/64/80 px entre navbar bottom y kicker se siente editorial sin gap vacío.
+  hero:     "min-h-[75vh] flex items-start pt-12 pb-20 sm:pt-16 lg:pt-20 lg:pb-32",
   standard: "py-24 md:py-32 lg:py-40",
   pulmon:   "py-32 md:py-48 lg:py-56",
   cta:      "py-24 md:py-32 lg:py-40",
