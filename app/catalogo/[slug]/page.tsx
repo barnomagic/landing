@@ -67,7 +67,7 @@ export default async function ModeloPage({ params }: PageProps) {
 
   return (
     <article>
-      <div className="pt-16">
+      <div className="pt-12 lg:pt-16">
         <Link
           href="/catalogo"
           className="tech-label hover:text-oxblood"
@@ -76,19 +76,19 @@ export default async function ModeloPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <header className="pb-16 pt-12">
-        <p className="tech-label mb-4">{tierLabel[frontmatter.tier]}</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl">
+      <header className="pb-20 pt-16 lg:pb-24 lg:pt-20">
+        <p className="tech-label mb-6">{tierLabel[frontmatter.tier]}</p>
+        <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
           {frontmatter.name}
         </h1>
-        <p className="mt-8 max-w-xl text-lg text-cement">
+        <p className="mt-10 max-w-xl text-lg text-cement">
           {frontmatter.tagline}
         </p>
       </header>
 
-      {/* Galería */}
-      <section className="border-y border-stone/15 py-16 lg:py-24">
-        <div className="grid gap-6 sm:grid-cols-2">
+      {/* Galería — sin bordes, espacio puro */}
+      <section className="pb-24 lg:pb-32">
+        <div className="grid gap-6 sm:grid-cols-2 lg:gap-8">
           <div className="sm:col-span-2">
             <ImagePlaceholder
               aspect="16/9"
@@ -106,8 +106,8 @@ export default async function ModeloPage({ params }: PageProps) {
       </section>
 
       {/* Body + ficha técnica */}
-      <section className="py-20 lg:py-32">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+      <section className="pb-32 lg:pb-48">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
           <div className="lg:col-span-7">
             <div className="prose-pausa">
               <MDXRemote source={body} components={mdxComponents} />

@@ -12,23 +12,23 @@ export const metadata: Metadata = {
 export default function NosotrosPage() {
   return (
     <>
-      {/* Hero / manifiesto */}
-      <section className="border-b border-stone/15 py-24 lg:py-32">
-        <div className="max-w-4xl">
-          <p className="tech-label mb-6">Pausa studio</p>
-          <h1 className="font-display text-5xl text-ink sm:text-6xl">
+      {/* Hero / opening — único border-b */}
+      <section className="border-b border-stone/15 py-24 lg:py-40">
+        <div className="max-w-3xl">
+          <p className="tech-label mb-8">Pausa studio</p>
+          <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
             Pausa <span className="text-oxblood">= tu momento.</span>
           </h1>
-          <p className="mt-10 max-w-2xl text-lg text-cement">
+          <p className="mt-12 max-w-2xl text-lg text-cement">
             No vendemos sillones. Vendemos el objeto que sostiene un momento que
             vale la pena.
           </p>
         </div>
       </section>
 
-      {/* Manifiesto */}
-      <section className="border-b border-stone/15 py-20 lg:py-32">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+      {/* Manifiesto — composición editorial asimétrica */}
+      <section className="py-28 lg:py-48">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
           <div className="lg:col-span-5">
             <ImagePlaceholder
               aspect="4/5"
@@ -36,12 +36,9 @@ export default function NosotrosPage() {
             />
           </div>
           <div className="lg:col-span-7">
-            <p className="tech-label mb-4">Manifiesto</p>
-            <h2 className="font-display text-4xl text-ink sm:text-5xl">
-              Diseñamos pausas.
-            </h2>
-            <div className="mt-10 space-y-6 text-cement">
-              <p>
+            <p className="tech-label mb-8">Manifiesto</p>
+            <div className="space-y-7 text-cement">
+              <p className="text-lg">
                 La pausa es ese intervalo deliberado: la película del domingo,
                 la charla larga de sobremesa, la última copa de la noche, el
                 libro de tres horas, la siesta que no pide permiso. Es donde te
@@ -57,42 +54,49 @@ export default function NosotrosPage() {
                 espacio personal.
               </p>
             </div>
+
+            {/* Cierre filosófico — pull quote dentro del manifiesto */}
+            <p className="mt-16 font-display text-5xl text-ink sm:text-6xl">
+              Diseñamos
+              <br />
+              <span className="text-oxblood">pausas.</span>
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Cómo trabajamos */}
-      <section className="border-b border-stone/15 py-20 lg:py-32">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+      {/* Cómo trabajamos — sin bordes, espacio puro */}
+      <section className="py-28 lg:py-40">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
           <div className="lg:col-span-4">
-            <p className="tech-label mb-4">Cómo trabajamos</p>
+            <p className="tech-label mb-8">Cómo trabajamos</p>
             <h2 className="font-display text-4xl text-ink sm:text-5xl">
               Una pieza a la vez.
             </h2>
           </div>
-          <ol className="grid gap-12 lg:col-span-8 sm:grid-cols-2">
-            <li>
+          <ol className="grid gap-y-14 gap-x-12 lg:col-span-8 sm:grid-cols-2">
+            <li className="border-t border-stone/20 pt-6">
               <p className="tech-label mb-4">01 · Briefing</p>
               <p className="text-cement">
                 Conversación inicial. Nos contás el espacio, el uso, el
                 contexto. Sin formularios largos.
               </p>
             </li>
-            <li>
+            <li className="border-t border-stone/20 pt-6">
               <p className="tech-label mb-4">02 · Propuesta</p>
               <p className="text-cement">
                 Te volvemos con un camino — base, adaptado o bespoke — con
                 precio y plazo claros.
               </p>
             </li>
-            <li>
+            <li className="border-t border-stone/20 pt-6">
               <p className="tech-label mb-4">03 · Construcción</p>
               <p className="text-cement">
                 Tapizado, espumado, costura. Las uniones críticas no se
                 tercerizan.
               </p>
             </li>
-            <li>
+            <li className="border-t border-stone/20 pt-6">
               <p className="tech-label mb-4">04 · Entrega</p>
               <p className="text-cement">
                 Coordinada en CABA y primer cordón. Sin costo adicional dentro
@@ -103,16 +107,17 @@ export default function NosotrosPage() {
         </div>
       </section>
 
-      {/* CTA final — pulmón */}
-      <section className="py-32 lg:py-48">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-4xl text-ink sm:text-5xl">
-            Tu pausa, hecha a tu medida.
-          </h2>
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
+      {/* CTA quieter — sin H2 que compita con el manifiesto */}
+      <section className="pb-32 pt-16 lg:pb-56 lg:pt-24">
+        <div className="mx-auto max-w-xl text-center">
+          <p className="tech-label mb-6">Empezar</p>
+          <p className="text-lg text-cement">
+            Una conversación es el primer paso.
+          </p>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <CtaWhatsApp
               message="Hola, vi su web y quería empezar una conversación."
-              label="Empezá la conversación"
+              label="Hablemos por WhatsApp"
               variant="solid"
             />
             <Link

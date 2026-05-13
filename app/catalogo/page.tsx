@@ -19,19 +19,19 @@ export default function CatalogoPage() {
   const modelos = getAllModelos();
 
   return (
-    <section className="py-20 lg:py-32">
-      <header className="mb-20 max-w-2xl">
-        <p className="tech-label mb-4">Catálogo</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl">
+    <section className="py-24 lg:py-40">
+      <header className="mb-24 max-w-2xl lg:mb-32">
+        <p className="tech-label mb-8">Catálogo</p>
+        <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
           Piezas pensadas para tu espacio.
         </h1>
-        <p className="mt-8 text-cement">
+        <p className="mt-10 text-cement">
           Cada modelo se adapta. Medidas, telas, configuración — todo se
           decide en la conversación inicial.
         </p>
       </header>
 
-      <ul className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
         {modelos.map((m) => (
           <li key={m.frontmatter.slug}>
             <Link
@@ -42,20 +42,20 @@ export default function CatalogoPage() {
                 aspect="4/5"
                 label={`Foto pendiente · ${m.frontmatter.name}`}
               />
-              <div className="mt-5">
+              <div className="mt-6">
                 <p className="tech-label">{tierLabel[m.frontmatter.tier]}</p>
-                <h2 className="mt-2 font-display text-2xl text-ink transition-colors group-hover:text-oxblood">
+                <h2 className="mt-3 font-display text-2xl text-ink transition-colors group-hover:text-oxblood">
                   {m.frontmatter.name}
                 </h2>
-                <p className="mt-2 text-sm text-cement">
+                <p className="mt-3 text-sm text-cement">
                   {m.frontmatter.tagline}
                 </p>
-                <p className="mt-4 text-sm text-stone">
+                <p className="mt-5 text-sm text-stone">
                   {m.frontmatter.dimensions.width_cm} ×{" "}
                   {m.frontmatter.dimensions.depth_cm} ×{" "}
                   {m.frontmatter.dimensions.height_cm} cm
                 </p>
-                <p className="tech-label mt-3">
+                <p className="tech-label mt-4">
                   Desde {formatPriceArs(m.frontmatter.price_from_ars)}
                 </p>
               </div>

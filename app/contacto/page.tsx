@@ -10,20 +10,20 @@ export const metadata: Metadata = {
 
 export default function ContactoPage() {
   return (
-    <section className="py-20 lg:py-32">
-      <header className="mb-20 max-w-2xl">
-        <p className="tech-label mb-4">Contacto</p>
-        <h1 className="font-display text-5xl text-ink sm:text-6xl">
+    <section className="py-24 lg:py-40">
+      <header className="mb-24 max-w-2xl lg:mb-32">
+        <p className="tech-label mb-8">Contacto</p>
+        <h1 className="font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
           Primero conversamos. <br />
           <span className="text-oxblood">Después cotizamos fino.</span>
         </h1>
-        <p className="mt-8 text-cement">
+        <p className="mt-10 text-cement">
           Respondemos dentro de 4 horas hábiles. Si querés agilizar, WhatsApp
           es el canal más rápido.
         </p>
       </header>
 
-      <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+      <div className="grid gap-16 lg:grid-cols-12 lg:gap-24">
         <div className="lg:col-span-7">
           <ContactForm />
         </div>
