@@ -4,7 +4,10 @@ import { Container } from "./Container";
 export type SectionTone = "hero" | "standard" | "pulmon" | "cta" | "compact";
 
 const tones: Record<SectionTone, string> = {
-  hero:     "min-h-[85vh] flex items-center py-24 lg:py-32",
+  // Hero: contenido alineado al top con padding generoso.
+  // items-center empujaba el H1 al medio del viewport (~y=400 en 900h),
+  // dejando off-white arriba — la primera impresión era "página vacía".
+  hero:     "min-h-[75vh] flex items-start pt-28 pb-20 lg:pt-40 lg:pb-32",
   standard: "py-24 md:py-32 lg:py-40",
   pulmon:   "py-32 md:py-48 lg:py-56",
   cta:      "py-24 md:py-32 lg:py-40",

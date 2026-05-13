@@ -6,7 +6,7 @@ import type {
 } from "react";
 
 const base =
-  "inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] transition-colors duration-200 ease-out cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-oxblood";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] transition-colors duration-200 ease-out cursor-pointer disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-oxblood";
 
 const variants = {
   oxblood: "bg-oxblood text-offwhite hover:bg-ink",

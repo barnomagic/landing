@@ -26,14 +26,15 @@ export default function NosotrosPage() {
     <>
       {/* Hero invertido — imagen izquierda, texto derecha */}
       <Section tone="hero" ariaLabel="Pausa studio">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
-          <ImageReveal className="order-2 lg:order-1 lg:col-span-6">
+        <div className="grid w-full gap-12 lg:grid-cols-12 lg:gap-16">
+          <ImageReveal className="order-2 lg:order-1 lg:col-span-5">
             <ImagePlaceholder
               aspect="4/5"
+              variant="subtle"
               label="Foto pendiente · Estudio"
             />
           </ImageReveal>
-          <FadeIn className="order-1 flex flex-col justify-center lg:order-2 lg:col-span-6">
+          <FadeIn className="order-1 flex flex-col lg:order-2 lg:col-span-7">
             <Kicker className="mb-5">Pausa studio</Kicker>
             <Heading level="h1" tone="hero">
               Pausa <span className="text-oxblood">= tu momento.</span>
@@ -46,8 +47,13 @@ export default function NosotrosPage() {
         </div>
       </Section>
 
-      {/* Manifiesto — centrado, pulmón */}
-      <Section tone="pulmon" ariaLabel="Manifiesto">
+      {/* Manifiesto — ritmo standard con pb reducido: el cierre "Diseñamos pausas."
+          ya carga el peso del bloque, no necesita 160px de aire extra antes de "Cómo trabajamos". */}
+      <Section
+        tone="standard"
+        className="!pb-20 lg:!pb-24"
+        ariaLabel="Manifiesto"
+      >
         <div className="mx-auto max-w-3xl text-center">
           <FadeInOnView>
             <Kicker className="mb-8">Manifiesto</Kicker>

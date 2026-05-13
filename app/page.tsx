@@ -22,23 +22,20 @@ export default function HomePage() {
 
   return (
     <>
-      {/* HERO — grid asimétrico 2 cols, imagen dominante */}
+      {/* HERO — grid asimétrico 7/5, imagen dominante */}
       <Section tone="hero" ariaLabel="Inicio">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
-          <FadeIn className="flex flex-col justify-center lg:col-span-6">
+        <div className="grid w-full gap-12 lg:grid-cols-12 lg:gap-16">
+          <FadeIn className="flex flex-col lg:col-span-7">
             <Kicker className="mb-5">Pausa studio · Buenos Aires</Kicker>
             <Heading level="h1" tone="hero">
               Tu pausa.
               <br />
               <span className="text-oxblood">A medida.</span>
             </Heading>
-            <Body
-              tone="editorial"
-              className="mt-10 max-w-md"
-            >
+            <Body tone="editorial" className="mt-10 max-w-md">
               Sofás a medida, pensados para tu espacio.
             </Body>
-            <div className="mt-12 flex flex-wrap gap-4">
+            <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
               <CtaWhatsApp
                 message="Hola, quería empezar una conversación sobre un sillón a medida."
                 label="Empezá la conversación"
@@ -50,9 +47,10 @@ export default function HomePage() {
             </div>
           </FadeIn>
 
-          <ImageReveal className="lg:col-span-6">
+          <ImageReveal className="lg:col-span-5">
             <ImagePlaceholder
               aspect="4/5"
+              variant="subtle"
               label="Foto pendiente · Hero"
             />
           </ImageReveal>

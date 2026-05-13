@@ -12,40 +12,25 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
+/**
+ * Botón flotante de WhatsApp. Se renderiza solo cuando el número está configurado.
+ * Con placeholder (X en el número), el botón no se muestra — preferimos que el
+ * usuario llegue a /contacto vía los CTAs principales antes que ver un botón
+ * deshabilitado que rompe la marca.
+ */
 export function WhatsAppButton() {
-  const active = isWhatsappConfigured();
-  const href = active ? getWhatsappLink(getCustomInquiryMessage()) : undefined;
-  const label = active
-    ? "Empezá la conversación por WhatsApp"
-    : "WhatsApp próximamente";
-
-  const sharedClass =
-    "group fixed bottom-5 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-oxblood text-offwhite shadow-md transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oxblood sm:bottom-7 sm:right-7 sm:h-14 sm:w-14";
-
-  if (!active) {
-    return (
-      <button
-        type="button"
-        aria-label={label}
-        title="Próximamente"
-        disabled
-        className={`${sharedClass} cursor-not-allowed opacity-60`}
-      >
-        <WhatsAppIcon />
-        <span className="absolute -top-9 right-0 hidden whitespace-nowrap rounded-sm bg-ink px-3 py-1 text-xs text-offwhite group-hover:block">
-          Próximamente
-        </span>
-      </button>
-    );
+  if (!isWhatsappConfigured()) {
+    return null;
   }
 
+  const href = getWhatsappLink(getCustomInquiryMessage());
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={label}
-      className={`${sharedClass} cursor-pointer hover:scale-105`}
+      aria-label="Empezá la conversación por WhatsApp"
+      className="group fixed bottom-5 right-5 z-30 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-oxblood text-offwhite shadow-md transition-transform duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-oxblood sm:bottom-7 sm:right-7 sm:h-14 sm:w-14"
     >
       <WhatsAppIcon />
     </a>

@@ -1,5 +1,5 @@
 import { getWhatsappLink, isWhatsappConfigured } from "@/lib/whatsapp";
-import { Button, ButtonLink } from "@/app/components/system/Buttons";
+import { ButtonLink } from "@/app/components/system/Buttons";
 
 interface CtaWhatsAppProps {
   message: string;
@@ -8,6 +8,12 @@ interface CtaWhatsAppProps {
   className?: string;
 }
 
+/**
+ * CTA principal de "Empezá la conversación".
+ * - Si WhatsApp está configurado: link a wa.me con mensaje prefilled.
+ * - Si está en placeholder: redirige a /contacto manteniendo el styling sólido
+ *   (no aplicamos `disabled` con opacity — rompe la jerarquía visual de la marca).
+ */
 export function CtaWhatsApp({
   message,
   label = "Empezá la conversación",
@@ -18,15 +24,9 @@ export function CtaWhatsApp({
 
   if (!active) {
     return (
-      <Button
-        type="button"
-        variant={variant}
-        disabled
-        title="WhatsApp se activa antes del lanzamiento"
-        className={className}
-      >
+      <ButtonLink href="/contacto" variant={variant} className={className}>
         {label}
-      </Button>
+      </ButtonLink>
     );
   }
 
