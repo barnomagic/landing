@@ -67,7 +67,7 @@ export default async function ModeloPage({ params }: PageProps) {
 
   return (
     <article>
-      <div className="mx-auto max-w-6xl px-6 py-16">
+      <div className="pt-16">
         <Link
           href="/catalogo"
           className="tech-label hover:text-oxblood"
@@ -76,40 +76,38 @@ export default async function ModeloPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <header className="mx-auto max-w-6xl px-6 pb-16">
+      <header className="pb-16 pt-12">
         <p className="tech-label mb-4">{tierLabel[frontmatter.tier]}</p>
         <h1 className="font-display text-5xl text-ink sm:text-6xl">
           {frontmatter.name}
         </h1>
-        <p className="mt-6 max-w-xl text-lg text-cement">
+        <p className="mt-8 max-w-xl text-lg text-cement">
           {frontmatter.tagline}
         </p>
       </header>
 
       {/* Galería */}
-      <section className="border-y border-stone/15 bg-offwhite">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="sm:col-span-2">
-              <ImagePlaceholder
-                aspect="16/9"
-                label={`Foto pendiente · ${frontmatter.name}`}
-              />
-            </div>
-            {frontmatter.images.slice(1).map((img, idx) => (
-              <ImagePlaceholder
-                key={img}
-                aspect="4/5"
-                label={`Foto pendiente · detalle ${idx + 1}`}
-              />
-            ))}
+      <section className="border-y border-stone/15 py-16 lg:py-24">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="sm:col-span-2">
+            <ImagePlaceholder
+              aspect="16/9"
+              label={`Foto pendiente · ${frontmatter.name}`}
+            />
           </div>
+          {frontmatter.images.slice(1).map((img, idx) => (
+            <ImagePlaceholder
+              key={img}
+              aspect="4/5"
+              label={`Foto pendiente · detalle ${idx + 1}`}
+            />
+          ))}
         </div>
       </section>
 
       {/* Body + ficha técnica */}
-      <section>
-        <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 lg:grid-cols-12">
+      <section className="py-20 lg:py-32">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-7">
             <div className="prose-pausa">
               <MDXRemote source={body} components={mdxComponents} />

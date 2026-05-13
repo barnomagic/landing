@@ -23,7 +23,7 @@ app/
   /catalogo             → Grid de modelos (SSG desde MDX)
   /catalogo/[slug]      → Detalle del modelo (SSG por modelo)
   /pedi-a-medida        → Los 3 tiers (base / adaptado / bespoke)
-  /nosotros             → Narrativa del oficio
+  /nosotros             → Manifiesto + cómo trabajamos
   /contacto             → Form + WhatsApp + email + horarios
   /api/contact          → POST: valida con Zod + envía via Resend
   components/           → Navbar, Footer, WhatsAppButton, CtaWhatsApp, ImagePlaceholder
@@ -35,7 +35,8 @@ lib/
 public/
   og-default.png        → OG image global
 docs/
-  BRAND_BOOK_v0.1.md    → Documento maestro de marca
+  BRAND_BOOK_v0.1.md    → Histórico
+  BRAND_BOOK_v0.2.md    → Documento maestro de marca (vigente)
 ```
 
 ## Variables de entorno
@@ -64,7 +65,7 @@ Para que los mails salgan como `hola@pausastudio.rest` y no `via resend.dev`:
 
 - [ ] **Reemplazar `NEXT_PUBLIC_WHATSAPP_NUMBER`** por el número real (chip dedicado) en `.env.local` y en Vercel.
 - [ ] **Verificar dominio en Resend** y confirmar que llegan los mails.
-- [ ] **Generar imágenes IA del catálogo** (ver `docs/BRAND_BOOK_v0.1.md` §6) y reemplazar los placeholders.
+- [ ] **Generar imágenes IA del catálogo** (ver `docs/BRAND_BOOK_v0.2.md` §6) y reemplazar los placeholders.
 - [ ] Probar el form de contacto en producción.
 
 ## Desarrollo
@@ -121,7 +122,7 @@ upholstery_options:
 ---
 
 Cuerpo en markdown. Usar `###` para secciones de la ficha
-(Materiales, Tiempos, etc) y `>` para notas de taller en blockquote.
+(Materiales, Tiempos, etc) y `>` para notas de estudio en blockquote.
 ```
 
 3. El modelo aparece automáticamente en `/catalogo` (ordenado por `order`) y como ruta `/catalogo/<slug>`.
@@ -149,10 +150,9 @@ El endpoint está en [`app/api/contact/route.ts`](app/api/contact/route.ts) — 
 
 ## Próximas fases (Fase 3)
 
-- [ ] Generar imágenes IA de los 3 modelos del catálogo siguiendo prompts de `docs/BRAND_BOOK_v0.1.md` §6.
+- [ ] Generar imágenes IA de los 3 modelos del catálogo siguiendo prompts de `docs/BRAND_BOOK_v0.2.md` §6.
 - [ ] Reemplazar placeholders en `public/modelos/<slug>/`.
 - [ ] Escribir copy final de cada modelo (las descripciones actuales son placeholder).
 - [ ] Generar los primeros 9 posts de Instagram (60% detalle, 30% pieza completa, 10% caption-card) siguiendo §5.2 del brand book.
-- [ ] Decisión definitiva tipografía: Fraunces vs Newsreader (actualmente Fraunces).
 - [ ] Comprar `pausastudio.com.ar` en NIC.ar y redirigir al `.rest`.
 - [ ] Considerar OG images dinámicas por ruta con `next/og`.

@@ -5,7 +5,7 @@ import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 export const metadata: Metadata = {
   title: "Pedí a medida",
   description:
-    "Tres tiers para empezar una conversación: modelo base, modelo adaptado o diseño bespoke. Precio y plazo claros desde el primer mensaje.",
+    "Tres caminos: modelo base, modelo adaptado o diseño bespoke. Empezá la conversación.",
 };
 
 const tiers = [
@@ -35,8 +35,8 @@ const tiers = [
 export default function PediAMedidaPage() {
   return (
     <>
-      <section className="border-b border-stone/15">
-        <div className="mx-auto max-w-4xl px-6 py-24 sm:py-32">
+      <section className="border-b border-stone/15 py-24 lg:py-32">
+        <div className="max-w-4xl">
           <p className="tech-label mb-6">A medida</p>
           <h1 className="font-display text-5xl text-ink sm:text-6xl">
             Vos lo soñás. Nosotros lo hacemos.
@@ -49,46 +49,44 @@ export default function PediAMedidaPage() {
         </div>
       </section>
 
-      <section className="border-b border-stone/15">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <ol className="grid gap-10 lg:grid-cols-3">
-            {tiers.map((tier, idx) => (
-              <li
-                key={tier.name}
-                className="flex flex-col border border-stone/20 p-8"
-              >
-                <span className="tech-label">Camino {idx + 1}</span>
-                <h2 className="mt-4 font-display text-3xl text-ink">
-                  {tier.name}
-                </h2>
-                <p className="mt-2 text-sm italic text-stone">
-                  {tier.tagline}
-                </p>
-                <p className="mt-6 text-cement">{tier.desc}</p>
-                <p className="mt-6 text-sm text-cement">
-                  <span className="tech-label !text-stone">Para quién · </span>
-                  {tier.fit}
-                </p>
-                <p className="mt-4 text-sm text-cement">
-                  <span className="tech-label !text-stone">Plazo · </span>
-                  {tier.deliver}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <section className="border-b border-stone/15 py-20 lg:py-32">
+        <ol className="grid gap-10 lg:grid-cols-3">
+          {tiers.map((tier, idx) => (
+            <li
+              key={tier.name}
+              className="flex flex-col border border-stone/20 p-8"
+            >
+              <span className="tech-label">Camino {idx + 1}</span>
+              <h2 className="mt-4 font-display text-3xl text-ink">
+                {tier.name}
+              </h2>
+              <p className="mt-2 text-sm italic text-stone">
+                {tier.tagline}
+              </p>
+              <p className="mt-6 text-cement">{tier.desc}</p>
+              <p className="mt-6 text-sm text-cement">
+                <span className="tech-label !text-stone">Para quién · </span>
+                {tier.fit}
+              </p>
+              <p className="mt-4 text-sm text-cement">
+                <span className="tech-label !text-stone">Plazo · </span>
+                {tier.deliver}
+              </p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <section>
-        <div className="mx-auto max-w-3xl px-6 py-24 text-center">
+      <section className="py-32 lg:py-48">
+        <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-display text-4xl text-ink sm:text-5xl">
             Primer paso: una conversación.
           </h2>
-          <p className="mt-6 text-cement">
+          <p className="mt-8 text-cement">
             Te respondemos dentro de 4 horas hábiles. Primero hablamos, después
             cotizamos fino.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <div className="mt-12 flex flex-wrap justify-center gap-4">
             <CtaWhatsApp
               message="Hola, quería consultar por un pedido a medida. ¿Me explican cómo arrancamos?"
               label="Hablemos por WhatsApp"

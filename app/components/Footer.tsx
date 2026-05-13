@@ -4,7 +4,7 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-stone/15 bg-offwhite">
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 sm:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 sm:grid-cols-3 lg:px-12">
         <div>
           <p className="font-display text-2xl lowercase text-ink">
             pausa <span className="text-base text-stone">studio</span>
@@ -36,9 +36,8 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-stone/15">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 text-xs text-stone">
+        <div className="mx-auto max-w-7xl px-6 py-5 text-xs text-stone lg:px-12">
           <span>© {year} Pausa studio</span>
-          <span>Hecho con oficio en CABA</span>
         </div>
       </div>
     </footer>

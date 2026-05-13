@@ -25,11 +25,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pausastudio.rest";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Pausa studio — Sofás a medida con oficio premium argentino",
+    default: "Pausa studio — Sofás a medida, pensados para tu espacio",
     template: "%s — Pausa studio",
   },
   description:
-    "Sofás y sillones diseñados y fabricados a medida en Buenos Aires. Tu altura, tu ambiente, tu vida.",
+    "Sofás y sillones a medida, pensados para tu espacio. Diseñamos pausas.",
   openGraph: {
     type: "website",
     locale: "es_AR",
@@ -53,7 +53,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-offwhite text-ink antialiased">
         <Navbar />
-        <main>{children}</main>
+        <main className="mx-auto max-w-7xl px-6 lg:px-12">{children}</main>
         <Footer />
         <WhatsAppButton />
         <Analytics />

@@ -12,7 +12,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-stone/15 bg-offwhite/85 backdrop-blur-sm">
       <nav
         aria-label="Navegación principal"
-        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5"
+        className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-12"
       >
         <Link
           href="/"
