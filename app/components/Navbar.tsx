@@ -1,167 +1,69 @@
-"use client";
+import Link from "next/link";
 
-import { useState, useEffect } from "react";
+const links = [
+  { href: "/catalogo", label: "Catálogo" },
+  { href: "/pedi-a-medida", label: "A medida" },
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/contacto", label: "Contacto" },
+];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+export function Navbar() {
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        backgroundColor: "#F5F0E8",
-        transition: "box-shadow 0.3s ease",
-        boxShadow: scrolled ? "0 2px 20px rgba(61,43,31,0.08)" : "none",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "0 80px",
-          height: 68,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        className="px-6 md:px-20"
+    <header className="sticky top-0 z-40 w-full border-b border-stone/15 bg-offwhite/85 backdrop-blur-sm">
+      <nav
+        aria-label="Navegación principal"
+        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5"
       >
-        {/* Logo */}
-        <a
-          href="#"
-          style={{
-            fontFamily: "var(--font-playfair), Georgia, serif",
-            fontSize: "1.625rem",
-            color: "#3D2B1F",
-            letterSpacing: "0.04em",
-            textDecoration: "none",
-            fontWeight: 400,
-          }}
+        <Link
+          href="/"
+          aria-label="Inicio Pausa studio"
+          className="group flex items-baseline gap-1.5"
         >
-          Pausa
-        </a>
-
-        {/* Desktop links */}
-        <div
-          className="hidden md:flex"
-          style={{ gap: 40, alignItems: "center" }}
-        >
-          {["Nosotros", "Colección", "Contacto"].map((link) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase().replace("ó", "o")}`}
-              style={{
-                fontFamily: "var(--font-inter), system-ui, sans-serif",
-                fontSize: "0.875rem",
-                color: "#3D2B1F",
-                textDecoration: "none",
-                letterSpacing: "0.02em",
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = "#C17B5C")
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color = "#3D2B1F")
-              }
-            >
-              {link}
-            </a>
+          <span className="font-display text-2xl lowercase tracking-tight text-ink transition-colors group-hover:text-oxblood">
+            pausa
+          </span>
+          <span className="text-[0.7rem] uppercase tracking-[0.18em] text-stone">
+            studio
+          </span>
+          <span className="ml-1 h-1.5 w-1.5 rounded-full bg-oxblood" aria-hidden />
+        </Link>
+        <ul className="hidden gap-8 sm:flex">
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="text-sm text-cement transition-colors hover:text-oxblood"
+              >
+                {link.label}
+              </Link>
+            </li>
           ))}
-          <a
-            href="#coleccion"
-            style={{
-              fontFamily: "var(--font-inter), system-ui, sans-serif",
-              fontSize: "0.875rem",
-              backgroundColor: "#C17B5C",
-              color: "#FEFCF8",
-              padding: "10px 24px",
-              borderRadius: 4,
-              textDecoration: "none",
-              letterSpacing: "0.04em",
-              transition: "background-color 0.2s",
-            }}
-            onMouseEnter={(e) =>
-              ((e.target as HTMLElement).style.backgroundColor = "#3D2B1F")
-            }
-            onMouseLeave={(e) =>
-              ((e.target as HTMLElement).style.backgroundColor = "#C17B5C")
-            }
+        </ul>
+        <details className="relative sm:hidden">
+          <summary
+            aria-label="Abrir menú"
+            className="cursor-pointer list-none px-2 py-1 text-cement"
           >
-            Ver colección
-          </a>
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "#3D2B1F",
-            padding: 4,
-          }}
-          aria-label="Menú"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            {menuOpen ? (
-              <>
-                <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" strokeWidth="1.5" />
-              </>
-            ) : (
-              <>
-                <line x1="4" y1="7" x2="20" y2="7" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="4" y1="17" x2="20" y2="17" stroke="currentColor" strokeWidth="1.5" />
-              </>
-            )}
-          </svg>
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div
-          style={{
-            backgroundColor: "#F5F0E8",
-            borderTop: "1px solid rgba(61,43,31,0.1)",
-            padding: "24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 20,
-          }}
-        >
-          {["Nosotros", "Colección", "Contacto"].map((link) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase().replace("ó", "o")}`}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                fontFamily: "var(--font-inter), system-ui, sans-serif",
-                fontSize: "1rem",
-                color: "#3D2B1F",
-                textDecoration: "none",
-              }}
-            >
-              {link}
-            </a>
-          ))}
-        </div>
-      )}
-    </nav>
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <line x1="0" y1="1" x2="20" y2="1" />
+              <line x1="0" y1="7" x2="20" y2="7" />
+              <line x1="0" y1="13" x2="20" y2="13" />
+            </svg>
+          </summary>
+          <ul className="absolute right-0 top-full mt-3 flex w-44 flex-col gap-1 rounded-sm border border-stone/20 bg-offwhite p-3 shadow-lg">
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="block px-2 py-2 text-sm text-cement hover:text-oxblood"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </nav>
+    </header>
   );
 }
