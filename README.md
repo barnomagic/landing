@@ -38,6 +38,65 @@ docs/
   BRAND_BOOK_v0.2.md    → Documento maestro de marca (vigente)
 ```
 
+## Sistema de diseño (v0.3)
+
+### Tokens de color
+
+- `#F5F2EC` — `offwhite`. Fondo dominante.
+- `#1A1A1A` — `ink`. Tipografía y estructura. Nunca `#000`.
+- `#8C8579` — `stone`. Texto secundario, kickers, separadores.
+- `#3B3B3B` — `cement`. Cuerpo de texto sobre off-white.
+- `#5A1F1F` — `oxblood`. Acento autoral. Un punto por composición.
+
+### Escala tipográfica
+
+Usar `<Kicker>`, `<Heading level tone>` y `<Body tone>` en vez de tipear classes:
+
+- **H1 hero** — `font-display text-5xl md:text-7xl lg:text-8xl tracking-[-0.02em] leading-[1.02] text-ink`
+- **H2 sección** — `font-display text-3xl md:text-5xl lg:text-6xl tracking-[-0.015em] leading-[1.05] text-ink`
+- **H3 card** — `font-display text-xl md:text-2xl lg:text-3xl tracking-tight leading-[1.15] text-ink`
+- **Body editorial** — `text-lg md:text-xl leading-[1.65] text-cement`
+- **Body estándar** — `text-base md:text-lg leading-[1.7] text-cement`
+- **Kicker** — `text-xs font-medium uppercase tracking-[0.25em] text-stone`
+
+### `<Container>` y `<Section>`
+
+`<Container>` aplica `max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 xl:px-24` — 1280 px máx, padding lateral progresivo. Nada pegado al borde.
+
+`<Section tone="...">` envuelve un `<Container>` y aplica ritmo vertical:
+
+- `hero` — `min-h-[85vh] flex items-center py-24 lg:py-32` (primera sección; soporta `minHeightOverride="min-h-[40vh]"` para subheros).
+- `standard` — `py-24 md:py-32 lg:py-40` (contenido regular).
+- `pulmon` — `py-32 md:py-48 lg:py-56` (manifiesto, secciones de respiración).
+- `cta` — `py-24 md:py-32 lg:py-40` (cierre de página).
+- `compact` — `py-16 md:py-20` (solo con restricción concreta).
+
+```tsx
+<Section tone="hero">
+  <Kicker>Pausa studio</Kicker>
+  <Heading level="h1" tone="hero">Tu pausa. A medida.</Heading>
+</Section>
+```
+
+### Composición por ruta
+
+- **`/`** — hero split 50/50 (texto + imagen 4:5 dominante) → catálogo destacado grid 3 cols → manifesto pulmón "Diseñamos pausas." con 3 pilares → CTA quieter.
+- **`/catalogo`** — subhero 40vh → grid 3 cols con gap generoso.
+- **`/catalogo/[slug]`** — galería col-7 + ficha sticky col-5 (estilo Cassina) → descripción centrada max-w-3xl + tags de telas/configs.
+- **`/pedi-a-medida`** — subhero 50vh → 3 tiers en pulmón con filete oxblood → CTA cierre.
+- **`/nosotros`** — hero invertido (imagen izq, texto der) → manifiesto centrado pulmón → grid 2x2 "Cómo trabajamos" → CTA.
+- **`/contacto`** — subhero 40vh "Hablemos." → form + aside con divisores hairline entre canales.
+
+### Anti-patterns
+
+- **NO** usar `py-*` arbitrarios sueltos en `<section>` — todo ritmo vertical pasa por `<Section tone="...">`.
+- **NO** instanciar `<section>` sin `<Container>` adentro — el padding lateral es responsabilidad del Container.
+- **NO** escribir hex literales en componentes ni `style={{ color: '#...' }}` — usar siempre las utilities (`text-ink`, `bg-oxblood`, etc.).
+- **NO** agregar UI libraries (Radix, MUI, Headless UI) ni nuevas dependencias sin justificación — el sistema se sostiene con Tailwind puro + Motion.
+- **NO** crear escalas tipográficas paralelas — extender `Heading` / `Body` con un tone nuevo si hace falta.
+
+Para el contexto completo de marca ver `docs/BRAND_BOOK_v0.2.md`.
+
 ## Variables de entorno
 
 Copiá `.env.local.example` a `.env.local` y completá:
