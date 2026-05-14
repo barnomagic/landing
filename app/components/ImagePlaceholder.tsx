@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type Aspect = "4/5" | "16/9" | "1/1" | "3/4" | "5/4";
 type Variant = "default" | "subtle";
 
@@ -11,6 +13,22 @@ interface ImagePlaceholderProps {
    *           no compite con la tipografía).
    */
   variant?: Variant;
+  /**
+   * Si se pasa `src` (path relativo a /public, ej. "/modelos/cubo/01-hero.png")
+   * el componente renderiza la imagen real con next/image manteniendo el aspect ratio.
+   * Si no, cae al placeholder textual.
+   */
+  src?: string;
+  alt?: string;
+  /**
+   * `eager` para imagen above-the-fold (LCP candidate); el resto queda en lazy default.
+   */
+  priority?: boolean;
+  /**
+   * Pasthrough a next/image — útil para hero asimétrico vs grid 1/3.
+   * Default: "100vw" (conservador).
+   */
+  sizes?: string;
 }
 
 const aspectClass: Record<Aspect, string> = {
@@ -31,7 +49,28 @@ export function ImagePlaceholder({
   label = "Foto pendiente",
   className = "",
   variant = "default",
+  src,
+  alt,
+  priority = false,
+  sizes = "100vw",
 }: ImagePlaceholderProps) {
+  if (src) {
+    return (
+      <div
+        className={`relative w-full overflow-hidden rounded-sm bg-stone/15 ${aspectClass[aspect]} ${className}`}
+      >
+        <Image
+          src={src}
+          alt={alt ?? label}
+          fill
+          priority={priority}
+          sizes={sizes}
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       role="img"

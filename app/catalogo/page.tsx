@@ -50,20 +50,23 @@ export default function CatalogoPage() {
                   <div className="overflow-hidden rounded-sm">
                     <ImagePlaceholder
                       aspect="4/5"
+                      src={m.frontmatter.hero_image}
+                      alt={`${m.frontmatter.name} — ${m.frontmatter.tagline}`}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                       label={`Foto pendiente · ${m.frontmatter.name}`}
                       className="transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                     />
                   </div>
                   <div className="mt-6">
                     {m.frontmatter.category ? (
-                      <p className="text-xs uppercase tracking-[0.25em] text-stone">
+                      <p className="text-xs uppercase tracking-[0.25em] text-stone mb-1">
                         {m.frontmatter.category}
                       </p>
                     ) : null}
                     <Heading
                       level="h2"
                       tone="card"
-                      className="mt-3 transition-colors group-hover:text-oxblood"
+                      className="transition-colors group-hover:text-oxblood"
                     >
                       {m.frontmatter.name}
                     </Heading>

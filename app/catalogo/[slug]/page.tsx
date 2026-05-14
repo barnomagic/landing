@@ -32,11 +32,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const modelo = getModeloBySlug(slug);
   if (!modelo) return {};
-  const { name, tagline, category } = modelo.frontmatter;
-  const typeLabel = category ? category.toLowerCase() : "pieza";
+  const { name, tagline, hero_image } = modelo.frontmatter;
+  const description = `${name}. ${tagline} Sofás y sillones a medida. Pausa studio.`;
   return {
     title: name,
-    description: `${name} · ${typeLabel} a medida. ${tagline}`,
+    description,
+    openGraph: {
+      title: `${name} — Pausa studio`,
+      description,
+      images: [{ url: hero_image, width: 1200, height: 1500 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${name} — Pausa studio`,
+      description,
+      images: [hero_image],
+    },
   };
 }
 
@@ -90,6 +101,14 @@ export default async function ModeloPage({ params }: PageProps) {
   const inquiryMessage = getModelInquiryMessage(frontmatter.name);
   const dim = frontmatter.dimensions;
 
+  // Convención de 6 shots: [0]=hero, [1..3]=perfil/angular/detalle, [4..5]=oxblood/terracota.
+  const heroImg = frontmatter.hero_image || frontmatter.images[0];
+  const detailImgs = frontmatter.images.slice(1, 4);
+  const variantImgs = frontmatter.images.slice(4, 6);
+
+  const detailCaptions = ["Perfil", "Angular", "Detalle"];
+  const variantCaptions = ["Terciopelo oxblood", "Terciopelo terracota"];
+
   return (
     <article>
       {/* Galería + ficha sticky */}
@@ -107,23 +126,55 @@ export default async function ModeloPage({ params }: PageProps) {
             >
               ← Volver al catálogo
             </Link>
+
+            {/* Hero shot */}
             <ImagePlaceholder
               aspect="4/5"
+              src={heroImg}
+              alt={`${frontmatter.name} — vista frontal`}
+              priority
+              sizes="(min-width: 1024px) 58vw, 100vw"
               label={`Foto pendiente · ${frontmatter.name}`}
             />
-            <div className="mt-6 grid grid-cols-2 gap-6">
-              {frontmatter.images.slice(1).map((img, idx) => (
-                <ImagePlaceholder
-                  key={img}
-                  aspect="5/4"
-                  label={`Detalle ${idx + 1}`}
-                />
-              ))}
-              {/* Si hay solo 1 imagen extra, completar con placeholder vacío */}
-              {frontmatter.images.length === 2 && (
-                <ImagePlaceholder aspect="5/4" label="Detalle 2" />
-              )}
-            </div>
+
+            {/* Detalles (perfil / angular / detalle) */}
+            {detailImgs.length > 0 && (
+              <div className="mt-8 grid grid-cols-3 gap-4 md:gap-6">
+                {detailImgs.map((img, idx) => (
+                  <ImagePlaceholder
+                    key={img}
+                    aspect="4/5"
+                    src={img}
+                    alt={`${frontmatter.name} — ${detailCaptions[idx] ?? "Detalle"}`}
+                    sizes="(min-width: 1024px) 19vw, 33vw"
+                    label={detailCaptions[idx] ?? `Detalle ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Variantes de tela */}
+            {variantImgs.length > 0 && (
+              <div className="mt-16">
+                <Kicker className="mb-6">En otras telas</Kicker>
+                <div className="grid grid-cols-2 gap-4 md:gap-6">
+                  {variantImgs.map((img, idx) => (
+                    <figure key={img}>
+                      <ImagePlaceholder
+                        aspect="4/5"
+                        src={img}
+                        alt={`${frontmatter.name} — ${variantCaptions[idx] ?? "Variante"}`}
+                        sizes="(min-width: 1024px) 29vw, 50vw"
+                        label={variantCaptions[idx] ?? `Variante ${idx + 1}`}
+                      />
+                      <figcaption className="mt-3 text-xs uppercase tracking-[0.2em] text-stone">
+                        {variantCaptions[idx] ?? `Variante ${idx + 1}`}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Ficha — sticky en desktop */}
@@ -193,18 +244,29 @@ export default async function ModeloPage({ params }: PageProps) {
           <div className="text-base md:text-lg leading-[1.75] text-cement">
             <MDXRemote source={body} components={mdxComponents} />
           </div>
+        </div>
+      </Section>
 
-          {/* Opciones extra (telas / configuraciones) */}
-          {(frontmatter.upholstery_options || frontmatter.config_options) && (
-            <div className="mt-16 space-y-12 border-t border-ink/10 pt-12">
-              {frontmatter.upholstery_options && (
+      {/* Customizable — config + telas en 2 columnas */}
+      {(frontmatter.upholstery_options || frontmatter.config_options) && (
+        <Section
+          tone="standard"
+          className="border-t border-ink/10"
+          ariaLabel="Customización"
+        >
+          <div className="mx-auto max-w-4xl">
+            <Kicker className="mb-10">Customizable</Kicker>
+            <div className="grid gap-12 md:grid-cols-2 md:gap-20">
+              {frontmatter.config_options && (
                 <div>
-                  <Kicker className="mb-5">Telas disponibles</Kicker>
-                  <ul className="flex flex-wrap gap-3">
-                    {frontmatter.upholstery_options.map((opt) => (
+                  <p className="text-xs uppercase tracking-[0.25em] text-stone mb-5">
+                    Configuración
+                  </p>
+                  <ul className="space-y-3">
+                    {frontmatter.config_options.map((opt) => (
                       <li
                         key={opt}
-                        className="border border-ink/15 px-3 py-2 text-sm text-cement"
+                        className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
                       >
                         {opt}
                       </li>
@@ -212,14 +274,16 @@ export default async function ModeloPage({ params }: PageProps) {
                   </ul>
                 </div>
               )}
-              {frontmatter.config_options && (
+              {frontmatter.upholstery_options && (
                 <div>
-                  <Kicker className="mb-5">Configuraciones</Kicker>
-                  <ul className="flex flex-wrap gap-3">
-                    {frontmatter.config_options.map((opt) => (
+                  <p className="text-xs uppercase tracking-[0.25em] text-stone mb-5">
+                    Telas disponibles
+                  </p>
+                  <ul className="space-y-3">
+                    {frontmatter.upholstery_options.map((opt) => (
                       <li
                         key={opt}
-                        className="border border-ink/15 px-3 py-2 text-sm text-cement"
+                        className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
                       >
                         {opt}
                       </li>
@@ -228,9 +292,9 @@ export default async function ModeloPage({ params }: PageProps) {
                 </div>
               )}
             </div>
-          )}
-        </div>
-      </Section>
+          </div>
+        </Section>
+      )}
     </article>
   );
 }

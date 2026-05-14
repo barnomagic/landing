@@ -85,13 +85,16 @@ export default function HomePage() {
                   <div className="overflow-hidden rounded-sm">
                     <ImagePlaceholder
                       aspect="4/5"
+                      src={m.frontmatter.hero_image}
+                      alt={`${m.frontmatter.name} — ${m.frontmatter.tagline}`}
+                      sizes="(min-width: 768px) 33vw, 100vw"
                       label={`Foto pendiente · ${m.frontmatter.name}`}
                       className="transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                     />
                   </div>
                   <div className="mt-6">
                     {m.frontmatter.category ? (
-                      <p className="text-xs uppercase tracking-[0.25em] text-stone mb-3">
+                      <p className="text-xs uppercase tracking-[0.25em] text-stone mb-1">
                         {m.frontmatter.category}
                       </p>
                     ) : null}

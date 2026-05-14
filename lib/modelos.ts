@@ -4,8 +4,6 @@ import matter from "gray-matter";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "modelos");
 
-export type ModeloTier = "base" | "adaptado" | "bespoke";
-
 export type ModeloCategory =
   | "Sofá"
   | "Sillón"
@@ -33,7 +31,6 @@ export interface ModeloFrontmatter {
   name: string;
   tagline: string;
   category?: ModeloCategory;
-  tier: ModeloTier;
   order: number;
   hero_image: string;
   images: string[];
