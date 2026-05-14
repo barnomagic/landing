@@ -223,9 +223,9 @@ Container central con `max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16 xl:px-24`. 
 
 **Hero (home) — v0.7 (2026-05-14):**
 - Kicker arriba ("Pausa studio · Buenos Aires"), H1 grande ("Tu pausa. A medida." — "A medida." en oxblood), subtítulo ("Sofás a medida, pensados para tu espacio."), CTAs side-by-side ("Empezá la conversación" oxblood sólido + "Ver catálogo →" outline).
-- **Stack vertical cinematográfico** (reemplaza el split 50/50 vertical 4:5 previo): bloque de texto editorial dentro del Container ocupando la parte superior, e **imagen landscape full-width** ocupando la parte inferior — escapa el padding del Container.
-- Aspect ratio de la imagen: `3:2` en mobile, `16:9` desde md. Referencia: Cassina archive, Vitra home, Apple product pages.
-- Imagen con `priority` para LCP, `sizes="100vw"`, `object-cover`.
+- **Split 50/50 con imagen landscape** (reemplaza el split 50/50 vertical 4:5 previo): bloque de texto editorial a la izquierda, imagen aspect `5/4` (slight landscape) a la derecha, alineados verticalmente al centro del bloque (`items-center`) para que queden a la misma altura visual.
+- Mobile (<lg): el grid colapsa a 1 columna, el orden queda texto arriba, imagen debajo.
+- Imagen con `priority` para LCP, `sizes="(min-width: 1024px) 42vw, 100vw"`, `object-cover`.
 
 **Catálogo:**
 - Grid responsivo (1/2/3 columnas según breakpoint).
