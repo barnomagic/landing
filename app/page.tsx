@@ -23,44 +23,65 @@ export default function HomePage() {
 
   return (
     <>
-      {/* HERO — imagen full-bleed cinematográfica con texto editorial overlay.
-          La imagen 16:9 (sofá en bottom, negative space al top) cubre todo el viewport horizontal;
-          el texto se acomoda en el cuadrante superior-izquierdo aprovechando el cyclorama. */}
+      {/* HERO — cinematic oxblood full-bleed.
+          Sofá bouclé crudo sobre cyclorama oxblood; el bg-oxblood de fondo cubre cualquier gap
+          que deje la imagen al hacer object-cover sobre viewports angostos/largos.
+          Tipografía off-white anclada al cuadrante inferior-izquierdo. */}
       <section
         aria-label="Inicio"
-        className="relative isolate w-full overflow-hidden"
+        className="relative w-full min-h-screen overflow-hidden bg-oxblood"
       >
-        <Image
-          src="/hero-home.png"
-          alt="Sofá Pausa — pieza editorial del catálogo Pausa"
-          fill
-          priority
-          sizes="100vw"
-          className="-z-10 object-cover object-bottom"
-        />
-        <Container className="flex min-h-[85vh] flex-col justify-start pt-32 pb-40 sm:pt-36 lg:min-h-[90vh] lg:pt-44 lg:pb-48">
-          <FadeIn className="max-w-2xl">
-            <Kicker className="mb-5">Pausa studio · Buenos Aires</Kicker>
-            <Heading level="h1" tone="hero">
-              Tu pausa.
-              <br />
-              <span className="text-oxblood">A medida.</span>
-            </Heading>
-            <Body tone="editorial" className="mt-10 max-w-xl">
-              Sofás a medida, pensados para tu espacio.
-            </Body>
-            <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
-              <CtaWhatsApp
-                message="Hola, quería empezar una conversación sobre un sillón a medida."
-                label="Empezá la conversación"
-                variant="oxblood"
-              />
-              <ButtonLink href="/catalogo" variant="outline">
-                Ver catálogo →
-              </ButtonLink>
-            </div>
-          </FadeIn>
-        </Container>
+        <div className="absolute inset-0">
+          <Image
+            src="/hero-home.png"
+            alt="Sofá Pausa en bouclé crudo natural"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          {/* Scrim diagonal — desde el cuadrante inferior-izquierdo
+              hacia el opuesto, para asegurar legibilidad sobre el sofá claro. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-linear-to-tr from-oxblood/70 via-oxblood/15 to-transparent"
+          />
+        </div>
+
+        <div className="relative z-10 flex min-h-screen flex-col justify-end pb-16 pt-32 lg:pb-24">
+          <Container>
+            <FadeIn className="max-w-xl">
+              <Kicker className="mb-5 !text-offwhite/70">
+                Pausa studio · Buenos Aires
+              </Kicker>
+              <Heading
+                level="h1"
+                tone="hero"
+                className="mb-6 !text-offwhite"
+              >
+                Tu pausa.
+                <br />
+                <span className="font-light italic">A medida.</span>
+              </Heading>
+              <Body
+                tone="editorial"
+                className="mb-10 max-w-md !text-offwhite/85"
+              >
+                Sofás a medida, pensados para tu espacio.
+              </Body>
+              <div className="flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
+                <CtaWhatsApp
+                  message="Hola, quería empezar una conversación sobre un sillón a medida."
+                  label="Empezá la conversación"
+                  variant="outline-cream"
+                />
+                <ButtonLink href="/catalogo" variant="ghost-cream">
+                  Ver catálogo →
+                </ButtonLink>
+              </div>
+            </FadeIn>
+          </Container>
+        </div>
       </section>
 
       {/* CATÁLOGO DESTACADO — header + grid 3 */}

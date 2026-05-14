@@ -4,7 +4,7 @@ import { ButtonLink } from "@/app/components/system/Buttons";
 interface CtaWhatsAppProps {
   message: string;
   label?: string;
-  variant?: "oxblood" | "outline";
+  variant?: "oxblood" | "outline" | "outline-cream" | "ghost-cream";
   className?: string;
 }
 

@@ -11,6 +11,11 @@ const base =
 const variants = {
   oxblood: "bg-oxblood text-offwhite hover:bg-ink",
   outline: "border border-ink text-ink hover:bg-ink hover:text-offwhite",
+  // Variantes para superficies oscuras (hero oxblood full-bleed).
+  "outline-cream":
+    "border border-offwhite text-offwhite hover:bg-offwhite hover:text-oxblood",
+  "ghost-cream":
+    "text-offwhite/85 hover:text-offwhite underline-offset-4 hover:underline",
 } as const;
 
 type Variant = keyof typeof variants;

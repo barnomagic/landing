@@ -221,12 +221,18 @@ Una pieza, un espacio. Espacio negativo abundante. Encuadre arquitectónico. Luz
 
 Container central con `max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16 xl:px-24`. Nada de texto pegado al borde.
 
-**Hero (home) — v0.7.2 (2026-05-14):**
-- Kicker arriba ("Pausa studio · Buenos Aires"), H1 grande ("Tu pausa. A medida." — "A medida." en oxblood), subtítulo ("Sofás a medida, pensados para tu espacio."), CTAs side-by-side ("Empezá la conversación" oxblood sólido + "Ver catálogo →" outline).
-- **Imagen full-bleed con texto overlay** (reemplaza el split previo): el render del Sofá Pausa cubre el viewport horizontal completo escapando los gutters del Container; el texto editorial se acomoda en el cuadrante superior-izquierdo aprovechando el negative space del cyclorama (el sofá vive en el bottom 40% de la imagen).
-- La imagen es 16:9 (2752×1536), `object-cover object-bottom` para anclar el sofá al fondo del section en cualquier proporción de viewport.
-- Section: `min-h-[85vh]` mobile/sm, `min-h-[90vh]` lg+. `pt-24 / pt-32` para dejar room al kicker; `pb-40 / pb-48` para que el sofá tenga aire abajo.
-- Imagen con `priority` para LCP, `sizes="100vw"`.
+**Hero (home) — v0.8 (2026-05-14, cinematic oxblood):**
+- Layout: full-bleed `min-h-screen` con fondo `bg-oxblood` (#5A1F1F). La imagen del Sofá Pausa en bouclé crudo natural va `object-cover object-center` sobre el cyclorama oxblood ya integrado en el render; el `bg-oxblood` del section cubre cualquier gap que deje la imagen en viewports con proporciones extremas.
+- Scrim diagonal `bg-linear-to-tr from-oxblood/70 via-oxblood/15 to-transparent` sobre la imagen — densifica el cuadrante inferior-izquierdo (donde aterriza el texto) sin oscurecer el sofá.
+- Tipografía off-white anclada al cuadrante **inferior-izquierdo** (`flex-col justify-end`):
+  - Kicker `!text-offwhite/70`.
+  - H1 `!text-offwhite` con "Tu pausa." en weight regular + "A medida." en `font-light italic` (diferenciación sin perder contraste; el oxblood no se puede usar como acento porque sería invisible sobre el fondo).
+  - Body editorial `!text-offwhite/85`.
+- CTAs: variantes nuevas para superficies oscuras —
+  - **outline-cream** (`border-offwhite text-offwhite hover:bg-offwhite hover:text-oxblood`) para el CTA primario.
+  - **ghost-cream** (`text-offwhite/85 hover:text-offwhite hover:underline`) para el secundario.
+- Corte directo del hero a la siguiente sección (Catálogo destacado, fondo off-white): el cambio oxblood → off-white es parte del impacto editorial. Sin scrim ni fade de transición.
+- Mobile: misma estructura colapsada — pb-16 sm:pb-24, padding lateral del Container preservado, CTAs stackean.
 
 **Catálogo:**
 - Grid responsivo (1/2/3 columnas según breakpoint).
