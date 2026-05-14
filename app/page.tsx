@@ -38,17 +38,17 @@ export default function HomePage() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-[75%_center] lg:object-[80%_center]"
           />
-          {/* Scrim diagonal — desde el cuadrante inferior-izquierdo
-              hacia el opuesto, para asegurar legibilidad sobre el sofá claro. */}
+          {/* Scrim horizontal — denso a la izquierda (donde aterriza el texto),
+              transparent a la derecha (donde respira el sofá). */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-linear-to-tr from-oxblood/70 via-oxblood/15 to-transparent"
+            className="absolute inset-0 bg-linear-to-r from-oxblood/85 via-oxblood/30 to-transparent"
           />
         </div>
 
-        <div className="relative z-10 flex min-h-screen flex-col justify-end pb-16 pt-32 lg:pb-24">
+        <div className="relative z-10 flex min-h-screen flex-col justify-center pb-16 pt-32">
           <Container>
             <FadeIn className="max-w-xl">
               <Kicker className="mb-5 !text-offwhite/70">
