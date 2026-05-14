@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAllModelos, formatPriceArs } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
 import { Section } from "@/app/components/system/Section";
+import { Container } from "@/app/components/system/Container";
 import {
   Kicker,
   Heading,
@@ -15,7 +16,6 @@ import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 import {
   FadeIn,
   FadeInOnView,
-  ImageReveal,
 } from "@/app/components/system/Motion";
 
 export default function HomePage() {
@@ -23,11 +23,23 @@ export default function HomePage() {
 
   return (
     <>
-      {/* HERO — side-by-side editorial: texto izquierda + imagen landscape derecha, a la misma altura.
-          La imagen es 5/4 (slight landscape) para preservar el carácter horizontal del render. */}
-      <Section tone="hero" ariaLabel="Inicio">
-        <div className="grid w-full items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <FadeIn className="flex flex-col">
+      {/* HERO — imagen full-bleed cinematográfica con texto editorial overlay.
+          La imagen 16:9 (sofá en bottom, negative space al top) cubre todo el viewport horizontal;
+          el texto se acomoda en el cuadrante superior-izquierdo aprovechando el cyclorama. */}
+      <section
+        aria-label="Inicio"
+        className="relative isolate w-full overflow-hidden"
+      >
+        <Image
+          src="/hero-home.png"
+          alt="Sofá Pausa — pieza editorial del catálogo Pausa"
+          fill
+          priority
+          sizes="100vw"
+          className="-z-10 object-cover object-bottom"
+        />
+        <Container className="flex min-h-[85vh] flex-col justify-start pt-24 pb-40 sm:pt-28 lg:min-h-[90vh] lg:pt-32 lg:pb-48">
+          <FadeIn className="max-w-2xl">
             <Kicker className="mb-5">Pausa studio · Buenos Aires</Kicker>
             <Heading level="h1" tone="hero">
               Tu pausa.
@@ -48,19 +60,8 @@ export default function HomePage() {
               </ButtonLink>
             </div>
           </FadeIn>
-
-          <ImageReveal className="relative aspect-[5/4] w-full overflow-hidden rounded-sm">
-            <Image
-              src="/hero-home.png"
-              alt="Sofá Pausa — pieza editorial del catálogo Pausa"
-              fill
-              priority
-              sizes="(min-width: 1024px) 42vw, 100vw"
-              className="object-cover"
-            />
-          </ImageReveal>
-        </div>
-      </Section>
+        </Container>
+      </section>
 
       {/* CATÁLOGO DESTACADO — header + grid 3 */}
       <Section tone="standard" ariaLabel="Catálogo destacado">

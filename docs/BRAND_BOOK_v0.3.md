@@ -221,11 +221,12 @@ Una pieza, un espacio. Espacio negativo abundante. Encuadre arquitectónico. Luz
 
 Container central con `max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16 xl:px-24`. Nada de texto pegado al borde.
 
-**Hero (home) — v0.7 (2026-05-14):**
+**Hero (home) — v0.7.2 (2026-05-14):**
 - Kicker arriba ("Pausa studio · Buenos Aires"), H1 grande ("Tu pausa. A medida." — "A medida." en oxblood), subtítulo ("Sofás a medida, pensados para tu espacio."), CTAs side-by-side ("Empezá la conversación" oxblood sólido + "Ver catálogo →" outline).
-- **Split 50/50 con imagen landscape** (reemplaza el split 50/50 vertical 4:5 previo): bloque de texto editorial a la izquierda, imagen aspect `5/4` (slight landscape) a la derecha, alineados verticalmente al centro del bloque (`items-center`) para que queden a la misma altura visual.
-- Mobile (<lg): el grid colapsa a 1 columna, el orden queda texto arriba, imagen debajo.
-- Imagen con `priority` para LCP, `sizes="(min-width: 1024px) 42vw, 100vw"`, `object-cover`.
+- **Imagen full-bleed con texto overlay** (reemplaza el split previo): el render del Sofá Pausa cubre el viewport horizontal completo escapando los gutters del Container; el texto editorial se acomoda en el cuadrante superior-izquierdo aprovechando el negative space del cyclorama (el sofá vive en el bottom 40% de la imagen).
+- La imagen es 16:9 (2752×1536), `object-cover object-bottom` para anclar el sofá al fondo del section en cualquier proporción de viewport.
+- Section: `min-h-[85vh]` mobile/sm, `min-h-[90vh]` lg+. `pt-24 / pt-32` para dejar room al kicker; `pb-40 / pb-48` para que el sofá tenga aire abajo.
+- Imagen con `priority` para LCP, `sizes="100vw"`.
 
 **Catálogo:**
 - Grid responsivo (1/2/3 columnas según breakpoint).
