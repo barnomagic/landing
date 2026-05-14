@@ -50,8 +50,11 @@ export default function HomePage() {
           <ImageReveal className="lg:col-span-5">
             <ImagePlaceholder
               aspect="4/5"
-              variant="subtle"
-              label="Foto pendiente · Hero"
+              src="/home-hero.png"
+              alt="Sofá Pausa — pieza editorial del catálogo"
+              priority
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              label="Sofá Pausa — hero"
             />
           </ImageReveal>
         </div>
