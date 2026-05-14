@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Section } from "@/app/components/system/Section";
 import {
   Kicker,
@@ -7,7 +8,6 @@ import {
 } from "@/app/components/system/Typography";
 import { ButtonLink } from "@/app/components/system/Buttons";
 import { StepCard } from "@/app/components/system/Card";
-import { ImagePlaceholder } from "@/app/components/ImagePlaceholder";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 import {
   FadeIn,
@@ -30,11 +30,15 @@ export default function NosotrosPage() {
       <Section tone="hero" ariaLabel="Pausa studio">
         <div className="grid w-full gap-12 lg:grid-cols-12 lg:gap-16">
           <ImageReveal className="order-2 lg:order-1 lg:col-span-5">
-            <ImagePlaceholder
-              aspect="4/5"
-              variant="subtle"
-              label="Foto pendiente · Estudio"
-            />
+            <div className="relative aspect-square w-full overflow-hidden rounded-sm">
+              <Image
+                src="/nosotros-estudio.jpg"
+                alt="Pausa studio — un momento de lectura sobre el sofá en bouclé crudo"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           </ImageReveal>
           <FadeIn className="order-1 flex flex-col lg:order-2 lg:col-span-7">
             <Kicker className="mb-5">Pausa studio</Kicker>
