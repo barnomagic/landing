@@ -38,7 +38,7 @@ export default function HomePage() {
           sizes="100vw"
           className="-z-10 object-cover object-bottom"
         />
-        <Container className="flex min-h-[85vh] flex-col justify-start pt-24 pb-40 sm:pt-28 lg:min-h-[90vh] lg:pt-32 lg:pb-48">
+        <Container className="flex min-h-[85vh] flex-col justify-start pt-32 pb-40 sm:pt-36 lg:min-h-[90vh] lg:pt-44 lg:pb-48">
           <FadeIn className="max-w-2xl">
             <Kicker className="mb-5">Pausa studio · Buenos Aires</Kicker>
             <Heading level="h1" tone="hero">

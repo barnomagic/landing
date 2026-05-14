@@ -10,8 +10,13 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
           {/* Wordmark + bajada */}
           <div className="lg:col-span-4">
-            <p className="font-display text-2xl lowercase text-ink">
-              pausa <span className="text-base text-stone">studio</span>
+            <p className="flex items-baseline gap-1.5 font-display text-2xl lowercase text-ink">
+              <span>pausa</span>
+              <span className="text-base text-stone">studio</span>
+              <span
+                aria-hidden
+                className="h-2 w-2 self-center rounded-full bg-oxblood"
+              />
             </p>
             <p className="mt-5 max-w-xs text-sm leading-[1.7] text-cement">
               Sofás y sillones a medida. Diseñados y fabricados en Buenos Aires.

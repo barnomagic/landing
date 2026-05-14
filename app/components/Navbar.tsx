@@ -27,7 +27,10 @@ export function Navbar() {
             <span className="text-[0.7rem] uppercase tracking-[0.18em] text-stone">
               studio
             </span>
-            <span className="ml-1 h-1.5 w-1.5 rounded-full bg-oxblood" aria-hidden />
+            <span
+              aria-hidden
+              className="ml-1.5 h-2 w-2 self-center rounded-full bg-oxblood"
+            />
           </Link>
           <ul className="hidden gap-10 sm:flex">
             {links.map((link) => (
