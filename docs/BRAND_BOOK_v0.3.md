@@ -221,9 +221,11 @@ Una pieza, un espacio. Espacio negativo abundante. Encuadre arquitectónico. Luz
 
 Container central con `max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16 xl:px-24`. Nada de texto pegado al borde.
 
-**Hero (home):**
+**Hero (home) — v0.7 (2026-05-14):**
 - Kicker arriba ("Pausa studio · Buenos Aires"), H1 grande ("Tu pausa. A medida." — "A medida." en oxblood), subtítulo ("Sofás a medida, pensados para tu espacio."), CTAs side-by-side ("Empezá la conversación" oxblood sólido + "Ver catálogo →" outline).
-- Split 50/50: texto izq, imagen vertical 4:5 der. Imagen alineada `items-start` con padding-top generoso para que el contenido sea visible arriba del fold.
+- **Stack vertical cinematográfico** (reemplaza el split 50/50 vertical 4:5 previo): bloque de texto editorial dentro del Container ocupando la parte superior, e **imagen landscape full-width** ocupando la parte inferior — escapa el padding del Container.
+- Aspect ratio de la imagen: `3:2` en mobile, `16:9` desde md. Referencia: Cassina archive, Vitra home, Apple product pages.
+- Imagen con `priority` para LCP, `sizes="100vw"`, `object-cover`.
 
 **Catálogo:**
 - Grid responsivo (1/2/3 columnas según breakpoint).

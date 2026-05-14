@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getAllModelos, formatPriceArs } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
 import { Section } from "@/app/components/system/Section";
+import { Container } from "@/app/components/system/Container";
 import {
   Kicker,
   Heading,
@@ -22,17 +24,18 @@ export default function HomePage() {
 
   return (
     <>
-      {/* HERO — grid asimétrico 7/5, imagen dominante */}
-      <Section tone="hero" ariaLabel="Inicio">
-        <div className="grid w-full gap-12 lg:grid-cols-12 lg:gap-16">
-          <FadeIn className="flex flex-col lg:col-span-7">
+      {/* HERO — stack vertical: texto editorial arriba + imagen landscape 16:9 full-width abajo.
+          Sale del <Section> helper porque la imagen debe escapar el padding lateral del Container. */}
+      <section aria-label="Inicio" className="pt-12 sm:pt-16 lg:pt-20">
+        <Container>
+          <FadeIn className="max-w-3xl pb-14 lg:pb-20">
             <Kicker className="mb-5">Pausa studio · Buenos Aires</Kicker>
             <Heading level="h1" tone="hero">
               Tu pausa.
               <br />
               <span className="text-oxblood">A medida.</span>
             </Heading>
-            <Body tone="editorial" className="mt-10 max-w-md">
+            <Body tone="editorial" className="mt-10 max-w-xl">
               Sofás a medida, pensados para tu espacio.
             </Body>
             <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
@@ -46,19 +49,21 @@ export default function HomePage() {
               </ButtonLink>
             </div>
           </FadeIn>
+        </Container>
 
-          <ImageReveal className="lg:col-span-5">
-            <ImagePlaceholder
-              aspect="4/5"
-              src="/home-hero.png"
-              alt="Sofá Pausa — pieza editorial del catálogo"
-              priority
-              sizes="(min-width: 1024px) 42vw, 100vw"
-              label="Sofá Pausa — hero"
-            />
-          </ImageReveal>
-        </div>
-      </Section>
+        {/* Imagen full-width — sale del Container para ocupar viewport horizontal completo.
+            aspect-[3/2] en mobile (no queda como banda fina), aspect-[16/9] desde md. */}
+        <ImageReveal className="relative aspect-[3/2] w-full overflow-hidden md:aspect-[16/9]">
+          <Image
+            src="/hero-home.png"
+            alt="Sofá Pausa — pieza editorial del catálogo Pausa"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </ImageReveal>
+      </section>
 
       {/* CATÁLOGO DESTACADO — header + grid 3 */}
       <Section tone="standard" ariaLabel="Catálogo destacado">
