@@ -79,14 +79,11 @@ const mdxComponents = {
 interface FichaItemProps {
   label: string;
   value: string;
-  last?: boolean;
 }
 
-function FichaItem({ label, value, last = false }: FichaItemProps) {
+function FichaItem({ label, value }: FichaItemProps) {
   return (
-    <div
-      className={`grid grid-cols-[max-content_1fr] items-baseline gap-x-6 py-4 ${last ? "" : "border-b border-ink/10"}`}
-    >
+    <div className="grid grid-cols-[max-content_1fr] items-baseline gap-x-6 border-b border-ink/10 py-4">
       <dt className="text-xs uppercase tracking-[0.2em] text-stone">{label}</dt>
       <dd className="font-display text-lg text-ink">{value}</dd>
     </div>
@@ -191,7 +188,7 @@ export default async function ModeloPage({ params }: PageProps) {
                 {frontmatter.tagline}
               </p>
 
-              <dl className="mt-12 border-t border-ink/10">
+              <dl className="mt-12 border-t border-ink/10 [&>div:last-child]:border-b-0">
                 <FichaItem
                   label="Dimensiones"
                   value={`${dim.width_cm} × ${dim.depth_cm} × ${dim.height_cm} cm`}
@@ -209,20 +206,20 @@ export default async function ModeloPage({ params }: PageProps) {
                 <FichaItem
                   label="Estructura"
                   value={frontmatter.materials.structure}
-                  last={!showDelivery && !showPrices}
                 />
+                {frontmatter.includes && (
+                  <FichaItem label="Incluye" value={frontmatter.includes} />
+                )}
                 {showDelivery && (
                   <FichaItem
                     label="Plazo"
                     value={`${frontmatter.delivery_days} días`}
-                    last={!showPrices}
                   />
                 )}
                 {showPrices && (
                   <FichaItem
                     label="Desde"
                     value={formatPriceArs(frontmatter.price_from_ars)}
-                    last
                   />
                 )}
               </dl>
@@ -255,8 +252,10 @@ export default async function ModeloPage({ params }: PageProps) {
         </div>
       </Section>
 
-      {/* Customizable — config + telas en 2 columnas */}
-      {(frontmatter.upholstery_options || frontmatter.config_options) && (
+      {/* Customizable — config + telas + accesorios */}
+      {(frontmatter.upholstery_options ||
+        frontmatter.config_options ||
+        frontmatter.accessory_options) && (
         <Section
           tone="standard"
           className="border-t border-ink/10"
@@ -289,6 +288,23 @@ export default async function ModeloPage({ params }: PageProps) {
                   </p>
                   <ul className="space-y-3">
                     {frontmatter.upholstery_options.map((opt) => (
+                      <li
+                        key={opt}
+                        className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
+                      >
+                        {opt}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {frontmatter.accessory_options && (
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-stone mb-5">
+                    Accesorios
+                  </p>
+                  <ul className="space-y-3">
+                    {frontmatter.accessory_options.map((opt) => (
                       <li
                         key={opt}
                         className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"

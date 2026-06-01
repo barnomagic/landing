@@ -38,8 +38,10 @@ export interface ModeloFrontmatter {
   materials: ModeloMaterials;
   price_from_ars: number;
   delivery_days: string;
+  includes?: string;
   config_options?: string[];
   upholstery_options?: string[];
+  accessory_options?: string[];
   leg_options?: string[];
 }
 
