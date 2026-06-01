@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllModelos, formatPriceArs } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
+import { showPrices } from "@/lib/flags";
+import { ServiciosSection } from "@/app/components/ServiciosSection";
 import { Section } from "@/app/components/system/Section";
 import { Container } from "@/app/components/system/Container";
 import {
@@ -71,7 +73,7 @@ export default function HomePage() {
               </Body>
               <div className="flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
                 <CtaWhatsApp
-                  message="Hola, quería empezar una conversación sobre un sillón a medida."
+                  message="Hola, quería empezar una conversación sobre un sofá a medida."
                   label="Empezá la conversación"
                   variant="outline-cream"
                 />
@@ -136,7 +138,9 @@ export default function HomePage() {
                       {m.frontmatter.tagline}
                     </p>
                     <p className="mt-5 text-xs uppercase tracking-[0.2em] text-stone">
-                      Desde {formatPriceArs(m.frontmatter.price_from_ars)}
+                      {showPrices
+                        ? `Desde ${formatPriceArs(m.frontmatter.price_from_ars)}`
+                        : "A medida del espacio"}
                     </p>
                   </div>
                 </CardLink>
@@ -145,6 +149,9 @@ export default function HomePage() {
           ))}
         </ul>
       </Section>
+
+      {/* SERVICIOS — sofás (héroe) + retapizado + proyectos especiales */}
+      <ServiciosSection />
 
       {/* POR QUÉ PAUSA — pulmón, manifest closer */}
       <Section tone="pulmon" ariaLabel="Por qué Pausa">

@@ -8,6 +8,7 @@ import {
   formatPriceArs,
 } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
+import { showPrices, showDelivery } from "@/lib/flags";
 import { Section } from "@/app/components/system/Section";
 import {
   Kicker,
@@ -208,16 +209,22 @@ export default async function ModeloPage({ params }: PageProps) {
                 <FichaItem
                   label="Estructura"
                   value={frontmatter.materials.structure}
+                  last={!showDelivery && !showPrices}
                 />
-                <FichaItem
-                  label="Plazo"
-                  value={`${frontmatter.delivery_days} días`}
-                />
-                <FichaItem
-                  label="Desde"
-                  value={formatPriceArs(frontmatter.price_from_ars)}
-                  last
-                />
+                {showDelivery && (
+                  <FichaItem
+                    label="Plazo"
+                    value={`${frontmatter.delivery_days} días`}
+                    last={!showPrices}
+                  />
+                )}
+                {showPrices && (
+                  <FichaItem
+                    label="Desde"
+                    value={formatPriceArs(frontmatter.price_from_ars)}
+                    last
+                  />
+                )}
               </dl>
 
               <div className="mt-12">
@@ -228,8 +235,9 @@ export default async function ModeloPage({ params }: PageProps) {
                   className="w-full"
                 />
                 <p className="mt-4 text-xs text-stone">
-                  Precio base sin personalizaciones. Cotización fina en la
-                  conversación.
+                  {showPrices
+                    ? "Precio base sin personalizaciones. Cotización fina en la conversación."
+                    : "El precio depende de las medidas de tu espacio y la configuración. Porque cada sofá se diseña para vos. Hablemos."}
                 </p>
               </div>
             </div>

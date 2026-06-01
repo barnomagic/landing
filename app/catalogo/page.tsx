@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getAllModelos, formatPriceArs } from "@/lib/modelos";
+import { showPrices } from "@/lib/flags";
 import { Section } from "@/app/components/system/Section";
 import {
   Kicker,
@@ -79,7 +80,9 @@ export default function CatalogoPage() {
                       {m.frontmatter.dimensions.height_cm} cm
                     </p>
                     <p className="mt-4 text-xs uppercase tracking-[0.2em] text-stone">
-                      Desde {formatPriceArs(m.frontmatter.price_from_ars)}
+                      {showPrices
+                        ? `Desde ${formatPriceArs(m.frontmatter.price_from_ars)}`
+                        : "A medida del espacio"}
                     </p>
                   </div>
                 </CardLink>

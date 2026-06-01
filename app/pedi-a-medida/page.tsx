@@ -8,6 +8,7 @@ import {
 import { ButtonLink } from "@/app/components/system/Buttons";
 import { TierCard } from "@/app/components/system/Card";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
+import { ServiciosSection } from "@/app/components/ServiciosSection";
 import { FadeInOnView } from "@/app/components/system/Motion";
 
 export const metadata: Metadata = {
@@ -69,6 +70,9 @@ export default function PediAMedidaPage() {
           ))}
         </ul>
       </Section>
+
+      {/* Servicios adicionales — retapizado + proyectos especiales */}
+      <ServiciosSection includeIntro={false} />
 
       {/* CTA cierre */}
       <Section tone="cta" className="border-t border-ink/10" ariaLabel="Empezar conversación">
