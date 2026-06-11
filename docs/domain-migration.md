@@ -1,0 +1,148 @@
+# Migración de dominio — pausastudio.rest → pausastudio.com.ar
+
+**Decidido 2026-05-23.** Estrategia: montar `.com.ar` en paralelo, redirect 301 del `.rest` durante su año restante, abandono del `.rest` al vencer (no se renueva).
+
+> **Plan maestro único** — cubre **landing** Y **backoffice** (auditado 2026-06-10).
+> El backoffice se migra en la FASE BO (abajo).
+
+## Contexto del setup actual
+
+- **Web (landing):** Next.js en Vercel, dominio `pausastudio.rest`. El código lee `NEXT_PUBLIC_SITE_URL` (env var) con fallback hardcoded.
+- **Backoffice:** Next.js en Vercel (proyecto `backoffice`), dominio `backoffice.pausastudio.rest`. Auth con **Clerk** (instancia de producción atada al dominio) + Google OAuth con credenciales propias (GCP `Pausa Studio Backoffice`). **Sin dominios hardcodeados en código** — la migración es 100% configuración externa (Vercel + Clerk + GCP).
+- **Mail bandeja:** Google Workspace con dominio propio `pausastudio.rest` (buzón `hola@`).
+- **Mail transaccional:** Resend manda los mails del form de contacto como `hola@pausastudio.rest`.
+- **Registrar nuevo:** NIC.ar (requiere CUIT — Ivan lo tiene).
+
+## Inventario DNS actual (`.rest` en Porkbun) → qué va en `.com.ar`
+
+Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto** — todos mapean a servicios activos. Los valores de Clerk y Resend NO se copian: cada servicio genera registros nuevos al agregar el dominio `.com.ar` en su dashboard.
+
+| Registro en `.rest` | Servicio | En `.com.ar` |
+|---|---|---|
+| A `@` → `216.198.79.1` | Vercel (landing apex) | Recrear — Vercel da el valor al agregar el dominio (B3) |
+| CNAME `www` | Vercel (landing) | Recrear → `cname.vercel-dns.com` (B3) |
+| CNAME `backoffice` | Vercel (backoffice) | Recrear — Vercel da el valor (BO1) |
+| CNAME `clerk.backoffice` | Clerk Frontend API | Recrear — **valor nuevo de Clerk** (BO2) |
+| CNAME `accounts.backoffice` | Clerk Account Portal | Recrear — valor nuevo de Clerk (BO2) |
+| CNAME `clk._domainkey.backoffice` | Clerk DKIM 1 | Recrear — valor nuevo de Clerk (BO2) |
+| CNAME `clk2._domainkey.backoffice` | Clerk DKIM 2 | Recrear — valor nuevo de Clerk (BO2) |
+| CNAME `clkmail.backoffice` | Clerk mail | Recrear — valor nuevo de Clerk (BO2) |
+| TXT `_dmarc.backoffice` | DMARC mails de Clerk | Recrear (BO2) |
+| MX `@` | Google Workspace (`hola@`) | Recrear → `smtp.google.com` (B4) |
+| TXT `@` | Verificación Google + SPF | Recrear — TXT de verificación nuevo + `v=spf1 include:_spf.google.com ~all` (B4) |
+| TXT `_dmarc` | DMARC raíz | Recrear — mismo valor sirve (B4) |
+| MX `send` | Resend (bounces) | Recrear — valor que da Resend (B6) |
+| TXT `send` | Resend SPF | Recrear — valor de Resend (B6) |
+| TXT `resend._domainkey` | Resend DKIM | Recrear — **clave DKIM nueva**, no copiar la vieja (B6) |
+
+## Regla de oro
+
+**No dejar expirar el `.rest` hasta que el `.com.ar` esté 100% funcionando + redirect armado.** Todo el plan se basa en solapar ambos dominios durante la transición. El `.rest` ya está pago por ~1 año, hay tiempo de sobra.
+
+---
+
+## FASE A — Adquisición
+
+- [ ] **A1.** Registrar `pausastudio.com.ar` en [nic.ar](https://nic.ar) con CUIT/CUIL. Costo bajo (registro `.com.ar` es económico). Titular: definir si va a nombre personal o de la sociedad (decisión legal de Ivan).
+- [ ] **A2.** Esperar a que el registro propague (minutos a horas).
+
+## FASE B — Configurar `.com.ar` en paralelo (ambos dominios vivos)
+
+### DNS
+- [ ] **B1.** Decidir dónde se gestiona el DNS del `.com.ar`: nameservers de NIC.ar, o delegar a Vercel/Cloudflare (recomendado Cloudflare por panel más cómodo). Si delegás, cambiar los nameservers en NIC.ar.
+- [ ] **B2.** Registros DNS del `.com.ar`:
+  - **Web:** `A` o `CNAME` apuntando a Vercel (Vercel te da el target exacto al agregar el dominio en B3).
+  - **Mail (Google):** registros `MX` apuntando a Google Workspace (`smtp.google.com` / los MX que indica Google).
+  - **Verificación Google:** registro `TXT` de verificación de dominio (lo da Google en B4).
+  - **Verificación Resend:** registros `TXT`/`CNAME` de SPF + DKIM + DMARC (los da Resend en B5).
+
+### Vercel
+- [ ] **B3.** Vercel → proyecto landing → Settings → Domains → Add `pausastudio.com.ar`. NO quitar el `.rest`. Vercel indica el registro DNS a crear (paso B2 web).
+
+### Google Workspace
+- [ ] **B4.** Admin Console → Account → Domains → Manage domains → **Add a domain** → `pausastudio.com.ar` como **dominio secundario** (todavía no primario). Verificar con el TXT (B2). Configurar los MX (B2).
+- [ ] **B5.** Crear/aliasear `hola@pausastudio.com.ar` en el mismo buzón que `hola@pausastudio.rest`. Así el buzón recibe en ambas direcciones durante la transición.
+
+### Resend
+- [ ] **B6.** Resend dashboard → Domains → Add Domain → `pausastudio.com.ar`. Crear los registros DKIM/SPF que indica (B2). Verificar.
+
+## FASE C — Verificación (todo `.com.ar` funciona, `.rest` sigue vivo)
+
+- [ ] **C1.** `https://pausastudio.com.ar` carga el sitio (mismo contenido que el `.rest`).
+- [ ] **C2.** Mandar un mail de prueba a `hola@pausastudio.com.ar` → confirmar que llega al buzón de Google.
+- [ ] **C3.** Enviar el form de contacto del sitio en preview → confirmar que Resend lo entrega desde `@pausastudio.com.ar` (cuando se cambie el FROM en D3).
+
+## FASE D — Switch (cambiar el default a `.com.ar`)
+
+> A partir de acá el `.com.ar` pasa a ser el dominio principal. El `.rest` sigue activo para el redirect.
+
+- [ ] **D1.** Vercel → Environment Variables → `NEXT_PUBLIC_SITE_URL=https://pausastudio.com.ar`. Redeploy.
+- [ ] **D2.** Merge de la branch `feat/domain-migration` con los cambios de código (fallbacks + mailto). Ver "Cambios de código" abajo.
+- [ ] **D3.** Resend / env vars: `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.com.ar>` + `CONTACT_EMAIL_TO=hola@pausastudio.com.ar`.
+- [ ] **D4.** Google Workspace → cambiar **dominio primario** a `pausastudio.com.ar`. Google renombra las direcciones de usuario automáticamente y deja el `.rest` como alias (los mails a `@pausastudio.rest` siguen llegando). _Nota: hay restricciones de frecuencia para cambiar primario; si la cuenta es muy nueva, esperar los días que pida Google._
+
+## FASE BO — Backoffice (Vercel + Clerk + Google OAuth)
+
+> Requiere FASE A completa (dominio registrado y DNS del `.com.ar` operativo). Independiente de las fases C/D de la landing — se puede hacer en paralelo. **El paso BO2 es un switch sin solapamiento** (Clerk no soporta dos dominios a la vez en la misma instancia de producción): hacerlo en un momento de bajo uso. Es herramienta interna, el impacto es acotado.
+
+- [ ] **BO1.** Vercel → proyecto `backoffice` → Settings → Domains → Add `backoffice.pausastudio.com.ar`. NO quitar el `.rest` todavía. Crear el CNAME que indica Vercel en el DNS del `.com.ar`.
+- [ ] **BO2.** Clerk Dashboard → instancia de producción → Domains → cambiar el dominio a `backoffice.pausastudio.com.ar`. Clerk genera 5 CNAMEs nuevos (`clerk.backoffice`, `accounts.backoffice`, `clk._domainkey.backoffice`, `clk2._domainkey.backoffice`, `clkmail.backoffice`) — cargarlos en el DNS del `.com.ar` + TXT `_dmarc.backoffice`. Esperar a que Clerk verifique todos.
+- [ ] **BO3.** ⚠️ Al cambiar el dominio, **cambia la `pk_live_*`** (la publishable key codifica el dominio). Vercel → proyecto `backoffice` → Environment Variables → actualizar `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (Production) con la nueva key del dashboard de Clerk. La `sk_live_*` en principio no cambia — verificarlo en el dashboard igual. Redeploy.
+- [ ] **BO4.** Google Cloud Console → proyecto `Pausa Studio Backoffice` → OAuth client → **agregar** (no reemplazar) Authorized Redirect URI `https://clerk.backoffice.pausastudio.com.ar/v1/oauth_callback` y Authorized JS Origin `https://backoffice.pausastudio.com.ar`. Los valores `.rest` se borran recién en F5.
+- [ ] **BO5.** Verificar: `https://backoffice.pausastudio.com.ar` carga + login con Google funciona end-to-end.
+- [ ] **BO6.** Quitar `backoffice.pausastudio.rest` del proyecto Vercel (o dejarlo con redirect al `.com.ar` hasta que expire el `.rest`).
+- [ ] **BO7.** Actualizar `docs/configuraciones.md` en el repo backoffice (dominios, Clerk domain, OAuth URIs — y de paso quitar la sección Supabase, ya migrado a Neon).
+
+## FASE E — Redirect + propagación
+
+- [ ] **E1.** Configurar **redirect 301** `pausastudio.rest` → `pausastudio.com.ar`. En Vercel: mantener el `.rest` como dominio del proyecto con redirect a `.com.ar` (Vercel tiene opción "Redirect to" al configurar el dominio).
+- [ ] **E2.** Google Search Console: agregar propiedad `pausastudio.com.ar` + usar "Change of address" desde el `.rest` para preservar SEO.
+- [ ] **E3.** Actualizar link en bio del Instagram nuevo → `pausastudio.com.ar`.
+- [ ] **E4.** Actualizar firmas de mail, `BRIEF_TALLERES_v1.docx`, brand book PDF, cualquier material con el dominio viejo.
+
+## FASE F — Largo plazo (~11 meses, antes del vencimiento del `.rest`)
+
+- [ ] **F1.** Confirmar que el redirect ya no recibe tráfico relevante (Search Console / analytics).
+- [ ] **F2.** Dejar expirar el `.rest` (no renovar).
+- [ ] **F3.** Google Workspace: remover el dominio `.rest` secundario (solo después de confirmar que nadie escribe a `@pausastudio.rest`).
+- [ ] **F4.** Resend: remover el dominio `.rest`.
+- [ ] **F5.** Google Cloud Console → OAuth client: borrar el Redirect URI y JS Origin del `.rest` (agregados en paralelo en BO4).
+- [ ] **F6.** Porkbun: al expirar el `.rest` los registros mueren solos — no hace falta limpiar nada a mano.
+
+---
+
+## Cambios de código (repo landing)
+
+Estos van en una branch `feat/domain-migration` y se mergean en **D2** (no antes — si se deployan antes de que el dominio exista, los mailto apuntarían a un mail que aún no recibe).
+
+| Archivo | Línea | Cambio |
+|---|---|---|
+| `app/layout.tsx` | 24 | fallback `https://pausastudio.rest` → `https://pausastudio.com.ar` |
+| `app/sitemap.ts` | 5 | fallback → `.com.ar` |
+| `app/robots.ts` | 4 | fallback → `.com.ar` |
+| `app/components/Footer.tsx` | 43, 46 | `mailto:hola@pausastudio.rest` + texto → `.com.ar` |
+| `app/contacto/page.tsx` | 68, 71 | `mailto:hola@pausastudio.rest` + texto → `.com.ar` |
+| `.env.local.example` | 17, 20, 34 | `CONTACT_EMAIL_TO/FROM` + `NEXT_PUBLIC_SITE_URL` → `.com.ar` |
+| `README.md` | varias | menciones del dominio (doc) |
+| `CLAUDE.md` | 128 | mención del dominio (doc) |
+
+**Nota:** el código real lee de `NEXT_PUBLIC_SITE_URL`. En producción la env var manda; los fallbacks hardcoded solo aplican en local sin `.env`. Por eso el cambio crítico es la env var de Vercel (D1), no el código. Igual se actualizan los fallbacks por consistencia.
+
+### Repo backoffice — sin cambios de código
+
+Auditado 2026-06-10: **cero dominios hardcodeados** en el código del backoffice. El dominio solo aparece en `docs/configuraciones.md` (se actualiza en BO7). Toda la migración del backoffice es configuración externa: Vercel + Clerk + GCP (FASE BO).
+
+---
+
+## Lo que NO se rompe / NO se toca
+
+- **Repo `pausa-agents`** (sistema de agentes): el dominio no está hardcodeado. Cero impacto. Los `#pausastudio` (hashtags) y `"pausastudio"` (wordmark de footers) son independientes del dominio.
+- **Mails históricos** en Google Workspace: no se pierden — viven en el buzón, independiente del dominio.
+- **Cuenta de Instagram nueva**: se configura aparte (no depende de este dominio, pero el link en bio sí se actualiza en E3).
+
+---
+
+## Histórico
+
+- **2026-05-23** — Plan creado. Estrategia redirect + abandono planificado del `.rest`. Setup: Google Workspace (mail), Vercel (web), Resend (transaccional), NIC.ar (registrar nuevo).
+- **2026-06-10** — Auditoría de DNS (Porkbun) + repos landing y backoffice. Se agregó el inventario DNS completo (15 registros, ninguno muerto) y la FASE BO: migración del backoffice (Vercel + Clerk + Google OAuth). Hallazgo clave: cambiar el dominio de la instancia de producción de Clerk regenera los 5 CNAMEs y **cambia la `pk_live_*`**. Este doc pasa a ser el plan maestro único para ambos proyectos.
