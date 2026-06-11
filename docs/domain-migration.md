@@ -51,22 +51,26 @@ Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto*
 ## FASE B — Configurar `.com.ar` en paralelo (ambos dominios vivos)
 
 ### DNS
-- [ ] **B1.** Decidir dónde se gestiona el DNS del `.com.ar`: nameservers de NIC.ar, o delegar a Vercel/Cloudflare (recomendado Cloudflare por panel más cómodo). Si delegás, cambiar los nameservers en NIC.ar.
-- [ ] **B2.** Registros DNS del `.com.ar`:
-  - **Web:** `A` o `CNAME` apuntando a Vercel (Vercel te da el target exacto al agregar el dominio en B3).
-  - **Mail (Google):** registros `MX` apuntando a Google Workspace (`smtp.google.com` / los MX que indica Google).
-  - **Verificación Google:** registro `TXT` de verificación de dominio (lo da Google en B4).
-  - **Verificación Resend:** registros `TXT`/`CNAME` de SPF + DKIM + DMARC (los da Resend en B5).
+- [x] **B1.** Decidir dónde se gestiona el DNS del `.com.ar`. ✅ **Decisión 2026-06-11: Vercel DNS.** Pasos: (1) agregar `pausastudio.com.ar` en Vercel (team `barnomagic`), (2) en el panel de DonWeb cambiar la delegación a `ns1.vercel-dns.com` / `ns2.vercel-dns.com`, (3) los registros MX/TXT/CNAME de Google, Resend y Clerk se cargan después en Vercel → Domains → DNS Records.
+- [x] **B2.** Registros DNS del `.com.ar` — ✅ cargados en Vercel DNS (2026-06-11), activos cuando propague la delegación:
+  - **Web:** automático (la zona vive en Vercel — no hace falta A/CNAME manual).
+  - **Mail (Google):** `MX @ → smtp.google.com` prio 1. ✅
+  - **Verificación Google:** `TXT @ → google-site-verification=o8x33tQN7Qs52fB6Ri2JtwHyIkc_xNgT9FRnc8DL0EQ`. ✅
+  - **SPF:** `TXT @ → v=spf1 include:_spf.google.com ~all`. ✅ (mejora: el `.rest` no lo tenía)
+  - **DMARC:** `TXT _dmarc → v=DMARC1; p=none;` (espejo del `.rest`). ✅
+  - **Resend:** pendiente — los da Resend en B6 (ver bloqueo de plan abajo).
+  - ⏳ **Esperando**: que NIC.ar publique la delegación a `ns1/ns2.vercel-dns.com` (cambiada en DonWeb el 2026-06-11; el TLD todavía servía los NS de DonWeb al cierre de la sesión).
 
 ### Vercel
-- [ ] **B3.** Vercel → proyecto landing → Settings → Domains → Add `pausastudio.com.ar`. NO quitar el `.rest`. Vercel indica el registro DNS a crear (paso B2 web).
+- [x] **B3.** ✅ `pausastudio.com.ar` (redirect 308 → www) + `www.pausastudio.com.ar` (Production) agregados al proyecto `landing` (2026-06-11). El team real de Vercel es `ivandanker93-1339s-projects` (no "barnomagic", que es la org de GitHub).
 
 ### Google Workspace
-- [ ] **B4.** Admin Console → Account → Domains → Manage domains → **Add a domain** → `pausastudio.com.ar` como **dominio secundario** (todavía no primario). Verificar con el TXT (B2). Configurar los MX (B2).
+- [ ] **B4.** Admin Console → Account → Domains → Manage domains → **Add a domain** → `pausastudio.com.ar` como **dominio secundario**. 🔄 **En curso (2026-06-11):** dominio agregado como secundario + TXT de verificación cargado en Vercel DNS. **Falta**: cuando propague el DNS, completar la verificación en el asistente (Admin Console → Dominios → Verificar) y activar Gmail para el dominio (el asistente lo pide después de verificar).
 - [ ] **B5.** Crear/aliasear `hola@pausastudio.com.ar` en el mismo buzón que `hola@pausastudio.rest`. Así el buzón recibe en ambas direcciones durante la transición.
 
 ### Resend
 - [ ] **B6.** Resend dashboard → Domains → Add Domain → `pausastudio.com.ar`. Crear los registros DKIM/SPF que indica (B2). Verificar.
+  - ⚠️ **Bloqueo detectado (2026-06-11):** el plan free de Resend permite **1 solo dominio** — no se puede tener `.rest` y `.com.ar` verificados a la vez. Opciones: (a) **swap** — borrar `pausastudio.rest` de Resend y agregar `pausastudio.com.ar` (gratis; el form de contacto no manda mails entre el borrado y la verificación del nuevo + update de env vars — hacerlo junto con D3 y con el DNS ya propagado), o (b) upgrade a Pro USD 20/mes para tener ambos. **Recomendado: (a)**, en la práctica fusiona B6 con D3.
 
 ## FASE C — Verificación (todo `.com.ar` funciona, `.rest` sigue vivo)
 
@@ -87,7 +91,7 @@ Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto*
 
 > Requiere FASE A completa (dominio registrado y DNS del `.com.ar` operativo). Independiente de las fases C/D de la landing — se puede hacer en paralelo. **El paso BO2 es un switch sin solapamiento** (Clerk no soporta dos dominios a la vez en la misma instancia de producción): hacerlo en un momento de bajo uso. Es herramienta interna, el impacto es acotado.
 
-- [ ] **BO1.** Vercel → proyecto `backoffice` → Settings → Domains → Add `backoffice.pausastudio.com.ar`. NO quitar el `.rest` todavía. Crear el CNAME que indica Vercel en el DNS del `.com.ar`.
+- [x] **BO1.** ✅ `backoffice.pausastudio.com.ar` agregado al proyecto `backoffice` en Vercel (2026-06-11). No hace falta CNAME manual: la zona DNS vive en Vercel.
 - [ ] **BO2.** Clerk Dashboard → instancia de producción → Domains → cambiar el dominio a `backoffice.pausastudio.com.ar`. Clerk genera 5 CNAMEs nuevos (`clerk.backoffice`, `accounts.backoffice`, `clk._domainkey.backoffice`, `clk2._domainkey.backoffice`, `clkmail.backoffice`) — cargarlos en el DNS del `.com.ar` + TXT `_dmarc.backoffice`. Esperar a que Clerk verifique todos.
 - [ ] **BO3.** ⚠️ Al cambiar el dominio, **cambia la `pk_live_*`** (la publishable key codifica el dominio). Vercel → proyecto `backoffice` → Environment Variables → actualizar `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (Production) con la nueva key del dashboard de Clerk. La `sk_live_*` en principio no cambia — verificarlo en el dashboard igual. Redeploy.
 - [ ] **BO4.** Google Cloud Console → proyecto `Pausa Studio Backoffice` → OAuth client → **agregar** (no reemplazar) Authorized Redirect URI `https://clerk.backoffice.pausastudio.com.ar/v1/oauth_callback` y Authorized JS Origin `https://backoffice.pausastudio.com.ar`. Los valores `.rest` se borran recién en F5.
@@ -147,5 +151,6 @@ Auditado 2026-06-10: **cero dominios hardcodeados** en el código del backoffice
 ## Histórico
 
 - **2026-05-23** — Plan creado. Estrategia redirect + abandono planificado del `.rest`. Setup: Google Workspace (mail), Vercel (web), Resend (transaccional), NIC.ar (registrar nuevo).
+- **2026-06-11 (tarde)** — Gran avance de ejecución: nameservers cambiados a Vercel DNS en DonWeb (B1 ✅); dominios agregados en Vercel para landing (B3 ✅) y backoffice (BO1 ✅); dominio secundario agregado en Google Workspace + TXT de verificación, MX, SPF y DMARC cargados en Vercel DNS (B2 ✅, B4 en curso — falta verificar al propagar). Bloqueo documentado en B6: Resend free = 1 dominio → swap junto con D3. **Próximo paso: esperar propagación de NIC.ar → completar verificación de Google → FASE C.**
 - **2026-06-11** — Ejecución iniciada. FASE A verificada completa (dominio registrado, delegado a DonWeb — zona DNS aún no configurada, B1 bloqueante). Branch `feat/domain-migration` creada y pusheada con todos los cambios de código (build verde) — se mergea en D2.
 - **2026-06-10** — Auditoría de DNS (Porkbun) + repos landing y backoffice. Se agregó el inventario DNS completo (15 registros, ninguno muerto) y la FASE BO: migración del backoffice (Vercel + Clerk + Google OAuth). Hallazgo clave: cambiar el dominio de la instancia de producción de Clerk regenera los 5 CNAMEs y **cambia la `pk_live_*`**. Este doc pasa a ser el plan maestro único para ambos proyectos.
