@@ -43,8 +43,10 @@ Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto*
 
 ## FASE A — Adquisición
 
-- [ ] **A1.** Registrar `pausastudio.com.ar` en [nic.ar](https://nic.ar) con CUIT/CUIL. Costo bajo (registro `.com.ar` es económico). Titular: definir si va a nombre personal o de la sociedad (decisión legal de Ivan).
-- [ ] **A2.** Esperar a que el registro propague (minutos a horas).
+- [x] **A1.** Registrar `pausastudio.com.ar` en [nic.ar](https://nic.ar) con CUIT/CUIL. ✅ Registrado (verificado 2026-06-11).
+- [x] **A2.** Esperar a que el registro propague. ✅ El TLD `.ar` ya delega a `ns1.donweb.com` / `ns2.donweb.com`.
+
+> **Estado verificado 2026-06-11:** el dominio está registrado y delegado a los nameservers de **DonWeb**, pero la zona DNS NO existe ahí (los NS responden `REFUSED` → el dominio da SERVFAIL y no resuelve nada). **B1 es el paso bloqueante**: o se crea/activa la zona en el panel de DonWeb, o se cambian los nameservers (en el panel de DonWeb/NIC.ar) a Cloudflare o Vercel.
 
 ## FASE B — Configurar `.com.ar` en paralelo (ambos dominios vivos)
 
@@ -145,4 +147,5 @@ Auditado 2026-06-10: **cero dominios hardcodeados** en el código del backoffice
 ## Histórico
 
 - **2026-05-23** — Plan creado. Estrategia redirect + abandono planificado del `.rest`. Setup: Google Workspace (mail), Vercel (web), Resend (transaccional), NIC.ar (registrar nuevo).
+- **2026-06-11** — Ejecución iniciada. FASE A verificada completa (dominio registrado, delegado a DonWeb — zona DNS aún no configurada, B1 bloqueante). Branch `feat/domain-migration` creada y pusheada con todos los cambios de código (build verde) — se mergea en D2.
 - **2026-06-10** — Auditoría de DNS (Porkbun) + repos landing y backoffice. Se agregó el inventario DNS completo (15 registros, ninguno muerto) y la FASE BO: migración del backoffice (Vercel + Clerk + Google OAuth). Hallazgo clave: cambiar el dominio de la instancia de producción de Clerk regenera los 5 CNAMEs y **cambia la `pk_live_*`**. Este doc pasa a ser el plan maestro único para ambos proyectos.
