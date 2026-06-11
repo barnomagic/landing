@@ -65,10 +65,10 @@ export default function ContactoPage() {
                   Email
                 </p>
                 <a
-                  href="mailto:hola@pausastudio.rest"
+                  href="mailto:hola@pausastudio.com.ar"
                   className="mt-3 inline-block text-base text-cement transition-colors hover:text-oxblood"
                 >
-                  hola@pausastudio.rest
+                  hola@pausastudio.com.ar
                 </a>
               </div>
 

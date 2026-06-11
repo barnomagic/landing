@@ -125,7 +125,7 @@ docs/
 - [ ] **Instagram**: completar handle real en footer (`lg:col-span-2` "Estudio") y agregar enlace. Hoy dice "Instagram · próximamente".
 - [ ] **Imágenes finales**: revisar 6 shots por modelo (regenerables con la skill `pausa-image`).
 - [ ] **OG images por ruta**: considerar dinámicas con `next/og` para `/catalogo`, `/pedi-a-medida`, `/nosotros`. Hoy comparten `og-default.png`.
-- [ ] **Dominio `.com.ar`**: comprar `pausastudio.com.ar` en NIC.ar y configurar redirect 301 al `.rest`.
+- [ ] **Dominio `.com.ar`**: registrado ✅ — migración en curso (DNS, Vercel, Google, Resend + backoffice/Clerk). Plan maestro: `docs/domain-migration.md`.
 
 ## Reglas operativas
 

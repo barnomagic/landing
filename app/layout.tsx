@@ -21,7 +21,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pausastudio.rest";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pausastudio.com.ar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

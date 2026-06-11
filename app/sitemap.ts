@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllSlugs } from "@/lib/modelos";
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://pausastudio.rest";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://pausastudio.com.ar";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

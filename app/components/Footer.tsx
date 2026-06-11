@@ -40,10 +40,10 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-cement">
               <li>
                 <a
-                  href="mailto:hola@pausastudio.rest"
+                  href="mailto:hola@pausastudio.com.ar"
                   className="transition-colors hover:text-oxblood"
                 >
-                  hola@pausastudio.rest
+                  hola@pausastudio.com.ar
                 </a>
               </li>
               <li>Buenos Aires, Argentina</li>
