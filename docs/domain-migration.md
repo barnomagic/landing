@@ -84,7 +84,7 @@ Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto*
 
 - [ ] **D1.** Vercel → Environment Variables → `NEXT_PUBLIC_SITE_URL=https://pausastudio.com.ar`. Redeploy.
 - [ ] **D2.** Merge de la branch `feat/domain-migration` con los cambios de código (fallbacks + mailto). Ver "Cambios de código" abajo.
-- [ ] **D3.** Resend / env vars: `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.com.ar>` + `CONTACT_EMAIL_TO=hola@pausastudio.com.ar`.
+- [~] **D3.** Resend / env vars. 🔄 **Parcial (2026-06-12):** `CONTACT_EMAIL_TO=hola@pausastudio.com.ar` ya seteado en Vercel Production + código (mailto visible del Footer y /contacto migrados a `.com.ar`). **`CONTACT_EMAIL_FROM` sigue en `<hola@pausastudio.rest>`** porque `pausastudio.com.ar` todavía NO está verificado en Resend (depende de B6) — al ponerlo en `.com.ar` el form devolvía 502. Cuando B6 esté hecho: `vercel env rm CONTACT_EMAIL_FROM production` + add con `Pausa studio <hola@pausastudio.com.ar>` y redeploy. Form verificado funcionando (envía desde `.rest`, entrega a `.com.ar`). _Pendiente: estas vars quedaron solo en Production (el rm por CLI se llevó Preview); re-agregar en Preview por dashboard si se usa._
 - [ ] **D4.** Google Workspace → cambiar **dominio primario** a `pausastudio.com.ar`. Google renombra las direcciones de usuario automáticamente y deja el `.rest` como alias (los mails a `@pausastudio.rest` siguen llegando). _Nota: hay restricciones de frecuencia para cambiar primario; si la cuenta es muy nueva, esperar los días que pida Google._
 
 ## FASE BO — Backoffice (Vercel + Clerk + Google OAuth)
