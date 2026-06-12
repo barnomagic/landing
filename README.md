@@ -1,6 +1,6 @@
 # Pausa studio — Landing
 
-Web pública de [pausastudio.rest](https://pausastudio.rest). Sofás y sillones a medida, diseñados y fabricados en Buenos Aires.
+Web pública de [pausastudio.com.ar](https://pausastudio.com.ar). Sofás y sillones a medida, diseñados y fabricados en Buenos Aires.
 
 ## Stack
 
@@ -104,20 +104,20 @@ Copiá `.env.local.example` a `.env.local` y completá:
 | Variable | Para qué |
 |---|---|
 | `RESEND_API_KEY` | Email transaccional. Obtener gratis en [resend.com](https://resend.com) (3.000 emails/mes incluidos). |
-| `CONTACT_EMAIL_TO` | Destinatario del form de contacto. Default `hola@pausastudio.rest`. |
+| `CONTACT_EMAIL_TO` | Destinatario del form de contacto. Default `hola@pausastudio.com.ar`. |
 | `CONTACT_EMAIL_FROM` | Remitente. Debe ser de un dominio verificado en Resend. |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Número WhatsApp en formato internacional sin `+` (ej: `5491134567890`). Mientras contenga `X`, el botón se renderiza pero queda deshabilitado. |
 | `NEXT_PUBLIC_SITE_URL` | URL pública del sitio (para OG tags, sitemap). |
 
 ### Verificar dominio en Resend
 
-Para que los mails salgan como `hola@pausastudio.rest` y no `via resend.dev`:
+Para que los mails salgan como `hola@pausastudio.com.ar` y no `via resend.dev`:
 
-1. Resend dashboard → **Domains** → **Add Domain** → `pausastudio.rest`.
+1. Resend dashboard → **Domains** → **Add Domain** → `pausastudio.com.ar`.
 2. Resend te muestra registros DNS (SPF, DKIM, DMARC).
-3. Agregarlos en el panel DNS de NIC.ar o donde tengas el dominio.
+3. Agregarlos en el panel DNS donde se gestione el dominio (ver `docs/domain-migration.md`).
 4. Esperar verificación (5–30 min) — Resend marca el dominio como **Verified**.
-5. Setear `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.rest>` en `.env.local` y en Vercel Project Settings → Environment Variables.
+5. Setear `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.com.ar>` en `.env.local` y en Vercel Project Settings → Environment Variables.
 
 ## ⚠️ Antes del lanzamiento público
 
@@ -191,7 +191,7 @@ Cuerpo en markdown. Usar `###` para secciones de la ficha
 
 1. Crear cuenta en [resend.com](https://resend.com).
 2. **Para testing rápido** (sin dominio verificado): podés mandar a tu propio mail usando `onboarding@resend.dev` como `CONTACT_EMAIL_FROM`. Solo funciona para el mail asociado a la cuenta Resend.
-3. **Para producción**: verificar el dominio (ver arriba) y setear `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.rest>`.
+3. **Para producción**: verificar el dominio (ver arriba) y setear `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.com.ar>`.
 4. Levantar el dev server: `npm run dev`.
 5. Ir a `/contacto`, completar el form y enviar.
 6. Verificar que el mail llegue. Si falla, el form muestra el error inline.
@@ -213,5 +213,5 @@ El endpoint está en [`app/api/contact/route.ts`](app/api/contact/route.ts) — 
 - [ ] Reemplazar placeholders en `public/modelos/<slug>/`.
 - [ ] Escribir copy final de cada modelo (las descripciones actuales son placeholder).
 - [ ] Generar los primeros 9 posts de Instagram (60% detalle, 30% pieza completa, 10% caption-card) siguiendo §5.2 del brand book.
-- [ ] Comprar `pausastudio.com.ar` en NIC.ar y redirigir al `.rest`.
+- [x] Comprar `pausastudio.com.ar` en NIC.ar — registrado. Migración completa en curso: ver `docs/domain-migration.md`.
 - [ ] Considerar OG images dinámicas por ruta con `next/og`.
