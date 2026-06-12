@@ -65,26 +65,25 @@ Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto*
 - [x] **B3.** ✅ `pausastudio.com.ar` (redirect 308 → www) + `www.pausastudio.com.ar` (Production) agregados al proyecto `landing` (2026-06-11). El team real de Vercel es `ivandanker93-1339s-projects` (no "barnomagic", que es la org de GitHub).
 
 ### Google Workspace
-- [ ] **B4.** Admin Console → Account → Domains → Manage domains → **Add a domain** → `pausastudio.com.ar` como **dominio secundario**. 🔄 **En curso (2026-06-11):** dominio agregado como secundario + TXT de verificación cargado en Vercel DNS. **Falta**: cuando propague el DNS, completar la verificación en el asistente (Admin Console → Dominios → Verificar) y activar Gmail para el dominio (el asistente lo pide después de verificar).
-- [ ] **B5.** Crear/aliasear `hola@pausastudio.com.ar` en el mismo buzón que `hola@pausastudio.rest`. Así el buzón recibe en ambas direcciones durante la transición.
+- [x] **B4.** ✅ **Completado 2026-06-12:** dominio secundario verificado + **Gmail activado** para `@pausastudio.com.ar` (los mails rutean a Google, hasta 24 h para estar 100%).
+- [x] **B5.** ✅ **Completado 2026-06-12:** alias `.com.ar` creados para los 3 buzones — `hola@`, `ivan@` y `mili@pausastudio.com.ar` (reciben en ambas direcciones). **Ojo:** los alias reciben mail pero NO sirven para login — el login sigue con `@pausastudio.rest` hasta D4.
 
 ### Resend
-- [ ] **B6.** Resend dashboard → Domains → Add Domain → `pausastudio.com.ar`. Crear los registros DKIM/SPF que indica (B2). Verificar.
-  - ⚠️ **Bloqueo detectado (2026-06-11):** el plan free de Resend permite **1 solo dominio** — no se puede tener `.rest` y `.com.ar` verificados a la vez. Opciones: (a) **swap** — borrar `pausastudio.rest` de Resend y agregar `pausastudio.com.ar` (gratis; el form de contacto no manda mails entre el borrado y la verificación del nuevo + update de env vars — hacerlo junto con D3 y con el DNS ya propagado), o (b) upgrade a Pro USD 20/mes para tener ambos. **Recomendado: (a)**, en la práctica fusiona B6 con D3.
+- [x] **B6.** ✅ **Completado 2026-06-12 vía swap** (plan free = 1 dominio): `pausastudio.rest` borrado de Resend, `pausastudio.com.ar` agregado (región São Paulo), DKIM (`resend._domainkey`) + SPF/MX (`send`) cargados en Vercel DNS → **dominio Verified, listo para enviar**. No se configuró el MX de recepción de Resend (la recepción es por Google).
 
 ## FASE C — Verificación (todo `.com.ar` funciona, `.rest` sigue vivo)
 
-- [ ] **C1.** `https://pausastudio.com.ar` carga el sitio (mismo contenido que el `.rest`).
-- [ ] **C2.** Mandar un mail de prueba a `hola@pausastudio.com.ar` → confirmar que llega al buzón de Google.
-- [ ] **C3.** Enviar el form de contacto del sitio en preview → confirmar que Resend lo entrega desde `@pausastudio.com.ar` (cuando se cambie el FROM en D3).
+- [x] **C1.** ✅ `https://www.pausastudio.com.ar` responde 200 con la landing; apex 308 → www; certificados Let's Encrypt emitidos (verificado 2026-06-12).
+- [ ] **C2.** Mandar un mail de prueba a `hola@pausastudio.com.ar` → confirmar que llega al buzón de Google. _(Pendiente: prueba manual de Ivan.)_
+- [ ] **C3.** Enviar el form de contacto en producción → confirmar que Resend lo entrega desde `hola@pausastudio.com.ar`. _(Pendiente: prueba manual tras el deploy del 2026-06-12.)_
 
 ## FASE D — Switch (cambiar el default a `.com.ar`)
 
 > A partir de acá el `.com.ar` pasa a ser el dominio principal. El `.rest` sigue activo para el redirect.
 
-- [ ] **D1.** Vercel → Environment Variables → `NEXT_PUBLIC_SITE_URL=https://pausastudio.com.ar`. Redeploy.
-- [ ] **D2.** Merge de la branch `feat/domain-migration` con los cambios de código (fallbacks + mailto). Ver "Cambios de código" abajo.
-- [~] **D3.** Resend / env vars. 🔄 **Parcial (2026-06-12):** `CONTACT_EMAIL_TO=hola@pausastudio.com.ar` ya seteado en Vercel Production + código (mailto visible del Footer y /contacto migrados a `.com.ar`). **`CONTACT_EMAIL_FROM` sigue en `<hola@pausastudio.rest>`** porque `pausastudio.com.ar` todavía NO está verificado en Resend (depende de B6) — al ponerlo en `.com.ar` el form devolvía 502. Cuando B6 esté hecho: `vercel env rm CONTACT_EMAIL_FROM production` + add con `Pausa studio <hola@pausastudio.com.ar>` y redeploy. Form verificado funcionando (envía desde `.rest`, entrega a `.com.ar`). _Pendiente: estas vars quedaron solo en Production (el rm por CLI se llevó Preview); re-agregar en Preview por dashboard si se usa._
+- [x] **D1.** ✅ `NEXT_PUBLIC_SITE_URL=https://pausastudio.com.ar` seteado en Vercel (Production+Preview, 2026-06-12). Deploy disparado con el push de D2.
+- [x] **D2.** ✅ Branch `feat/domain-migration` mergeada a master y pusheada (2026-06-12, build verde). Único conflicto (`.env.local.example`) resuelto a favor del estado post-swap.
+- [x] **D3.** ✅ **Completado 2026-06-12** (tras el swap de B6): `CONTACT_EMAIL_FROM=Pausa studio <hola@pausastudio.com.ar>` y `CONTACT_EMAIL_TO=hola@pausastudio.com.ar` en Vercel Production. El FROM en `.com.ar` ya es válido porque Resend verificó el dominio. _Pendiente menor: FROM/TO existen solo en Production — re-agregar en Preview por dashboard si se usa el form en previews._
 - [ ] **D4.** Google Workspace → cambiar **dominio primario** a `pausastudio.com.ar`. Google renombra las direcciones de usuario automáticamente y deja el `.rest` como alias (los mails a `@pausastudio.rest` siguen llegando). _Nota: hay restricciones de frecuencia para cambiar primario; si la cuenta es muy nueva, esperar los días que pida Google._
 
 ## FASE BO — Backoffice (Vercel + Clerk + Google OAuth)
@@ -150,6 +149,7 @@ Auditado 2026-06-10: **cero dominios hardcodeados** en el código del backoffice
 
 ## Histórico
 
+- **2026-06-12** — FASES B, C1 y D1-D3 completadas. Google: dominio verificado + Gmail activado + alias `.com.ar` para hola@/ivan@/mili@. Resend: swap ejecutado (`.rest` borrado, `.com.ar` Verified con DKIM/SPF/MX en Vercel DNS). Vercel: env vars `NEXT_PUBLIC_SITE_URL` + `CONTACT_EMAIL_*` actualizadas a `.com.ar`; branch `feat/domain-migration` mergeada y deployada. **La landing vive en https://www.pausastudio.com.ar.** Pendiente: C2/C3 (pruebas manuales de mail), D4 (dominio primario Google), FASE BO2-BO7 (Clerk/backoffice), FASE E (redirect 301 + Search Console).
 - **2026-05-23** — Plan creado. Estrategia redirect + abandono planificado del `.rest`. Setup: Google Workspace (mail), Vercel (web), Resend (transaccional), NIC.ar (registrar nuevo).
 - **2026-06-11 (tarde)** — Gran avance de ejecución: nameservers cambiados a Vercel DNS en DonWeb (B1 ✅); dominios agregados en Vercel para landing (B3 ✅) y backoffice (BO1 ✅); dominio secundario agregado en Google Workspace + TXT de verificación, MX, SPF y DMARC cargados en Vercel DNS (B2 ✅, B4 en curso — falta verificar al propagar). Bloqueo documentado en B6: Resend free = 1 dominio → swap junto con D3. **Próximo paso: esperar propagación de NIC.ar → completar verificación de Google → FASE C.**
 - **2026-06-11** — Ejecución iniciada. FASE A verificada completa (dominio registrado, delegado a DonWeb — zona DNS aún no configurada, B1 bloqueante). Branch `feat/domain-migration` creada y pusheada con todos los cambios de código (build verde) — se mergea en D2.
