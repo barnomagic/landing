@@ -60,7 +60,12 @@ export function ServiciosSection({ includeIntro = true }: ServiciosSectionProps)
               </div>
             </FadeInOnView>
             <FadeInOnView delay={0.1}>
-              <ImagePlaceholder aspect="4/5" label="Sofá a medida" />
+              <ImagePlaceholder
+                aspect="4/5"
+                src="/servicios/sofas-a-medida.jpg"
+                alt="Una pausa en el sofá: té y lectura en un living sereno"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+              />
             </FadeInOnView>
           </div>
         </Section>
@@ -93,7 +98,12 @@ export function ServiciosSection({ includeIntro = true }: ServiciosSectionProps)
             </div>
           </FadeInOnView>
           <FadeInOnView delay={0.1}>
-            <ImagePlaceholder aspect="4/5" label="Caso de retapizado" />
+            <ImagePlaceholder
+              aspect="4/5"
+              src="/servicios/retapizado.jpg"
+              alt="Sofá retapizado: cuerpo gris sobre estructura de roble"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+            />
           </FadeInOnView>
         </div>
       </Section>
@@ -121,7 +131,12 @@ export function ServiciosSection({ includeIntro = true }: ServiciosSectionProps)
             </div>
           </FadeInOnView>
           <FadeInOnView delay={0.1} className="w-full sm:w-48">
-            <ImagePlaceholder aspect="4/5" label="Proyecto especial" />
+            <ImagePlaceholder
+              aspect="1/1"
+              src="/servicios/proyectos-especiales.jpg"
+              alt="Sillas de comedor tapizadas en bouclé crudo"
+              sizes="(min-width: 640px) 12rem, 100vw"
+            />
           </FadeInOnView>
         </div>
       </Section>
