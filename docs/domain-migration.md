@@ -75,7 +75,8 @@ Auditado 2026-06-10 contra el panel de Porkbun. **Ningún registro está muerto*
 
 - [x] **C1.** ✅ `https://www.pausastudio.com.ar` responde 200 con la landing; apex 308 → www; certificados Let's Encrypt emitidos (verificado 2026-06-12).
 - [ ] **C2.** Mandar un mail de prueba a `hola@pausastudio.com.ar` → confirmar que llega al buzón de Google. _(Pendiente: prueba manual de Ivan.)_
-- [ ] **C3.** Enviar el form de contacto en producción → confirmar que Resend lo entrega desde `hola@pausastudio.com.ar`. _(Pendiente: prueba manual tras el deploy del 2026-06-12.)_
+- [x] **C3.** ✅ **Verificado 2026-06-15.** El form de contacto entrega OK a `hola@pausastudio.com.ar` (Resend "Delivered", llegó al buzón).
+  - ⚠️ **Trampa que apareció:** una prueba prematura (2026-06-11, cuando el alias `.com.ar` aún no existía) **rebotó (Bounced)** y Resend metió `hola@pausastudio.com.ar` en su **lista de supresión** → los envíos siguientes salían **Suppressed** (bloqueados sin intentar). Fix: removerla de la supresión en Resend (el plan free **no expone la lista en el panel** — la URL `/suppressions` da 404; se hizo por otra vía). Lección: no mandar pruebas a una dirección antes de que el alias/MX esté activo, o queda suprimida.
 
 ## FASE D — Switch (cambiar el default a `.com.ar`)
 
