@@ -1,0 +1,21 @@
+# Force LF on every text file across platforms. Windows CRLF on a Next.js repo
+# shows up as the whole tree "modified" (no real content change) and pollutes
+# diffs/history.
+#
+# `text=auto` lets git detect text vs binary; `eol=lf` forces LF on everything
+# detected as text — including extensionless files like .gitignore / .env.local.example.
+* text=auto eol=lf
+
+# Binary assets — never normalize.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.avif  binary
+*.ico   binary
+*.pdf   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
