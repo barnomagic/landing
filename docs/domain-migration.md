@@ -46,7 +46,7 @@ TXT   resend._domainkey            p=MIGf...                                (Res
 ## Cola pendiente
 
 ### Corto plazo (cuando se quiera, sin urgencia)
-- [ ] **Renombrar logins** a `@pausastudio.com.ar`. El dominio primario ya es `.com.ar`, pero **Google NO renombró los logins automáticamente** — `ivan@`/`hola@`/`mili@` siguen entrando con `@pausastudio.rest` (que es alias; el mail llega igual). Para que el login sea `.com.ar`: Admin → cada usuario → Actualizar usuario → cambiar email primario (el `.rest` queda como alias). Ojo renombrar el admin mid-sesión.
+- [x] **Renombrar logins** a `@pausastudio.com.ar` — ✅ hecho 2026-06-15. Los 3 usuarios (`hola@`/`mili@`/`ivan@`) tienen ahora el primario en `.com.ar` y el `.rest` quedó como alias automáticamente (Admin → Usuario → Actualizar usuario → cambiar dominio del email principal). Propaga en ~10 min. Notas: el rename del propio admin (`ivan@`) NO cortó la sesión; los aliases `.com.ar` preexistentes no causaron colisión (Google los promovió a primario solo). Login ahora con `@pausastudio.com.ar` (el `.rest` sigue sirviendo como alias).
 - [ ] **E3.** Link en bio de Instagram → `pausastudio.com.ar`.
 - [ ] **E4.** Firmas de mail, `BRIEF_TALLERES_v1.docx`, brand book PDF, materiales con el dominio viejo.
 
