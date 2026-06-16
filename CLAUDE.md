@@ -28,7 +28,7 @@ app/
   layout.tsx                      → RootLayout: fonts (Fraunces + Inter), Navbar, Footer, WhatsAppButton
   globals.css                     → Tokens @theme inline + preflight overrides
   catalogo/page.tsx               → Grid de modelos (SSG desde MDX, kicker de categoría)
-  catalogo/[slug]/page.tsx        → Detalle: galería 6 shots + ficha sticky + Customizable
+  catalogo/[slug]/page.tsx        → Detalle: galería 5 shots + ficha sticky + Customizable
   pedi-a-medida/page.tsx          → Dos caminos (catálogo customizable + bespoke)
   nosotros/page.tsx               → Hero invertido + manifiesto + cómo trabajamos
   contacto/page.tsx               → Form + canales + horarios
@@ -54,7 +54,7 @@ lib/
 public/
   hero-home.png                   → Hero del home (sofá bouclé sobre cyclorama oxblood)
   nosotros-estudio.jpg            → Foto del estudio
-  modelos/{slug}/01..06.png       → 6 shots por modelo (hero/perfil/angular/detalle/oxblood/terracota)
+  modelos/{slug}/01..05.png       → 5 shots por modelo (hero/perfil/angular/detalle/oxblood)
   og-default.png                  → OG global
 docs/
   BRAND_BOOK_v0.3.md              → Documento maestro de marca (vigente)
@@ -96,7 +96,7 @@ docs/
 
 ### `/catalogo/[slug]`
 - Estática (`dynamicParams = false`) desde `generateStaticParams()`.
-- Galería col-7: hero `priority` + grid 3 (perfil/angular/detalle) + sección "En otras telas" con grid 2 (oxblood/terracota).
+- Galería col-7: hero `priority` + grid 3 (perfil/angular/detalle) + sección "En otras telas" (oxblood).
 - Ficha sticky col-5: kicker categoría + H1 + tagline + dl (Dimensiones, Altura asiento, Tapizado, Estructura, Plazo, Desde) + CtaWhatsApp.
 - Descripción MDX en `max-w-3xl`.
 - Sección "Customizable": 2 cols con listas hairline (Configuración / Telas disponibles).
@@ -123,7 +123,7 @@ docs/
 - [ ] **Precios en cards del catálogo**: confirmar precios finales y reflejarlos en `price_from_ars` de cada MDX. Hoy son placeholder/estimados.
 - [ ] **WhatsApp**: setear `NEXT_PUBLIC_WHATSAPP_NUMBER` con el número real (formato internacional sin `+`, ej. `5491134567890`) en `.env.local` y en Vercel Environment Variables. Mientras contenga `X`, el `CtaWhatsApp` redirige a `/contacto` y el FAB se oculta.
 - [ ] **Instagram**: completar handle real en footer (`lg:col-span-2` "Estudio") y agregar enlace. Hoy dice "Instagram · próximamente".
-- [ ] **Imágenes finales**: revisar 6 shots por modelo (regenerables con la skill `pausa-image`).
+- [ ] **Imágenes finales**: revisar 5 shots por modelo (regenerables con la skill `pausa-image`).
 - [ ] **OG images por ruta**: considerar dinámicas con `next/og` para `/catalogo`, `/pedi-a-medida`, `/nosotros`. Hoy comparten `og-default.png`.
 - [ ] **Dominio `.com.ar`**: registrado ✅ — migración en curso (DNS, Vercel, Google, Resend + backoffice/Clerk). Plan maestro: `docs/domain-migration.md`.
 
@@ -132,6 +132,6 @@ docs/
 1. **Sistema de diseño**: no instanciar `<section>` sin `<Container>` adentro (excepción: hero home full-bleed con escape intencional). No `py-*` arbitrarios — pasa por `<Section tone>`.
 2. **Tipografía**: nunca crear escalas paralelas. Si falta un tone, extender `Heading` o `Body`.
 3. **Colores**: solo utilities del theme (`text-ink`, `bg-oxblood`, etc.). Nada de hex literales en componentes.
-4. **Imágenes**: convención fija para modelos (`01-hero` → `06-terracota`). Cambiarla rompe el schema MDX + galería del detalle.
+4. **Imágenes**: convención fija para modelos (`01-hero` → `05-oxblood`). Terracota retirada (antitarget rural — ver `pausa-agents/knowledge/palette-rules.md`). Cambiar la convención rompe el schema MDX + galería del detalle.
 5. **Brand book**: cualquier cambio compositivo o de copy se argumenta contra el manifiesto (§1) y los antitargets (§2.4). Las decisiones quedan reflejadas en `docs/BRAND_BOOK_v0.3.md`.
-6. **Skill `pausa-image`**: para generar/regenerar renders del catálogo desde 1 imagen de referencia. Output respeta la convención de 6 shots y fondo `#F5F2EC` directo desde Gemini (sin post-procesamiento).
+6. **Skill `pausa-image`**: para generar/regenerar renders del catálogo desde 1 imagen de referencia. Output respeta la convención de 5 shots y fondo `#F5F2EC` directo desde Gemini (sin post-procesamiento).

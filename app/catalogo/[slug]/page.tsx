@@ -99,13 +99,13 @@ export default async function ModeloPage({ params }: PageProps) {
   const inquiryMessage = getModelInquiryMessage(frontmatter.name);
   const dim = frontmatter.dimensions;
 
-  // Convención de 6 shots: [0]=hero, [1..3]=perfil/angular/detalle, [4..5]=oxblood/terracota.
+  // Convención de 5 shots: [0]=hero, [1..3]=perfil/angular/detalle, [4]=oxblood.
   const heroImg = frontmatter.hero_image || frontmatter.images[0];
   const detailImgs = frontmatter.images.slice(1, 4);
-  const variantImgs = frontmatter.images.slice(4, 6);
+  const variantImgs = frontmatter.images.slice(4, 5);
 
   const detailCaptions = ["Perfil", "Angular", "Detalle"];
-  const variantCaptions = ["Terciopelo oxblood", "Terciopelo terracota"];
+  const variantCaptions = ["Terciopelo oxblood"];
 
   return (
     <article>
