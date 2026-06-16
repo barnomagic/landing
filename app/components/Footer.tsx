@@ -55,7 +55,16 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Kicker className="mb-5">Estudio</Kicker>
             <ul className="space-y-3 text-sm text-cement">
-              <li className="text-stone">Instagram · próximamente</li>
+              <li>
+                <a
+                  href="https://instagram.com/studiopausa.ar"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-oxblood"
+                >
+                  @studiopausa.ar
+                </a>
+              </li>
             </ul>
           </div>
         </div>
