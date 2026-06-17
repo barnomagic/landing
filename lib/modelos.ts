@@ -43,6 +43,14 @@ export interface ModeloFrontmatter {
   upholstery_options?: string[];
   accessory_options?: string[];
   leg_options?: string[];
+  /**
+   * Copy del rediseño "punto de partida". Reemplazan a la ficha técnica en el
+   * front público. dimensions/materials/price siguen existiendo en el MDX para
+   * uso interno (cotización), pero ya no se renderizan en la página.
+   */
+  caracter?: string; // Proporción + actitud + para qué momento nació. Sin números.
+  varias?: string[]; // "Lo que variás" — todo lo configurable.
+  invariante?: string[]; // "Lo que siempre está" — el diferencial que no cambia.
 }
 
 export interface Modelo {

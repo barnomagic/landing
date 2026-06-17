@@ -2,18 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import {
-  getAllSlugs,
-  getModeloBySlug,
-  formatPriceArs,
-} from "@/lib/modelos";
+import { getAllSlugs, getModeloBySlug } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
-import { showPrices, showDelivery } from "@/lib/flags";
 import { Section } from "@/app/components/system/Section";
-import {
-  Kicker,
-  Heading,
-} from "@/app/components/system/Typography";
+import { Kicker, Heading } from "@/app/components/system/Typography";
+import { StepCard } from "@/app/components/system/Card";
 import { ImagePlaceholder } from "@/app/components/ImagePlaceholder";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 
@@ -76,16 +69,58 @@ const mdxComponents = {
   ),
 };
 
-interface FichaItemProps {
+/**
+ * Proceso de personalización — compartido por todos los modelos. Centrado en
+ * las decisiones que toma el cliente, no en el workflow del taller.
+ * EDITABLE: ajustá los pasos a gusto.
+ */
+const PROCESO_PASOS: { number: string; label: string; detail: string }[] = [
+  {
+    number: "01",
+    label: "Definimos la medida",
+    detail:
+      "A tu espacio, no al revés. El largo, la profundidad y la configuración salen de tu living.",
+  },
+  {
+    number: "02",
+    label: "Elegís la piel",
+    detail:
+      "Bouclé, lino, panamá o pana. El color y la textura que conversan con tu casa.",
+  },
+  {
+    number: "03",
+    label: "Lo construimos a mano",
+    detail:
+      "Hechura artesanal, una sola pieza por vez en el taller.",
+  },
+  {
+    number: "04",
+    label: "Llega y se queda",
+    detail: "Coordinamos la entrega persona a persona.",
+  },
+];
+
+interface ListaConfigProps {
   label: string;
-  value: string;
+  items: string[];
 }
 
-function FichaItem({ label, value }: FichaItemProps) {
+function ListaConfig({ label, items }: ListaConfigProps) {
   return (
-    <div className="grid grid-cols-[max-content_1fr] items-baseline gap-x-6 border-b border-ink/10 py-4">
-      <dt className="text-xs uppercase tracking-[0.2em] text-stone">{label}</dt>
-      <dd className="font-display text-lg text-ink">{value}</dd>
+    <div>
+      <p className="mb-5 text-xs uppercase tracking-[0.25em] text-stone">
+        {label}
+      </p>
+      <ul className="space-y-3">
+        {items.map((item) => (
+          <li
+            key={item}
+            className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -97,7 +132,6 @@ export default async function ModeloPage({ params }: PageProps) {
 
   const { frontmatter, body } = modelo;
   const inquiryMessage = getModelInquiryMessage(frontmatter.name);
-  const dim = frontmatter.dimensions;
 
   // Convención de 5 shots: [0]=hero, [1..3]=perfil/angular/detalle, [4]=oxblood.
   const heroImg = frontmatter.hero_image || frontmatter.images[0];
@@ -109,7 +143,7 @@ export default async function ModeloPage({ params }: PageProps) {
 
   return (
     <article>
-      {/* Galería + ficha sticky */}
+      {/* Galería + identidad sticky */}
       <Section
         tone="hero"
         minHeightOverride="min-h-[60vh]"
@@ -175,7 +209,7 @@ export default async function ModeloPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Ficha — sticky en desktop */}
+          {/* Identidad — sticky en desktop. Carácter, no ficha técnica. */}
           <aside className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
               {frontmatter.category ? (
@@ -188,41 +222,11 @@ export default async function ModeloPage({ params }: PageProps) {
                 {frontmatter.tagline}
               </p>
 
-              <dl className="mt-12 border-t border-ink/10 [&>div:last-child]:border-b-0">
-                <FichaItem
-                  label="Dimensiones"
-                  value={`${dim.width_cm} × ${dim.depth_cm} × ${dim.height_cm} cm`}
-                />
-                {dim.seat_height_cm && (
-                  <FichaItem
-                    label="Altura asiento"
-                    value={`${dim.seat_height_cm} cm`}
-                  />
-                )}
-                <FichaItem
-                  label="Tapizado"
-                  value={frontmatter.materials.upholstery}
-                />
-                <FichaItem
-                  label="Estructura"
-                  value={frontmatter.materials.structure}
-                />
-                {frontmatter.includes && (
-                  <FichaItem label="Incluye" value={frontmatter.includes} />
-                )}
-                {showDelivery && (
-                  <FichaItem
-                    label="Plazo"
-                    value={`${frontmatter.delivery_days} días`}
-                  />
-                )}
-                {showPrices && (
-                  <FichaItem
-                    label="Desde"
-                    value={formatPriceArs(frontmatter.price_from_ars)}
-                  />
-                )}
-              </dl>
+              {frontmatter.caracter ? (
+                <p className="mt-8 text-base md:text-lg leading-[1.7] text-cement">
+                  {frontmatter.caracter}
+                </p>
+              ) : null}
 
               <div className="mt-12">
                 <CtaWhatsApp
@@ -231,10 +235,9 @@ export default async function ModeloPage({ params }: PageProps) {
                   variant="oxblood"
                   className="w-full"
                 />
-                <p className="mt-4 text-xs text-stone">
-                  {showPrices
-                    ? "Precio base sin personalizaciones. Cotización fina en la conversación."
-                    : "El precio depende de las medidas de tu espacio y la configuración. Porque cada sofá se diseña para vos. Hablemos."}
+                <p className="mt-4 text-xs leading-relaxed text-stone">
+                  No tiene medidas fijas. Nace acá y se diseña con vos. El precio
+                  depende de tu pieza — hablemos.
                 </p>
               </div>
             </div>
@@ -242,8 +245,56 @@ export default async function ModeloPage({ params }: PageProps) {
         </div>
       </Section>
 
-      {/* Descripción */}
-      <Section tone="standard" ariaLabel="Descripción del modelo">
+      {/* Cómo se vuelve tuyo — el proceso de personalización */}
+      <Section
+        tone="standard"
+        className="border-t border-ink/10"
+        ariaLabel="Cómo se personaliza"
+      >
+        <div className="max-w-2xl">
+          <Kicker className="mb-5">Cómo se vuelve tuyo</Kicker>
+          <Heading level="h2" tone="section">
+            Un punto de partida.
+            <br />
+            <span className="text-oxblood">El resto lo decidís vos.</span>
+          </Heading>
+        </div>
+        <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          {PROCESO_PASOS.map((paso) => (
+            <StepCard key={paso.number} number={paso.number} label={paso.label}>
+              {paso.detail}
+            </StepCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* Lo que variás / Lo que siempre está */}
+      {(frontmatter.varias || frontmatter.invariante) && (
+        <Section
+          tone="standard"
+          className="border-t border-ink/10"
+          ariaLabel="Configuración del modelo"
+        >
+          <div className="grid gap-12 md:grid-cols-2 md:gap-20">
+            {frontmatter.varias && (
+              <ListaConfig label="Lo que variás" items={frontmatter.varias} />
+            )}
+            {frontmatter.invariante && (
+              <ListaConfig
+                label="Lo que siempre está"
+                items={frontmatter.invariante}
+              />
+            )}
+          </div>
+        </Section>
+      )}
+
+      {/* Sobre la pieza — descripción editorial */}
+      <Section
+        tone="standard"
+        className="border-t border-ink/10"
+        ariaLabel="Sobre la pieza"
+      >
         <div className="mx-auto max-w-3xl">
           <Kicker className="mb-6">Sobre la pieza</Kicker>
           <div className="text-base md:text-lg leading-[1.75] text-cement">
@@ -251,74 +302,6 @@ export default async function ModeloPage({ params }: PageProps) {
           </div>
         </div>
       </Section>
-
-      {/* Customizable — config + telas + accesorios */}
-      {(frontmatter.upholstery_options ||
-        frontmatter.config_options ||
-        frontmatter.accessory_options) && (
-        <Section
-          tone="standard"
-          className="border-t border-ink/10"
-          ariaLabel="Customización"
-        >
-          <div className="mx-auto max-w-4xl">
-            <Kicker className="mb-10">Customizable</Kicker>
-            <div className="grid gap-12 md:grid-cols-2 md:gap-20">
-              {frontmatter.config_options && (
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-stone mb-5">
-                    Configuración
-                  </p>
-                  <ul className="space-y-3">
-                    {frontmatter.config_options.map((opt) => (
-                      <li
-                        key={opt}
-                        className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
-                      >
-                        {opt}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {frontmatter.upholstery_options && (
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-stone mb-5">
-                    Telas disponibles
-                  </p>
-                  <ul className="space-y-3">
-                    {frontmatter.upholstery_options.map((opt) => (
-                      <li
-                        key={opt}
-                        className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
-                      >
-                        {opt}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {frontmatter.accessory_options && (
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-stone mb-5">
-                    Accesorios
-                  </p>
-                  <ul className="space-y-3">
-                    {frontmatter.accessory_options.map((opt) => (
-                      <li
-                        key={opt}
-                        className="border-b border-ink/10 pb-3 text-base md:text-lg text-cement"
-                      >
-                        {opt}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </div>
-        </Section>
-      )}
     </article>
   );
 }

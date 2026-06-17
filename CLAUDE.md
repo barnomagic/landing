@@ -91,15 +91,18 @@ docs/
 
 ### `/catalogo`
 - Subhero `min-h-[40vh]` con kicker + H1 "Piezas con punto de partida."
-- Grid 1/2/3 cols con cards: kicker categoría (mb-1) + nombre + tagline + dimensiones + "Desde $".
+- Grid 1/2/3 cols con cards: kicker categoría (mb-1) + nombre + tagline + línea "A medida de tu espacio". Sin dimensiones ni "Desde $" (cada modelo es punto de partida, no producto con ficha).
 - Imágenes reales por modelo desde `public/modelos/{slug}/01-hero.png`.
 
 ### `/catalogo/[slug]`
+- **Modelo = punto de partida configurable, no producto con ficha técnica.** La página responde "qué es y cómo se vuelve tuyo", no "qué medidas tiene". Decisión de marca: ver chat de rediseño (jun 2026).
 - Estática (`dynamicParams = false`) desde `generateStaticParams()`.
 - Galería col-7: hero `priority` + grid 3 (perfil/angular/detalle) + sección "En otras telas" (oxblood).
-- Ficha sticky col-5: kicker categoría + H1 + tagline + dl (Dimensiones, Altura asiento, Tapizado, Estructura, Plazo, Desde) + CtaWhatsApp.
-- Descripción MDX en `max-w-3xl`.
-- Sección "Customizable": 2 cols con listas hairline (Configuración / Telas disponibles).
+- Identidad sticky col-5: kicker categoría + H1 + tagline + **carácter** (frontmatter `caracter`, sin números) + CtaWhatsApp + nota "No tiene medidas fijas. Nace acá y se diseña con vos."
+- Sección "Cómo se vuelve tuyo": 4 `StepCard` compartidos (`PROCESO_PASOS` en la page) — el gancho de conversión es el proceso de personalización.
+- Sección "Lo que variás / Lo que siempre está": 2 cols hairline desde frontmatter `varias` / `invariante`. Reemplaza a la vieja "Customizable".
+- Descripción MDX en `max-w-3xl` ("Sobre la pieza").
+- `dimensions` / `materials` / `price_from_ars` siguen en el MDX para uso interno (cotización) pero **no se renderizan**. Copy editable (`caracter`/`varias`/`invariante`) marcado con `# EDITABLE` en cada MDX.
 - `generateMetadata` dinámico con `og:image` apuntando a `hero_image`.
 
 ### `/pedi-a-medida`
@@ -120,7 +123,7 @@ docs/
 
 ## Pendientes (Fase 3 — pre-lanzamiento público)
 
-- [ ] **Precios en cards del catálogo**: confirmar precios finales y reflejarlos en `price_from_ars` de cada MDX. Hoy son placeholder/estimados.
+- [x] **Precios fuera del front público**: decisión de marca (jun 2026) — sin precio en cards ni en detalle, todo va a la conversación. `price_from_ars` queda en el MDX solo como referencia interna de cotización (no se renderiza). El flag `showPrices` ya no afecta a `/catalogo` ni `/catalogo/[slug]`.
 - [ ] **WhatsApp**: setear `NEXT_PUBLIC_WHATSAPP_NUMBER` con el número real (formato internacional sin `+`, ej. `5491134567890`) en `.env.local` y en Vercel Environment Variables. Mientras contenga `X`, el `CtaWhatsApp` redirige a `/contacto` y el FAB se oculta.
 - [ ] **Instagram**: completar handle real en footer (`lg:col-span-2` "Estudio") y agregar enlace. Hoy dice "Instagram · próximamente".
 - [ ] **Imágenes finales**: revisar 5 shots por modelo (regenerables con la skill `pausa-image`).

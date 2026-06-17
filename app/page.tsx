@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllModelos, formatPriceArs } from "@/lib/modelos";
+import { getAllModelos } from "@/lib/modelos";
 import { getModelInquiryMessage } from "@/lib/whatsapp";
-import { showPrices } from "@/lib/flags";
 import { ServiciosSection } from "@/app/components/ServiciosSection";
 import { Section } from "@/app/components/system/Section";
 import { Container } from "@/app/components/system/Container";
@@ -138,9 +137,7 @@ export default function HomePage() {
                       {m.frontmatter.tagline}
                     </p>
                     <p className="mt-5 text-xs uppercase tracking-[0.2em] text-stone">
-                      {showPrices
-                        ? `Desde ${formatPriceArs(m.frontmatter.price_from_ars)}`
-                        : "A medida del espacio"}
+                      A medida de tu espacio
                     </p>
                   </div>
                 </CardLink>

@@ -169,7 +169,7 @@ materials:
   upholstery: Lino-algodón 380 g/m²
   filling_seat: Espuma alta densidad
   filling_back: Espuma media + plumón
-  structure: Pino macizo
+  structure: Estructura reforzada en uniones
 price_from_ars: 1800000
 delivery_days: "30 a 40"
 config_options:
