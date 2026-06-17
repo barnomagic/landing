@@ -7,7 +7,7 @@ import { getModelInquiryMessage } from "@/lib/whatsapp";
 import { Section } from "@/app/components/system/Section";
 import { Kicker, Heading } from "@/app/components/system/Typography";
 import { StepCard } from "@/app/components/system/Card";
-import { ImagePlaceholder } from "@/app/components/ImagePlaceholder";
+import { ProductGallery } from "@/app/components/ProductGallery";
 import { CtaWhatsApp } from "@/app/components/CtaWhatsApp";
 
 interface PageProps {
@@ -133,13 +133,11 @@ export default async function ModeloPage({ params }: PageProps) {
   const { frontmatter, body } = modelo;
   const inquiryMessage = getModelInquiryMessage(frontmatter.name);
 
-  // Convención de 5 shots: [0]=hero, [1..3]=perfil/angular/detalle, [4]=oxblood.
-  const heroImg = frontmatter.hero_image || frontmatter.images[0];
-  const detailImgs = frontmatter.images.slice(1, 4);
-  const variantImgs = frontmatter.images.slice(4, 5);
-
-  const detailCaptions = ["Perfil", "Angular", "Detalle"];
-  const variantCaptions = ["Terciopelo oxblood"];
+  // Hero primero, luego el resto de los shots — ProductGallery maneja el zoom.
+  const galleryImages = [
+    frontmatter.hero_image,
+    ...frontmatter.images.filter((img) => img !== frontmatter.hero_image),
+  ].filter(Boolean);
 
   return (
     <article>
@@ -159,54 +157,11 @@ export default async function ModeloPage({ params }: PageProps) {
               ← Volver al catálogo
             </Link>
 
-            {/* Hero shot */}
-            <ImagePlaceholder
-              aspect="4/5"
-              src={heroImg}
-              alt={`${frontmatter.name} — vista frontal`}
-              priority
-              sizes="(min-width: 1024px) 58vw, 100vw"
-              label={`Foto pendiente · ${frontmatter.name}`}
+            {/* Galería con lightbox (click para ampliar) */}
+            <ProductGallery
+              name={frontmatter.name}
+              images={galleryImages}
             />
-
-            {/* Detalles (perfil / angular / detalle) */}
-            {detailImgs.length > 0 && (
-              <div className="mt-8 grid grid-cols-3 gap-4 md:gap-6">
-                {detailImgs.map((img, idx) => (
-                  <ImagePlaceholder
-                    key={img}
-                    aspect="4/5"
-                    src={img}
-                    alt={`${frontmatter.name} — ${detailCaptions[idx] ?? "Detalle"}`}
-                    sizes="(min-width: 1024px) 19vw, 33vw"
-                    label={detailCaptions[idx] ?? `Detalle ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* Variantes de tela */}
-            {variantImgs.length > 0 && (
-              <div className="mt-16">
-                <Kicker className="mb-6">En otras telas</Kicker>
-                <div className="grid grid-cols-2 gap-4 md:gap-6">
-                  {variantImgs.map((img, idx) => (
-                    <figure key={img}>
-                      <ImagePlaceholder
-                        aspect="4/5"
-                        src={img}
-                        alt={`${frontmatter.name} — ${variantCaptions[idx] ?? "Variante"}`}
-                        sizes="(min-width: 1024px) 29vw, 50vw"
-                        label={variantCaptions[idx] ?? `Variante ${idx + 1}`}
-                      />
-                      <figcaption className="mt-3 text-xs uppercase tracking-[0.2em] text-stone">
-                        {variantCaptions[idx] ?? `Variante ${idx + 1}`}
-                      </figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Identidad — sticky en desktop. Carácter, no ficha técnica. */}
