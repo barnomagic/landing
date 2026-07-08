@@ -78,8 +78,6 @@ export default function ContactoPage() {
                 </p>
                 <p className="mt-3 text-base text-cement">
                   Buenos Aires, Argentina.
-                  <br />
-                  Visitas con cita previa.
                 </p>
               </div>
 
@@ -89,8 +87,6 @@ export default function ContactoPage() {
                 </p>
                 <p className="mt-3 text-base text-cement">
                   Lunes a viernes · 10–18 h
-                  <br />
-                  Sábados con cita
                 </p>
               </div>
             </div>
